@@ -2894,6 +2894,7 @@
     <Content Include="closure-library\third_party\closure\goog\mochikit\async\deferred_test.html" />
     <Content Include="closure-library\third_party\closure\goog\osapi\osapi.js" />
     <Content Include="closure-library\third_party\closure\goog\svgpan\svgpan.js" />
+    <Content Include="closure_override\inputhandler_override.js" />
     <Content Include="Content\css\app.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
@@ -2921,6 +2922,15 @@
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
     <Content Include="index.html" />
+    <Content Include="SquidModules\generators\csharp.js" />
+    <Content Include="SquidModules\generators\csharp\base_blocks.js" />
+    <Content Include="SquidModules\generators\csharp\decoding_blocks.js" />
+    <Content Include="SquidModules\generators\csharp\procedures.js" />
+    <Content Include="SquidModules\generators\csharp\utils.js" />
+    <Content Include="SquidModules\generators\french.js" />
+    <Content Include="SquidModules\generators\french\base_blocks.js" />
+    <Content Include="SquidModules\generators\french\decoding_blocks.js" />
+    <Content Include="SquidModules\generators\french\procedures.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -3078,7 +3088,6 @@
   <ItemGroup>
     <Folder Include="closure-library\obj\Debug\TempPE\" />
     <Folder Include="closure-library\obj\Release\TempPE\" />
-    <Folder Include="SquidModules\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="closure-library\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
