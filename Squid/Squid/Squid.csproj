@@ -2921,6 +2921,7 @@
     <Content Include="Content\icons\server2.png" />
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
+    <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
     <Content Include="SquidModules\generators\csharp.js" />
     <Content Include="SquidModules\generators\csharp\base_blocks.js" />
@@ -2934,7 +2935,10 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="SquidModules\app.component.ts" />
+    <TypeScriptCompile Include="SquidModules\main.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Blockly\.eslintignore" />
@@ -3078,6 +3082,9 @@
     <Content Include="closure-library\scripts\ci\lint_pull_request.sh" />
     <Content Include="closure-library\scripts\ci\run_all_tests.sh" />
     <Content Include="closure-library\scripts\ci\sauce_connect.sh" />
+    <Content Include="package.json" />
+    <Content Include="tsconfig.json" />
+    <Content Include="typings.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
