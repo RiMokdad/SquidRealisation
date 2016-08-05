@@ -23,8 +23,8 @@ bld/
 [Oo]bj/
 Blockly/
 closure-library/
-SquidModules/*/*.map
-SquidModules/*/*.js
+SquidModules/Editor/*.map
+SquidModules/Editor/*.js
 
 # Visual Studio 2015 cache/options directory
 .vs/

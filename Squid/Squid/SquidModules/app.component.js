@@ -15,7 +15,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: "decoder",
-            template: "<h1>My decoder</h1>"
+            templateUrl: "SquidModules/main.view.html"
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

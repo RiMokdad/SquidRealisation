@@ -2,6 +2,6 @@
 
 @Component({
     selector: "decoder",
-    template: "<h1>My decoder</h1>"
+    templateUrl: "SquidModules/main.view.html"
 })
 export class AppComponent { }

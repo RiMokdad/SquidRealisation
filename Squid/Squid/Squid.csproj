@@ -2920,6 +2920,7 @@
     <Content Include="Content\icons\server2.png" />
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
+    <Content Include="SquidModules\Editor\editor.view.html" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
     <Content Include="web.config" />
@@ -2927,8 +2928,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\app.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
+    <Content Include="Content\css\loading.css" />
     <TypeScriptCompile Include="SquidModules\app.component.ts" />
+    <TypeScriptCompile Include="SquidModules\Editor\editor.viewmodel.ts" />
     <TypeScriptCompile Include="SquidModules\main.ts" />
+    <Content Include="SquidModules\main.view.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Blockly\.eslintignore" />
