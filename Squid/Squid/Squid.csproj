@@ -2908,6 +2908,7 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="BlocklyContainer\BlockContainer.ts" />
     <TypeScriptCompile Include="BlocklyContainer\BlocklyTS.ts" />
+    <TypeScriptCompile Include="BlocklyContainer\BlocklyTSGenerated.ts" />
     <TypeScriptCompile Include="BlocklyContainer\GeneratorContainer.ts" />
   </ItemGroup>
   <ItemGroup>
