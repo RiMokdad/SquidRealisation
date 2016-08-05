@@ -37,6 +37,12 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Blockly\" />
+    <Folder Include="closure-library\" />
+    <Folder Include="Content\" />
+    <Folder Include="SquidModules\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
