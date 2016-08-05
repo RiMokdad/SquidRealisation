@@ -75,7 +75,7 @@ span {
 }
 
 .blocklyTreeIconClosedLtr {
-    background-image: url('Contents/icons/ico-arrow-right-white.png') !important;
+    background-image: url('../icons/ico-arrow-right-white.png') !important;
     background-repeat: no-repeat;
     background-position: left top !important;
     background-size: 100% 100%;
@@ -85,7 +85,7 @@ span {
 
 .blocklyTreeIconOpen {
     transition: .1s;
-    background-image: url('Contents/icons/ico-arrow-right-white.png') !important;
+    background-image: url('../icons/ico-arrow-right-white.png') !important;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: left top !important;
@@ -388,35 +388,35 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .save {
-    background-image: url("Contents/icons/ico-save.png");
+    background-image: url("../icons/ico-save.png");
 }
 
 .restore {
-    background-image: url("Contents/icons/ico-restore.png");    
+    background-image: url("../icons/ico-restore.png");    
 }
 
 .clear {
-    background-image: url("Contents/icons/ico-clear.png");    
+    background-image: url("../icons/ico-clear.png");    
 }
 
 .refresh {
-    background-image: url("Contents/icons/ico-refresh.png");
+    background-image: url("../icons/ico-refresh.png");
 }
 
 .research {
-    background-image: url("Contents/icons/ico-research.png");
+    background-image: url("../icons/ico-research.png");
 }
 
 .add {
-    background-image: url("Contents/icons/ico-add.png");
+    background-image: url("../icons/ico-add.png");
 }
 
 .delete {
-    background-image: url("Contents/icons/ico-delete.png");
+    background-image: url("../icons/ico-delete.png");
 }
 
 .saveServer {
-    background-image: url("Contents/icons/ico-serv-store1.png");
+    background-image: url("../icons/ico-serv-store1.png");
 }
 
 .toolbar-group button {
