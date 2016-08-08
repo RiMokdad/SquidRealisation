@@ -9,23 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.name = "Editeur";
         this.Tags = "";
         this.placeholderTags = "tags1, tags2,...";
+        this.toolboxManager = new toolboxManager_1.ToolboxManager();
     }
     EditorComponent.prototype.Clear = function () {
         //TODO insert code for clearing workspace
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
+        //Call to the server for saving the current block
+    };
+    EditorComponent.prototype.Supress = function () {
+        //TODO insert code to supress a decoder onto the server 
+        //Verify existance 
+        //Ask the list of direct depencies for function calls
+        //Supress the block if the user really wants it
     };
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
+        var blocksInformations = new Array();
+        //Call to server for updating blocks informations
+        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
     };
     EditorComponent.prototype.SearchTag = function () {
         //TODO insert code for toolbox management
+        this.toolboxManager.UpdateResearch(this.Tags.split(","));
+        console.log(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
         //TODO insert code for opening a new tab

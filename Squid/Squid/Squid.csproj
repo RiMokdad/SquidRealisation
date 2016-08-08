@@ -2933,6 +2933,7 @@
     <TypeScriptCompile Include="SquidModules\Editor\editor.viewmodel.ts" />
     <TypeScriptCompile Include="SquidModules\main.ts" />
     <Content Include="SquidModules\main.view.html" />
+    <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Blockly\.eslintignore" />

@@ -419,6 +419,9 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     background-image: url("../icons/ico-serv-store1.png");
 }
 
+.supressServer {
+    background-image: url("../icons/ico-serv-supress.png");
+}
 .toolbar-group button {
     margin: 0px;
     padding: 0px;
