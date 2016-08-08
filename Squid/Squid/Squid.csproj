@@ -2915,6 +2915,7 @@
     <Content Include="Content\icons\ico-save.png" />
     <Content Include="Content\icons\ico-serv-restore1.png" />
     <Content Include="Content\icons\ico-serv-store1.png" />
+    <Content Include="Content\icons\ico-serv-supress.png" />
     <Content Include="Content\icons\server.png" />
     <Content Include="Content\icons\server1.png" />
     <Content Include="Content\icons\server2.png" />

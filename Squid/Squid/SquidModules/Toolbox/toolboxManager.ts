@@ -32,7 +32,7 @@ export class BlockInfos {
     editable: boolean;
     tags: string[];
     version: string;
-
+    
     constructor(id: number, name: string, parameters: string[], tags: string[], version: string, editable: boolean) {
         this.id = id;
         this.name = name;
@@ -45,6 +45,7 @@ export class BlockInfos {
             this.editable = false;
         }
     }
+
 
     IsTagged(tag: string): boolean;
     IsTagged(tags: string[]): boolean;

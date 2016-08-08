@@ -8,9 +8,11 @@ import { ToolboxManager } from "./../Toolbox/toolboxManager";
 })
 export class EditorComponent {
     name = "Editeur";
-    Tags = "";
+    tags = "";
     placeholderTags = "tags1, tags2,...";
     toolboxManager = new ToolboxManager();
+    decoder: BlockInfos;
+    workspace: Workspace;
 
     Clear() {
         //TODO insert code for clearing workspace
@@ -18,7 +20,9 @@ export class EditorComponent {
 
     Save() {
         //TODO insert code for saving decodeur onto the web
-        //Call to the server for saving the current block
+        
+        this.decoder = this.workspace.getBlockInfos();
+        this.decoder.id = null;//Call to the server for saving the current block
     }
 
     Supress() {
@@ -38,7 +42,7 @@ export class EditorComponent {
 
     SearchTag() {
         //TODO insert code for toolbox management
-        this.toolboxManager.UpdateResearch(this.Tags.split(","));
+        this.toolboxManager.UpdateResearch(this.tags.split(","));
         console.log(this.toolboxManager.toolboxHTML);
     }
 

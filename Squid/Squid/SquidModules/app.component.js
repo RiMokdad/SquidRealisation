@@ -10,18 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var editor_viewmodel_1 = require("./Editor/editor.viewmodel");
-var AppComponent = (function () {
-    function AppComponent() {
+var DecoderComponent = (function () {
+    function DecoderComponent() {
     }
-    AppComponent = __decorate([
+    DecoderComponent = __decorate([
         core_1.Component({
             selector: "decoder",
             templateUrl: "SquidModules/main.view.html",
             directives: [editor_viewmodel_1.EditorComponent]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], DecoderComponent);
+    return DecoderComponent;
 }());
-exports.AppComponent = AppComponent;
+exports.DecoderComponent = DecoderComponent;
+window.onload = function () {
+    var url = window.URL;
+    var urlSplit = url.toString().split("#");
+    console.log(urlSplit[0] + " " + urlSplit[1]);
+    console.log("I WROTE SOMETHING");
+};
 //# sourceMappingURL=app.component.js.map

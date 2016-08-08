@@ -13,7 +13,7 @@ var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.name = "Editeur";
-        this.Tags = "";
+        this.tags = "";
         this.placeholderTags = "tags1, tags2,...";
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
     }
@@ -22,7 +22,8 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
-        //Call to the server for saving the current block
+        this.decoder = this.workspace.getBlockInfos();
+        this.decoder.id = null; //Call to the server for saving the current block
     };
     EditorComponent.prototype.Supress = function () {
         //TODO insert code to supress a decoder onto the server 
@@ -38,7 +39,7 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.SearchTag = function () {
         //TODO insert code for toolbox management
-        this.toolboxManager.UpdateResearch(this.Tags.split(","));
+        this.toolboxManager.UpdateResearch(this.tags.split(","));
         console.log(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
