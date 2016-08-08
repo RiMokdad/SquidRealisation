@@ -1,35 +1,35 @@
 ﻿<div class="edition-window decode-window">
     <div class="toolbar-workspace">
-        <div class="title-toolbar-workspace"> Editeur de décodeur </div>
+        <div class="title-toolbar-workspace">{{name}}</div>
         <div class="toolbar-items">
             <div class="toolbar-group">
                 <button class="item-workspace clear"
                         title="Efface le contenu de l'espace de travail"
-                        ng-click="$ctrl.Clear()"></button>
+                        (click)="Clear()"></button>
                 <button class="item-workspace saveServer"
                         title="Sauvegarde serveur"
-                        ng-click="$ctrl.Save()"></button>
+                        (click)="Save()"></button>
             </div>
             <!-- Adding the search bar for tags -->
             <div class="toolbar-group">
                 <input class="item-workspace"
                        id="search-bar"
                        type="text"
-                       placeholder="tag1, tag2, ..."
-                       ng-model="$ctrl.Tags" />
+                       placeholder="{{placeholderTags}}"
+                       [(ngModel)]="Tags" />
                 <button class="item-workspace research"
                         title="Rechercher les tags"
-                        ng-click="$ctrl.SearchTag()"></button>
+                        (click)="SearchTag()"></button>
             </div>
             <div class="toolbar-group">
                 <button class="item-workspace refresh"
-                        ng-click="$ctrl.Refresh()"
-                        title="Rafraichit les fonctions"></button>
+                        title="Rafraichit les fonctions"
+                        (click)="Refresh()"></button>
             </div>
             <div class="toolbar-group">
                 <button class="item-workspace add"
                         title="Créer une nouvelle fonction"
-                        ng-click="$ctrl.OpenTab()"></button>
+                        (click)="OpenTab()"></button>
             </div>
         </div>
     </div>

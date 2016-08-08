@@ -11,7 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var EditorComponent = (function () {
     function EditorComponent() {
+        this.name = "Editeur";
+        this.Tags = "";
+        this.placeholderTags = "tags1, tags2,...";
     }
+    EditorComponent.prototype.Clear = function () {
+        //TODO insert code for clearing workspace
+    };
+    EditorComponent.prototype.Save = function () {
+        //TODO insert code for saving decodeur onto the web
+    };
+    EditorComponent.prototype.Refresh = function () {
+        //TODO insert code for toolbox management
+    };
+    EditorComponent.prototype.SearchTag = function () {
+        //TODO insert code for toolbox management
+    };
+    EditorComponent.prototype.OpenTab = function () {
+        //TODO insert code for opening a new tab
+    };
     EditorComponent = __decorate([
         core_1.Component({
             selector: "editor",
