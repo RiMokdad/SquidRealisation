@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="Content/css/loading.css" />
     <link rel="stylesheet" href="Content/css/app.css" type="text/css"/>
     <script src="app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 
     <!-- 1. Load libraries -->
     <!-- Polyfill(s) for older browsers -->
@@ -17,12 +18,20 @@
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
 
+    <!-- enhanced alert and confirm box-->
+    <script src="Content/bootbox/bootbox.min.js"></script>
 
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('app').catch(function(err){ console.error(err); });
+        System.import('app').catch(function (err) { console.error(err); });
+        Squid = {};
     </script>
+    <script src="SquidModules/server_requests/server_requests.js"></script>
+    <script>      
+        Squid.Requests.GetDecoderDef(45);
+    </script>
+
 </head>
 <body>
 <decoder >
