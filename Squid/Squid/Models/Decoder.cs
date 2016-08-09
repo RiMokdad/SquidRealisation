@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SquidServer.Models
+namespace Squid.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -17,10 +17,15 @@ namespace SquidServer.Models
             this.Editable = true;
         }
 
-        public Decoder(string xml, string code)
+        public Decoder(string name, string version, string category, string tags, string xml, string code, string frenchSpec)
         {
+            this.Name = name;
+            this.Version = version;
+            this.Category = category;
+            this.Tags = tags;
             this.Xml = xml;
             this.Code = code;
+            this.FrenchSpec = frenchSpec;
             this.Editable = true;
         }
 
@@ -39,6 +44,8 @@ namespace SquidServer.Models
         public bool Editable { get; set; }
 
         public string Category { get; set; }
+
+        public string Version { get; set; }
 
         public string Tags { get; set; }
 
@@ -65,19 +72,14 @@ namespace SquidServer.Models
                     while (reader.ReadToNextSibling("arg"));
 
                     this.Parameters = String.Join(",", args.ToArray());
-                    reader.ReadToFollowing("field");
-                    //this.Name = reader.ReadElementContentAsString();
+                    //reader.ReadToFollowing("field");
                 }
-                /*else
-                {
-                    this.Name = reader.ReadElementContentAsString();
-                }*/
-                this.Name = reader.ReadElementContentAsString();
+                /*this.Name = reader.ReadElementContentAsString();
                 //skip Version field
                 reader.ReadToFollowing("field");
 
                 this.Category = reader.ReadElementContentAsString();
-                this.Tags = reader.ReadElementContentAsString();
+                this.Tags = reader.ReadElementContentAsString();*/
             }
         }
     }

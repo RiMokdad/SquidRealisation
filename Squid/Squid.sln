@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squid", "Squid\Squid.csproj", "{7EF48936-182B-40ED-AA6E-2A058CFBA4A7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0A4AFE31-DA8C-486C-A639-51CC7A6978D2} = {0A4AFE31-DA8C-486C-A639-51CC7A6978D2}
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SquidServer", "SquidServer\SquidServer.xproj", "{0A4AFE31-DA8C-486C-A639-51CC7A6978D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		{7EF48936-182B-40ED-AA6E-2A058CFBA4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF48936-182B-40ED-AA6E-2A058CFBA4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EF48936-182B-40ED-AA6E-2A058CFBA4A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A4AFE31-DA8C-486C-A639-51CC7A6978D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A4AFE31-DA8C-486C-A639-51CC7A6978D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A4AFE31-DA8C-486C-A639-51CC7A6978D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A4AFE31-DA8C-486C-A639-51CC7A6978D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

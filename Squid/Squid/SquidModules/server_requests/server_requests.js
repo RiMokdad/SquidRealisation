@@ -5,20 +5,21 @@
  * @param {string} code the generated C# code
  * @param {string} xml the decoder definition in xml
  */
-/*Squid.Requests.SaveDecoder = function(code, xml) {
+Squid.Requests.SaveDecoder = function(decoder) {
     
     $.ajax({
         url: '/api/Decoders',
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         datatype: 'json',
-        data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
+        //data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
+        data: JSON.stringify(decoder),
         success: function (res) {
 
             if (res.id) {
                 if (!TabId) {
                     TabId = res.id;
-                    document.location += "#" + res.id;
+                    //document.location += "#" + res.id;
                     //FOOOOR THE TESTS !!!!!
                     //Squid.Requests.GetDecoderDef(res.id);
                 }
@@ -29,11 +30,11 @@
            
         },
         error: function (error) {
-            alert("Erreur lors de la sauvegarde" + error);
+            alert("Erreur lors de la sauvegarde : \n" + error);
         }
     });
 
-}*/
+}
 
 /**
  * 
@@ -58,7 +59,7 @@ Squid.Requests.GetDecoderDef = function (id) {
 
         },
         error: function (error) {
-            alert("Erreur lors de la sauvegarde" + error);
+            alert("Erreur lors de la récupération : \n" + error);
         }
     });
 
