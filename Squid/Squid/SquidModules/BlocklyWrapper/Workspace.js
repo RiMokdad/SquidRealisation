@@ -74,7 +74,7 @@ var Workspace = (function () {
         if ("localStorage" in window) {
             var prettyText = this.PrettyStringyfiedXML();
             var xmlText = this.StringyfiedXML();
-            var code = this.generateCSharp();
+            var code = this.GenerateCSharp();
         }
     };
     //RestoreBlocks(url: any) {

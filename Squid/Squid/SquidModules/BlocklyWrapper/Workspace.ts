@@ -94,7 +94,7 @@ export class Workspace {
         if ("localStorage" in window) {
             var prettyText = this.PrettyStringyfiedXML();
             var xmlText = this.StringyfiedXML();
-            var code = this.generateCSharp();
+            var code = this.GenerateCSharp();
             //Request.SaveDecoder(code, xmlTesx);
         }
     }

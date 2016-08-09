@@ -49,6 +49,8 @@
     <Content Include="Blockly\blockly_compressed.js" />
     <Content Include="Blockly\blockly_uncompressed.js" />
     <Content Include="Blockly\blocks\colour.js" />
+    <Content Include="Blockly\blocks\custom.js" />
+    <Content Include="Blockly\blocks\custom_if.js" />
     <Content Include="Blockly\blocks\lists.js" />
     <Content Include="Blockly\blocks\logic.js" />
     <Content Include="Blockly\blocks\loops.js" />
@@ -446,8 +448,6 @@
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app\app.component.ts" />
-    <TypeScriptCompile Include="app\main.ts" />
     <Content Include="Content\css\loading.css" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\blockly-core.d.ts" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\Workspace.ts" />
