@@ -56,6 +56,10 @@ var EditorComponent = (function () {
     EditorComponent.prototype.OpenTab = function () {
         //TODO insert code for opening a new tab
     };
+    EditorComponent.prototype.SaveDecoderToServer = function () {
+        var bool = this.workspace.SaveDecoderToServer();
+        alert(bool);
+    };
     EditorComponent = __decorate([
         core_1.Component({
             selector: "editor",

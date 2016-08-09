@@ -69,41 +69,45 @@ export class Workspace {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     }
 
+    /************************ Workspace and storage **************************************************/
+
     SaveWorkspace(location: any) {
-        // TODO after creating the appropriate functions
-        //var baseUrl = Squid.Storage.BaseUrl();
-        //Squid.Storage.SaveFunction(workspace);
-        //backupBlocks(workspace, baseUrl + location);
+        // TODO if we implement a local storage
     }
 
-    //TO BE CONTINUED
-    SaveToServer() {
+    SaveFunction() {
+        // TODO if we implement a local storage
+    }
+
+    
+    SaveDecoderToServer(): boolean {        
         if (this.IsADecoder()) {
             var blockId = this.GetBlockInfos().id;
-            //backupBlocks(workspace, "blabla");
+            //TODO request the server to save the block 
+            return true;         
         }
         else {
-            alert("La sauvegarde serveur a echoué. Le workspace contient plus d'un block ou votre décodeur n'est pas du type fonction.");
+            return false;
         }
     }
-
-    //SaveFunction() {
-    //}
 
     BackupBlocks(url: any) {
         if ("localStorage" in window) {
             var prettyText = this.PrettyStringyfiedXML();
             var xmlText = this.StringyfiedXML();
-            var code = this.generateCSharp();
-            //Request.SaveDecoder(code, xmlTesx);
+            var code = this.GenerateCSharp();
+            //Request server to save all blocks
         }
     }
 
-    //RestoreBlocks(url: any) {
-    //}
+    RestoreBlocks(url: any) {
+        //TODO
+    }
 
-    //RestoreBlock(url: any) {
-    //}
+    RestoreBlock(url: any) {
+        //TODO split url and get the id 
+        // send request to server to get the block with the correct id
+    }
 
 
     /**************************** Variables *******************************************************/
@@ -112,7 +116,10 @@ export class Workspace {
         Blockly.Variables.allVariables(this.workspace);
     }
 
-    //TODO : catmap to be created and changed to a map of blockinfo and id of decoder
-    RefreshCategories(catmap: any) {
+    //RefreshCategories : not here !! 
+
+    UpdateToolbox(toolboxTree) {
+        this.workspace.updateToolbox(toolboxTree);
     }
+
 }

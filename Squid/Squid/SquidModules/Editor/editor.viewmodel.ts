@@ -62,5 +62,10 @@ export class EditorComponent {
     OpenTab() {
         //TODO insert code for opening a new tab
     }
+
+    SaveDecoderToServer() {
+        var bool = this.workspace.SaveDecoderToServer();
+        alert(bool);
+    }
     
 }
