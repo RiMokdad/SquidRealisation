@@ -93,12 +93,12 @@ namespace Squid.Controllers
                 if (decoder.Id == null)
                 {
                     var decoderId = services.AddDecoder(decoder);
-                    return Json(new { id = decoderId.ToString() });
+                    return Json(new { id = decoderId });
                 }
                 else
                 {
                     services.UpdateDecoder(decoder);
-                    return Json(new { id = decoder.Id.ToString() });
+                    return Json(new { id = decoder.Id });
                 }
 
 

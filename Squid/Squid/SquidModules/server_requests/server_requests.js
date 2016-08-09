@@ -17,8 +17,8 @@ Squid.Requests.SaveDecoder = function(decoder) {
         success: function (res) {
 
             if (res.id) {
-                if (!TabId) {
-                    TabId = res.id;
+                if (!decoder.Id) {
+                    decoder.Id = res.id;
                     //document.location += "#" + res.id;
                     //FOOOOR THE TESTS !!!!!
                     //Squid.Requests.GetDecoderDef(res.id);
@@ -49,12 +49,13 @@ Squid.Requests.GetDecoderDef = function (id) {
         contentType: 'application/json; charset=utf-8',
         //datatype: 'json',
         data: JSON.stringify({ Id: id }),
-        success: function (res) {
-            alert(res);
-            if (res.xml) {
-                return res.xml;
+        success: function (decoder) {
+            //alert(res);
+            if (decoder.error) {
+                alert(decoder.error);
             } else {
-                alert(res.error);
+                console.log(decoder);
+                return decoder;
             }
 
         },
