@@ -31,6 +31,7 @@ var Workspace = (function () {
     };
     Workspace.prototype.GetBlockInfos = function () {
         //TODO give the good informations
+        // the first one should be the id
         return new BlockInfos_1.BlockInfos(null, null, null, null, null, true);
     };
     Workspace.prototype.IsADecoder = function () {
@@ -51,6 +52,41 @@ var Workspace = (function () {
     };
     Workspace.prototype.PrettyStringyfiedXML = function () {
         return Blockly.Xml.domToPrettyText(this.GetXML());
+    };
+    Workspace.prototype.SaveWorkspace = function (location) {
+        // TODO after creating the appropriate functions
+        //var baseUrl = Squid.Storage.BaseUrl();
+        //Squid.Storage.SaveFunction(workspace);
+        //backupBlocks(workspace, baseUrl + location);
+    };
+    //TO BE CONTINUED
+    Workspace.prototype.SaveToServer = function () {
+        if (this.IsADecoder()) {
+            var blockId = this.GetBlockInfos().id;
+        }
+        else {
+            alert("La sauvegarde serveur a echoué. Le workspace contient plus d'un block ou votre décodeur n'est pas du type fonction.");
+        }
+    };
+    //SaveFunction() {
+    //}
+    Workspace.prototype.BackupBlocks = function (url) {
+        if ("localStorage" in window) {
+            var prettyText = this.PrettyStringyfiedXML();
+            var xmlText = this.StringyfiedXML();
+            var code = this.generateCSharp();
+        }
+    };
+    //RestoreBlocks(url: any) {
+    //}
+    //RestoreBlock(url: any) {
+    //}
+    /**************************** Variables *******************************************************/
+    Workspace.prototype.RefreshVariables = function () {
+        Blockly.Variables.allVariables(this.workspace);
+    };
+    //TODO : catmap to be created and changed to a map of blockinfo and id of decoder
+    Workspace.prototype.RefreshCategories = function (catmap) {
     };
     return Workspace;
 }());
