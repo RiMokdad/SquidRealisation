@@ -3,9 +3,6 @@
 // Definitions by: Troy McKinnon <https://github.com/trodi>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-
-//import {Workspace} from './Workspace';
-
 declare module Blockly {
 
     class Block extends Block__Class { }

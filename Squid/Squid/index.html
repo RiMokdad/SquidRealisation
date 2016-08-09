@@ -7,7 +7,6 @@
     <link rel="icon" href="Content/icons/ico-restore.png"/>
     <link rel="stylesheet" href="Content/css/loading.css" />
     <link rel="stylesheet" href="Content/css/app.css" type="text/css"/>
-    <script src="app.js"></script>
 
     <!-- 1. Load libraries -->
 
@@ -26,10 +25,12 @@
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('app').catch(function(err){ console.error(err); });
+        System.import('app').catch(function(err) { console.error(err); });
     </script>
+
 </head>
 <body>
+
 <decoder >
     <div class="loading">
         <div class="sk-circle">
@@ -48,5 +49,12 @@
         </div>
     </div>
 </decoder>
+
+    <!-- 3. Load Blockly -->
+    <script src="Blockly/appengine/storage.js"></script>
+    <script src="Blockly/blockly_uncompressed.js"></script>
+
+    <!-- 4. On load -->
+    <script></script>
 </body>
 </html>

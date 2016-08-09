@@ -1,6 +1,7 @@
 ﻿import { Component } from "@angular/core";
-import { BlockInfos} from "./../Toolbox/toolboxManager";
+import { BlockInfos} from "./../Util/BlockInfos";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
+import { Workspace } from "./../BlocklyWrapper/Workspace";
 
 @Component({
     selector: "editor",
@@ -20,9 +21,10 @@ export class EditorComponent {
 
     Save() {
         //TODO insert code for saving decodeur onto the web
-        
-        this.decoder = this.workspace.getBlockInfos();
-        this.decoder.id = null;//Call to the server for saving the current block
+        if (this.workspace.IsADecoder()) {
+            this.decoder = this.workspace.getBlockInfos();
+            this.decoder.id = null; //Call to the server for saving the current block
+        }
     }
 
     Supress() {

@@ -25,9 +25,6 @@ var DecoderComponent = (function () {
 }());
 exports.DecoderComponent = DecoderComponent;
 window.onload = function () {
-    var url = window.URL;
-    var urlSplit = url.toString().split("#");
-    console.log(urlSplit[0] + " " + urlSplit[1]);
-    console.log("I WROTE SOMETHING");
+    console.log("The window is openned");
 };
 //# sourceMappingURL=app.component.js.map

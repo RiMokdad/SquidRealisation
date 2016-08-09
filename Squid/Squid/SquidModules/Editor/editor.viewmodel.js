@@ -22,8 +22,10 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
-        this.decoder = this.workspace.getBlockInfos();
-        this.decoder.id = null; //Call to the server for saving the current block
+        if (this.workspace.IsADecoder()) {
+            this.decoder = this.workspace.getBlockInfos();
+            this.decoder.id = null; //Call to the server for saving the current block
+        }
     };
     EditorComponent.prototype.Supress = function () {
         //TODO insert code to supress a decoder onto the server 

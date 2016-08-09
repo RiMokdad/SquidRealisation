@@ -431,8 +431,8 @@
     <TypeScriptCompile Include="app\app.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <Content Include="Content\css\loading.css" />
-    <TypeScriptCompile Include="BlocklyWrapper\blockly-core.d.ts" />
-    <TypeScriptCompile Include="BlocklyWrapper\Workspace.ts" />
+    <TypeScriptCompile Include="SquidModules\BlocklyWrapper\blockly-core.d.ts" />
+    <TypeScriptCompile Include="SquidModules\BlocklyWrapper\Workspace.ts" />
     <TypeScriptCompile Include="closure-library.d.ts\all.d.ts" />
     <TypeScriptCompile Include="closure-library.d.ts\closure\goog\a11y\aria\announcer.d.ts" />
     <TypeScriptCompile Include="closure-library.d.ts\closure\goog\a11y\aria\aria.d.ts" />
@@ -1209,6 +1209,7 @@
     <TypeScriptCompile Include="SquidModules\main.ts" />
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />

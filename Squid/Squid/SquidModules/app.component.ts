@@ -11,8 +11,5 @@ export class DecoderComponent {
 }
 
 window.onload = () => {
-    var url = window.URL;
-    var urlSplit = url.toString().split("#");
-    console.log(urlSplit[0] + " " + urlSplit[1]);
-    console.log("I WROTE SOMETHING");
+    console.log("The window is openned");
 };
