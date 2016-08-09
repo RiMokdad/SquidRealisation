@@ -31,11 +31,11 @@ export class Workspace {
     }
 
     
-    generateCSharp(): string {
+    GenerateCSharp(): string {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     }
 
-    generateFrench(): string {
+    GenerateFrench(): string {
         return Blockly.French.workspaceToCode(this.workspace);
     }
 

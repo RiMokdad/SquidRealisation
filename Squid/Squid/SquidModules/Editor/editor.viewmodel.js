@@ -10,13 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
+var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.name = "Editeur";
         this.tags = "";
         this.placeholderTags = "tags1, tags2,...";
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
+        this.initialized_ = false;
     }
+    EditorComponent.prototype.Init = function () {
+        if (!this.initialized_) {
+            this.toolboxManager = new toolboxManager_1.ToolboxManager();
+            var xmlTb = this.toolboxManager.toolboxHTML;
+            this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, xmlTb);
+            this.initialized_ = true;
+        }
+    };
     EditorComponent.prototype.Clear = function () {
         //TODO insert code for clearing workspace
     };

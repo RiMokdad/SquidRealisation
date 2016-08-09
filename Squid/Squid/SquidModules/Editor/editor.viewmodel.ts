@@ -11,9 +11,20 @@ export class EditorComponent {
     name = "Editeur";
     tags = "";
     placeholderTags = "tags1, tags2,...";
-    toolboxManager = new ToolboxManager();
+    toolboxManager: ToolboxManager;
     decoder: BlockInfos;
     workspace: Workspace;
+
+    private initialized_ = false;
+
+    Init() {
+        if (!this.initialized_) {
+            this.toolboxManager = new ToolboxManager();
+            var xmlTb = this.toolboxManager.toolboxHTML;
+            this.workspace = Workspace.Inject("blocklyDiv", false, xmlTb);
+            this.initialized_ = true;
+        }
+    }
 
     Clear() {
         //TODO insert code for clearing workspace
