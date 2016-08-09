@@ -24,6 +24,21 @@ export class BlockInfos {
         }
     }
 
+    CreateFlyout(): HTMLElement {
+        var elem = document.createElement("block");
+        elem.setAttribute("type", "procedures_defnoreturn");
+        elem.setAttribute("id", (this.id as any) as string);
+        elem.setAttribute("gap", "16");
+        var mutation = document.createElement("mutation");
+        mutation.setAttribute("name", this.name);
+        for (var item in this.parameters) {
+            var arg = document.createElement("arg");
+            arg.setAttribute("name", item);
+            mutation.appendChild(arg);
+        }
+        elem.appendChild(mutation);
+        return elem;
+    }
 
     IsTagged(tag: string): boolean;
     IsTagged(tags: string[]): boolean;

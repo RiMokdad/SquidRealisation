@@ -18,6 +18,21 @@ var BlockInfos = (function () {
             this.editable = false;
         }
     }
+    BlockInfos.prototype.CreateFlyout = function () {
+        var elem = document.createElement("block");
+        elem.setAttribute("type", "procedures_defnoreturn");
+        elem.setAttribute("id", this.id);
+        elem.setAttribute("gap", "16");
+        var mutation = document.createElement("mutation");
+        mutation.setAttribute("name", this.name);
+        for (var item in this.parameters) {
+            var arg = document.createElement("arg");
+            arg.setAttribute("name", item);
+            mutation.appendChild(arg);
+        }
+        elem.appendChild(mutation);
+        return elem;
+    };
     BlockInfos.prototype.IsTagged = function (tags) {
         if (typeof (tags) == "string") {
             //Parameter is a single string

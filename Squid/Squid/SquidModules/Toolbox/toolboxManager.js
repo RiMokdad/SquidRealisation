@@ -10,20 +10,21 @@ var BLOCKS = [
     ],
     [
         { name: "sep", gap: 8 }, []
-    ],
-    [
-        { name: "Mes décodeurs", colour: 180 },
-        []
-    ],
-    [
-        { name: "Recherche", colour: 200 },
-        []
     ]
 ];
+var BlocksCat = (function () {
+    function BlocksCat(cat, blocks) {
+        this.category = cat;
+        this.blocks = blocks || new Array();
+    }
+    return BlocksCat;
+}());
+exports.BlocksCat = BlocksCat;
 var ToolboxManager = (function () {
     function ToolboxManager() {
         this.toolboxHTML = document.createElement("xml");
         this.CreateCategories(BLOCKS);
+        this.BlocksInformations = new Array();
     }
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
@@ -47,18 +48,73 @@ var ToolboxManager = (function () {
                 this.toolboxHTML.appendChild(category);
             }
         }
+        //Add user created decoders
+        this.decoders = document.createElement("category");
+        this.decoders.setAttribute("name", "Mes décodeurs");
+        this.decoders.setAttribute("colour", "180");
+        this.toolboxHTML.appendChild(this.decoders);
+        //Add researched decoders
+        this.research = document.createElement("category");
+        this.research.setAttribute("name", "Recherches");
+        this.research.setAttribute("colour", "200");
+        this.toolboxHTML.appendChild(this.research);
     };
     ToolboxManager.prototype.UpdateBlocksInfos = function (blocksInfos) {
-        //TODO insert code to update the BlocksInformations 
     };
     ToolboxManager.prototype.UpdateCategories = function () {
-        //TODO insert code the nesting categories 
+        //clear
+        while (this.decoders.firstChild) {
+            this.decoders.removeChild(this.decoders.firstChild);
+        }
+        //add
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            var catName = this.BlocksInformations[i].category;
+            var blocks = this.BlocksInformations[i].blocks;
+            var cat = document.createElement("category");
+            cat.setAttribute("name", catName);
+            cat.setAttribute("colour", "100");
+            this.decoders.appendChild(cat);
+            for (var j = 0; j < blocks.length; j++) {
+                cat.appendChild(blocks[j].CreateFlyout());
+            }
+        }
     };
     ToolboxManager.prototype.UpdateResearch = function (tags) {
-        //TODO insert code for research
+        //clear
+        while (this.research.firstChild) {
+            this.research.removeChild(this.research.firstChild);
+        }
+        //add
         if (typeof (tags) == "string") {
+            //Parameter is a single string
+            for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
+                var blocks = this.BlocksInformations[i].blocks;
+                for (var j = 0; j < blocks.length; j++) {
+                    if (blocks[j].IsTagged(tags)) {
+                        this.research.appendChild(blocks[j].CreateFlyout());
+                    }
+                }
+            }
         }
         else {
+            //Parameter is a tab of strings
+            for (var tag in tags) {
+                for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
+                    var blocks = this.BlocksInformations[i].blocks;
+                    for (var j = 0; j < blocks.length; j++) {
+                        if (blocks[j].IsTagged(tag)) {
+                            this.research.appendChild(blocks[j].CreateFlyout());
+                        }
+                    }
+                }
+            }
+        }
+        var l = this.research.childNodes.length;
+        if (l > 0) {
+            this.research.setAttribute("name", "Recherche: " + l);
+        }
+        else {
+            this.research.setAttribute("name", "Pas de résultat");
         }
     };
     return ToolboxManager;

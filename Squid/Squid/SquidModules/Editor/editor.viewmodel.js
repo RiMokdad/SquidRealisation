@@ -47,11 +47,13 @@ var EditorComponent = (function () {
         var blocksInformations = new Array();
         //Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        this.toolboxManager.UpdateCategories();
+        //Refresh toolbox
     };
     EditorComponent.prototype.SearchTag = function () {
         //TODO insert code for toolbox management
         this.toolboxManager.UpdateResearch(this.tags.split(","));
-        console.log(this.toolboxManager.toolboxHTML);
+        //Refresh toolbox
     };
     EditorComponent.prototype.OpenTab = function () {
         //TODO insert code for opening a new tab

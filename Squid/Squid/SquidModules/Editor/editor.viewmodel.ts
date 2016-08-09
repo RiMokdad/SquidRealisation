@@ -51,12 +51,14 @@ export class EditorComponent {
         var blocksInformations = new Array<BlockInfos>();
         //Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        this.toolboxManager.UpdateCategories();
+        //Refresh toolbox
     }
 
     SearchTag() {
         //TODO insert code for toolbox management
         this.toolboxManager.UpdateResearch(this.tags.split(","));
-        console.log(this.toolboxManager.toolboxHTML);
+        //Refresh toolbox
     }
 
     OpenTab() {
