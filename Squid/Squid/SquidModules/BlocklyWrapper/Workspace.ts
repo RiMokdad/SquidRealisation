@@ -30,12 +30,12 @@ export class Workspace {
         this.workspace = cur_workspace || new Blockly.Workspace();
     }
 
-
-    generateCSharp(): string {
+    
+    GenerateCSharp(): string {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     }
 
-    generateFrench(): string {
+    GenerateFrench(): string {
         return Blockly.French.workspaceToCode(this.workspace);
     }
 

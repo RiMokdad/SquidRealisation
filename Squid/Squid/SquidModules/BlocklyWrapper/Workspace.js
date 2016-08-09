@@ -23,10 +23,10 @@ var Workspace = (function () {
         });
         return new Workspace(workspace);
     };
-    Workspace.prototype.generateCSharp = function () {
+    Workspace.prototype.GenerateCSharp = function () {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     };
-    Workspace.prototype.generateFrench = function () {
+    Workspace.prototype.GenerateFrench = function () {
         return Blockly.French.workspaceToCode(this.workspace);
     };
     Workspace.prototype.GetBlockInfos = function () {
