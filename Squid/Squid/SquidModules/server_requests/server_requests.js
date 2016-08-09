@@ -73,12 +73,13 @@ Squid.Requests.GetCategories = function(workspace, toolbox, callback) {
         contentType: 'application/json; charset=utf-8',
         datatype: 'json',
         success: function (mapstr) {
+            console.log(JSON.parse(mapstr));
             //alert(map);
             //var map = jsonToStrMap(mapstr);
-            callback(workspace, toolbox, JSON.parse(mapstr));
+            //callback(workspace, toolbox, JSON.parse(mapstr));
         },
         error: function (error) {
-            alert("Erreur lors du chargement" + error);
+            alert("Erreur lors du chargement :\n" + error);
         }
     });
 

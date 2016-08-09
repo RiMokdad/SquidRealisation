@@ -33,7 +33,7 @@ namespace Squid.Migrations
             //
             var decoders = new List<Decoder>
             {
-                new Decoder{Name="aname", Category= "category", Version ="1.0", Xml="Carson",Code="Decode bidule"},
+                //new Decoder{Name="aname", Category= "category", Version ="1.0", Xml="Carson",Code="Decode bidule"},
             };
             decoders.ForEach(s => context.Decoders.Add(s));
             context.SaveChanges();
