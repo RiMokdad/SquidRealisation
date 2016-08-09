@@ -1,6 +1,6 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 
-//declare var Blockly : any;
+declare var Blockly: any;
 
 export class Workspace {
     workspace: any;
@@ -19,8 +19,6 @@ export class Workspace {
             },
             trashcan: trashcan
         });
-
-        console.log("LOLFOI4RYFOGRZEYTFIO");
         return new Workspace(workspace);
     }
 
@@ -29,20 +27,20 @@ export class Workspace {
      * @param cur_workspace
      */
     constructor(cur_workspace: any) {
-        this.workspace = cur_workspace;
-        //this.workspace = new Blockly.Workspace();
+        this.workspace = cur_workspace || new Blockly.Workspace();
     }
 
     
-    ////generateCSharp() : string {
-    ////    return Blockly.CSharp.workspaceToCode(this.workspace);
-    ////}
+    generateCSharp(): string {
+        return Blockly.CSharp.workspaceToCode(this.workspace);
+    }
 
-    ////generateFrench(): string {
-    ////    return Blockly.French.workspaceToCode(this.workspace);
-    ////}
+    generateFrench(): string {
+        return Blockly.French.workspaceToCode(this.workspace);
+    }
 
-    getBlockInfos() : BlockInfos {
+    GetBlockInfos(): BlockInfos {
+        //TODO give the good informations
         return new BlockInfos(null, null, null, null, null, true);
     }
 
@@ -54,23 +52,19 @@ export class Workspace {
         return false;
     }
 
-    getTopBlocks(): any[] {
-        return this.workspace.getTopBlocks();
+    Clear() {
+        this.workspace.clear();
     }
 
-    addTopBlock(block: any) {
-        this.workspace.addTopBlock(block);
-    }
-
-    getXML(): Element {
+    GetXML(): Element {
         return Blockly.Xml.workspaceToDom(this.workspace);
     }
 
-    getStringyfiedXML() : string {
-        return Blockly.Xml.domToText(this.getXML());
+    StringyfiedXML() : string {
+        return Blockly.Xml.domToText(this.GetXML());
     }
 
-    getPrettyStringyfiedXML(): string {
-        return Blockly.Xml.domToPrettyText(this.getXML());
+    PrettyStringyfiedXML(): string {
+        return Blockly.Xml.domToPrettyText(this.GetXML());
     }
 }

@@ -1,14 +1,12 @@
 "use strict";
 var BlockInfos_1 = require("../Util/BlockInfos");
-//declare var Blockly : any;
 var Workspace = (function () {
     /**
      * /!\ THIS CONSTRUCTOR IS VISIBLE BUT PLEASE, PREFER THE STATIC INJECT
      * @param cur_workspace
      */
     function Workspace(cur_workspace) {
-        this.workspace = cur_workspace;
-        //this.workspace = new Blockly.Workspace();
+        this.workspace = cur_workspace || new Blockly.Workspace();
     }
     Workspace.Inject = function (anchor, trashcan, toolbox) {
         var workspace = Blockly.inject(anchor, {
@@ -23,16 +21,16 @@ var Workspace = (function () {
             },
             trashcan: trashcan
         });
-        console.log("LOLFOI4RYFOGRZEYTFIO");
         return new Workspace(workspace);
     };
-    ////generateCSharp() : string {
-    ////    return Blockly.CSharp.workspaceToCode(this.workspace);
-    ////}
-    ////generateFrench(): string {
-    ////    return Blockly.French.workspaceToCode(this.workspace);
-    ////}
-    Workspace.prototype.getBlockInfos = function () {
+    Workspace.prototype.generateCSharp = function () {
+        return Blockly.CSharp.workspaceToCode(this.workspace);
+    };
+    Workspace.prototype.generateFrench = function () {
+        return Blockly.French.workspaceToCode(this.workspace);
+    };
+    Workspace.prototype.GetBlockInfos = function () {
+        //TODO give the good informations
         return new BlockInfos_1.BlockInfos(null, null, null, null, null, true);
     };
     Workspace.prototype.IsADecoder = function () {
@@ -42,20 +40,17 @@ var Workspace = (function () {
         }
         return false;
     };
-    Workspace.prototype.getTopBlocks = function () {
-        return this.workspace.getTopBlocks();
+    Workspace.prototype.Clear = function () {
+        this.workspace.clear();
     };
-    Workspace.prototype.addTopBlock = function (block) {
-        this.workspace.addTopBlock(block);
-    };
-    Workspace.prototype.getXML = function () {
+    Workspace.prototype.GetXML = function () {
         return Blockly.Xml.workspaceToDom(this.workspace);
     };
-    Workspace.prototype.getStringyfiedXML = function () {
-        return Blockly.Xml.domToText(this.getXML());
+    Workspace.prototype.StringyfiedXML = function () {
+        return Blockly.Xml.domToText(this.GetXML());
     };
-    Workspace.prototype.getPrettyStringyfiedXML = function () {
-        return Blockly.Xml.domToPrettyText(this.getXML());
+    Workspace.prototype.PrettyStringyfiedXML = function () {
+        return Blockly.Xml.domToPrettyText(this.GetXML());
     };
     return Workspace;
 }());

@@ -23,7 +23,7 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
         if (this.workspace.IsADecoder()) {
-            this.decoder = this.workspace.getBlockInfos();
+            this.decoder = this.workspace.GetBlockInfos();
             this.decoder.id = null; //Call to the server for saving the current block
         }
     };
