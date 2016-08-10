@@ -2927,6 +2927,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
     <Content Include="SquidModules\server_requests\server_requests.js" />
+    <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
     <Content Include="SquidModules\generators\csharp.js" />

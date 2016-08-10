@@ -58,5 +58,38 @@ namespace Squid
                 return null;
             }
         }
+
+        public object SendDecoderDef(int id)
+        {
+            try
+            {
+                var services = new DecoderServices();
+                var decoder = services.GetDecoder(id);
+                var decoderDef = new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.Xml };
+                //Clients.Caller.getDecoderDef(decoderDef);
+                return decoderDef;
+
+            }
+            catch (Exception e)
+            {
+                Clients.Caller.displayMessage(e.ToString());
+                return null;
+            }
+        }
+
+        public List<string> FindUsages(int id)
+        {
+            try
+            {
+                var services = new DecoderServices();
+                var list = services.FindProcedureUsages(id);
+                return list;
+            }
+            catch (Exception e)
+            {
+                Clients.Caller.displayMessage(e.ToString());
+                return null;
+            }
+        }
     }
 }

@@ -136,7 +136,7 @@ namespace Squid.Services
                 var fromServer =
                     db.Decoders.Select(d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Editable }).ToList();
                 var categoryInfos =
-                    fromServer.GroupBy(d => d.Category, d => new BlockInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
+                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
                         .ToDictionary(d => d.Key, d => d.ToList());
                 return categoryInfos;
             }
@@ -196,7 +196,7 @@ namespace Squid.Services
 
     public class BlockInfos
     {
-        public int? id;
+        public int id;
 
         public string name;
 
@@ -206,7 +206,7 @@ namespace Squid.Services
 
         public bool editable;
 
-        public BlockInfos(int? id, string name, string parameters, string tags, bool editable)
+        public BlockInfos(int id, string name, string parameters, string tags, bool editable)
         {
             this.id = id;
             this.name = name;
