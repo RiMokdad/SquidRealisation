@@ -1,0 +1,38 @@
+import { Component } from "@angular/core";
+import { BlockInfos} from "./../Util/BlockInfos";
+import { ToolboxManager } from "./../Toolbox/toolboxManager";
+import { Workspace } from "./../BlocklyWrapper/Workspace";
+
+@Component({
+    selector: "editor",
+    templateUrl: "SquidModules/Editor/editor.view.html"
+}) 
+export class EditorComponent {
+    name = "Editeur";
+    tags = "";
+    version = "";
+    category = "";
+
+    toolboxManager: ToolboxManager;
+    decoder: BlockInfos;
+    workspace: Workspace;
+
+    private initialized_ = false;
+
+    Init() ;
+
+    Clear() ;
+
+    Save() ;
+
+    Supress() ;
+
+    Refresh();
+
+    SearchTag();
+
+    OpenTab();
+
+    SaveDecoderToServer() ;
+    
+}

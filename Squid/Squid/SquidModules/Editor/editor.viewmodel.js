@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var BlockInfos_1 = require("./../Util/BlockInfos");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var EditorComponent = (function () {
     function EditorComponent() {
-        this.name = "Editeur";
-        this.tags = "";
+        this.decoder = new BlockInfos_1.BlockInfos();
+        this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
         this.initialized_ = false;
     }
@@ -45,22 +46,30 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
         var blocksInformations = new Array();
-        //Call to server for updating blocks informations
+        //TODO Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
         this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
-        //TODO insert code for toolbox management
-        this.toolboxManager.UpdateResearch(this.tags.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
         this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
-        //TODO insert code for opening a new tab
+        window.open(this.GetBaseUrl());
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
         var bool = this.workspace.SaveAsDecoderToServer();
         alert(bool);
+    };
+    EditorComponent.prototype.GetBaseUrl = function () {
+        return "index.html";
+    };
+    EditorComponent.prototype.GetBlockIdInUrl = function () {
+        return parseInt(window.location.href.split("#")[1]);
+    };
+    EditorComponent.prototype.SetUrl = function () {
+        window.location.href = "index.html" + (this.decoder.id ? "#" + this.decoder.id : "");
     };
     EditorComponent = __decorate([
         core_1.Component({

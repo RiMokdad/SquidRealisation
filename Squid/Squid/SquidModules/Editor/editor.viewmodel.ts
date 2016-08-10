@@ -8,11 +8,13 @@ import { Workspace } from "./../BlocklyWrapper/Workspace";
     templateUrl: "SquidModules/Editor/editor.view.html"
 }) 
 export class EditorComponent {
-    name = "Editeur";
-    tags = "";
+    decoder = new BlockInfos();
+    category: string;
+
+    tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
     toolboxManager: ToolboxManager;
-    decoder: BlockInfos;
+    
     workspace: Workspace;
 
     private initialized_ = false;
@@ -20,7 +22,7 @@ export class EditorComponent {
     Init() {
         if (!this.initialized_) {
             this.toolboxManager = new ToolboxManager();
-            var xmlTb = this.toolboxManager.toolboxHTML;
+            const xmlTb = this.toolboxManager.toolboxHTML;
             this.workspace = Workspace.Inject("blocklyDiv", false, xmlTb);
             this.initialized_ = true;
         }
@@ -47,27 +49,36 @@ export class EditorComponent {
 
     Refresh() {
         //TODO insert code for toolbox management
-        
         var blocksInformations = new Array<BlockInfos>();
-        //Call to server for updating blocks informations
+        //TODO Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
         this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     SearchTag() {
-        //TODO insert code for toolbox management
-        this.toolboxManager.UpdateResearch(this.tags.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
         this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     OpenTab() {
-        //TODO insert code for opening a new tab
+        window.open(this.GetBaseUrl());
     }
 
     SaveDecoderToServer() {
-        var bool = this.workspace.SaveAsDecoderToServer();
+        const bool = this.workspace.SaveAsDecoderToServer();
         alert(bool);
     }
-    
+
+    private GetBaseUrl(): string {
+        return "index.html";
+    }
+
+    private GetBlockIdInUrl(): number {
+        return parseInt(window.location.href.split("#")[1]);
+    }
+
+    private SetUrl() {
+        window.location.href = `index.html${this.decoder.id ? `#${this.decoder.id}` : ""}`;
+    }
 }

@@ -1,0 +1,27 @@
+import { BlockInfos } from "../Util/BlockInfos";
+
+export class BlocksCat {
+    blocks: BlockInfos[];
+    category: string;  
+    constructor(cat: string, blocks?: BlockInfos[]) :
+
+
+}
+
+export class ToolboxManager {
+    toolboxHTML: HTMLElement;
+    private decoders: HTMLElement;
+    private research: HTMLElement;
+    private BlocksInformations: BlocksCat[];
+
+    constructor() ;
+    private CreateCategories(blocks: any) ;
+
+    UpdateBlocksInfos(blocksInfos: BlockInfos[]);
+
+    UpdateCategories();
+
+    UpdateResearch(tags: string[]);
+    UpdateResearch(tag: string);
+
+}

@@ -5,18 +5,23 @@
  * for the definition.
  */
 var BlockInfos = (function () {
-    function BlockInfos(id, name, parameters, tags, version, editable) {
-        this.id = id;
-        this.name = name;
-        this.parameters = parameters;
-        this.tags = tags;
-        this.version = version;
-        if (editable !== false) {
-            this.editable = true;
+    function BlockInfos(name, parameters, tags, version, id, editable) {
+        this.id = id || null;
+        this.name = name || "Decodeur";
+        this.parameters = parameters || [];
+        if (tags) {
+            if (typeof (tags) == "string") {
+                this.tags = tags;
+            }
+            else {
+                this.tags = tags.join(",");
+            }
         }
         else {
-            this.editable = false;
+            this.tags = "";
         }
+        this.version = version || "0.0";
+        this.editable = (editable !== false);
     }
     BlockInfos.prototype.CreateFlyout = function () {
         var elem = document.createElement("block");
@@ -34,10 +39,11 @@ var BlockInfos = (function () {
         return elem;
     };
     BlockInfos.prototype.IsTagged = function (tags) {
+        var innerTags = tags.split(",");
         if (typeof (tags) == "string") {
             //Parameter is a single string
-            for (var i = 0; i < this.tags.length; i++) {
-                if (this.tags[i] == tags) {
+            for (var i = 0; i < innerTags.length; i++) {
+                if (innerTags[i] == tags) {
                     return true;
                 }
             }
@@ -45,8 +51,8 @@ var BlockInfos = (function () {
         else {
             //Parameter is a tab of strings
             for (var j = 0; j < tags.length; j++) {
-                for (var i = 0; i < this.tags.length; i++) {
-                    if (this.tags[i] == tags[j]) {
+                for (var i = 0; i < innerTags.length; i++) {
+                    if (innerTags[i] == tags[j]) {
                         return true;
                     }
                 }
