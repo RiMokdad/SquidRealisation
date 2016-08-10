@@ -14,84 +14,11 @@ namespace Squid
 
     public class MyHub : Hub
     {
-        public void Hello()
-        {
-            Clients.All.hello();           
-        }
+        private static readonly IHubContext context = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
 
-        public void NotifyRefresh()
+        public static void NotifyRefresh()
         {
-            Clients.All.notifyRefresh();
-        }
-
-        public int? Save(Decoder decoder)
-        {
-            try
-            {
-                var services = new DecoderServices();
-                if (decoder.Id == null)
-                {
-                    var decoderId = services.AddDecoder(decoder);
-                    return decoderId;
-                }
-                else
-                {
-                    services.UpdateDecoder(decoder);
-                    return decoder.Id;
-                }
-            }
-            catch (Exception e)
-            {
-                Clients.Caller.displayMessage(e.ToString());
-                return null;
-            }
-        }
-
-        public object SendDecoderDef(int id)
-        {
-            try
-            {
-                var services = new DecoderServices();
-                var decoder = services.GetDecoder(id);
-                var decoderDef = new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.Xml };
-                //Clients.Caller.getDecoderDef(decoderDef);
-                return decoderDef;
-
-            }
-            catch (Exception e)
-            {
-                Clients.Caller.displayMessage(e.ToString());
-                return null;
-            }
-        }
-
-        public List<string> FindUsages(int id)
-        {
-            try
-            {
-                var services = new DecoderServices();
-                var list = services.FindProcedureUsages(id);
-                return list;
-            }
-            catch (Exception e)
-            {
-                Clients.Caller.displayMessage(e.ToString());
-                return null;
-            }
-        }
-
-        public void DeleteDecoder(int id)
-        {
-            try
-            {
-                var services = new DecoderServices();
-                services.DeleteDecoder(id);
-                Clients.Caller.displayMessage("Décodeur supprimé !");
-            }
-            catch (Exception e)
-            {
-                Clients.Caller.displayMessage(e.ToString());
-            }
+            context.Clients.All.notifyRefresh();
         }
     }
 }

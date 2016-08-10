@@ -26,11 +26,6 @@ namespace Squid.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                if (decoder == null)
-                {
-                    return Json(new { error = "erreur lors du transfert de données vers le serveur" });
-                }
-
                 var services = new DecoderServices();
                 if (decoder.Id == null)
                 {
@@ -42,12 +37,10 @@ namespace Squid.Controllers
                     services.UpdateDecoder(decoder);
                     return Json(new { id = decoder.Id });
                 }
-
-
             }
             catch (Exception e)
             {
-                return Json(new { error = e.ToString() });
+                return InternalServerError(e);
             }
         }
 
@@ -69,7 +62,7 @@ namespace Squid.Controllers
             }
             catch (Exception e)
             {
-                return Json(new { error = e.ToString() });
+                return InternalServerError(e);
             }
         }
 
@@ -93,7 +86,7 @@ namespace Squid.Controllers
             catch (Exception e)
             {
                 //return Json(new { error = e.ToString() });
-                return Json(new { error = e.ToString() });
+                return InternalServerError(e);
             }
         }
 
@@ -115,7 +108,7 @@ namespace Squid.Controllers
             catch (Exception e)
             {
                 //return Json(new { error = e.ToString() });
-                return Json(new { error = e.ToString() });
+                return InternalServerError(e);
             }
         }
 
