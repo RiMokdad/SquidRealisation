@@ -3746,6 +3746,7 @@
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
