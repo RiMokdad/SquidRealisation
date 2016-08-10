@@ -15,22 +15,14 @@ Squid.Requests.SaveDecoder = function(decoder) {
         //data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
         data: JSON.stringify(decoder),
         success: function (res) {
-
-            if (res.id) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
-                    //document.location += "#" + res.id;
-                    //FOOOOR THE TESTS !!!!!
-                    //Squid.Requests.GetDecoderDef(res.id);
                 }
-                alert(res.id);
-            } else {
-                alert(res.error);
-            }
-           
+                alert(res.id); 
         },
-        error: function (error) {
-            alert("Erreur lors de la sauvegarde : \n" + error);
+        error: function (resp) {
+            console.log(resp.responseText);
+            alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
         }
     });
 
@@ -48,19 +40,14 @@ Squid.Requests.GetDecoderDef = function (id) {
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         //datatype: 'json',
-        data: JSON.stringify({ Id: id }),
+        data: JSON.stringify(id),
         success: function (decoder) {
-            //alert(res);
-            if (decoder.error) {
-                alert(decoder.error);
-            } else {
-                console.log(decoder);
-                return decoder;
-            }
-
+            console.log(decoder);
+            return decoder;
         },
-        error: function (error) {
-            alert("Erreur lors de la récupération : \n" + error);
+        error: function (resp) {
+            console.log(resp.responseText);
+            alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
         }
     });
 
@@ -78,8 +65,9 @@ Squid.Requests.GetCategories = function(workspace, toolbox, callback) {
             //var map = jsonToStrMap(mapstr);
             //callback(workspace, toolbox, JSON.parse(mapstr));
         },
-        error: function (error) {
-            alert("Erreur lors du chargement :\n" + error);
+        error: function (resp) {
+            console.log(resp.responseText);
+            alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
         }
     });
 
@@ -92,7 +80,7 @@ Squid.Requests.FindUsages = function (id) {
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         //datatype: 'json',
-        data: JSON.stringify({ Id: id }),
+        data: JSON.stringify(id),
         success: function (res) {
             if (res.error) {
                 //an error occured
@@ -135,23 +123,32 @@ Squid.Requests.FindUsages = function (id) {
                         //delete function
                     }
                 }
-
             }
-            
-            /*if (res.xml) {
-                return res.xml;
-            } else {
-                alert(res.error);
-            }*/
-
         },
-        error: function (error) {
-            alert("Erreur lors de la sauvegarde" + error);
+        error: function (resp) {
+            console.log(resp.responseText);
+            alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur");
         }
     });
 
 }
 
+Squid.Requests.DeleteDecoder = function(id) {
+    $.ajax({
+        url: '/api/Decoders/delete',
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        //datatype: 'json',
+        data: JSON.stringify(id),
+        success: function () {
+            alert("Décodeur supprimé");
+        },
+        error: function (resp) {
+            console.log(resp.responseText);
+            alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");         
+        }
+    });
+}
 
 
 //UTILS
