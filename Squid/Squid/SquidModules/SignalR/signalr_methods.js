@@ -17,12 +17,4 @@ $.connection.hub.start()
     })
     .fail(function () { console.log('Could not Connect!'); });
 
-function Save() {
-    myHubProxy.server.save(decoder).done(function (id) {
-        if (!decoder.Id && id) {
-            alert(id);
-            decoder.Id = id;
-        }
-    });
-}
 
