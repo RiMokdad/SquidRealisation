@@ -7,6 +7,7 @@ export class Workspace {
     id: number;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
+        document.getElementById(anchor).innerHTML = "";
         const workspace = Blockly.inject(anchor, {
             toolbox: toolbox,
             zoom:

@@ -70,6 +70,7 @@ export class EditorComponent {
         alert(bool);
     }
 
+    /* Url based methods */
     private GetBaseUrl(): string {
         return "index.html";
     }

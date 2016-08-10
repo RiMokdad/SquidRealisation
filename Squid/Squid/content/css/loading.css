@@ -16,14 +16,16 @@
   left: 0;
   top: 0;
 }
+
+
 .sk-circle .sk-child:before {
   content: '';
   display: block;
   margin: 0 auto;
   width: 15%;
   height: 15%;
-  background-color: #333;
   border-radius: 100%;
+  background-color: #d3d3d3;
   -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
           animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
 }

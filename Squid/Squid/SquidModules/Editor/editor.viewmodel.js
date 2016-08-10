@@ -62,6 +62,7 @@ var EditorComponent = (function () {
         var bool = this.workspace.SaveAsDecoderToServer();
         alert(bool);
     };
+    /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
         return "index.html";
     };

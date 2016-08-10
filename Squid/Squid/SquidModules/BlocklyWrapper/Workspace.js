@@ -10,6 +10,7 @@ var Workspace = (function () {
         this.workspace = cur_workspace || new Blockly.Workspace();
     }
     Workspace.Inject = function (anchor, trashcan, toolbox) {
+        document.getElementById(anchor).innerHTML = "";
         var workspace = Blockly.inject(anchor, {
             toolbox: toolbox,
             zoom: {
