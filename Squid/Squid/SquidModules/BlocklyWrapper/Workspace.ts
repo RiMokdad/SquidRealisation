@@ -1,4 +1,5 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
+import { Decoder } from "../Util/Decoder";
 
 declare var Blockly: any;
 
