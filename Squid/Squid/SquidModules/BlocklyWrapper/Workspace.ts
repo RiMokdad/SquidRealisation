@@ -48,7 +48,7 @@ export class Workspace {
 
     GetBlockInfos(): BlockInfos {
         //TODO give the good informations
-        return new BlockInfos(this.id, null, null, null, null, true);
+        return new BlockInfos();
     }
 
     IsADecoder(): boolean {

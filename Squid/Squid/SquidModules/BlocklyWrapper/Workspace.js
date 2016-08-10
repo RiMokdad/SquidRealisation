@@ -38,7 +38,7 @@ var Workspace = (function () {
     };
     Workspace.prototype.GetBlockInfos = function () {
         //TODO give the good informations
-        return new BlockInfos_1.BlockInfos(this.id, null, null, null, null, true);
+        return new BlockInfos_1.BlockInfos();
     };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();

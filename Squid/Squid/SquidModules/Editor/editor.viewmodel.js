@@ -28,7 +28,7 @@ var EditorComponent = (function () {
         }
     };
     EditorComponent.prototype.Clear = function () {
-        //TODO insert code for clearing workspace
+        this.workspace.Clear();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web

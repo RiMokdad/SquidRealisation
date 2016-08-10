@@ -29,7 +29,7 @@ export class EditorComponent {
     }
 
     Clear() {
-        //TODO insert code for clearing workspace
+        this.workspace.Clear();
     }
 
     Save() {
