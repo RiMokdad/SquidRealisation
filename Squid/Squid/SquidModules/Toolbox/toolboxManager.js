@@ -67,6 +67,9 @@ var ToolboxManager = (function () {
             this.decoders.removeChild(this.decoders.firstChild);
         }
         //add
+        var proc = document.createElement("block");
+        proc.setAttribute("type", "procedures_defnoreturn");
+        this.decoders.appendChild(proc);
         for (var i = 0; i < this.BlocksInformations.length; i++) {
             var catName = this.BlocksInformations[i].category;
             var blocks = this.BlocksInformations[i].blocks;

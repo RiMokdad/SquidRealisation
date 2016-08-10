@@ -52,17 +52,22 @@ export class EditorComponent {
         //Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
-        //Refresh toolbox
+        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     SearchTag() {
         //TODO insert code for toolbox management
         this.toolboxManager.UpdateResearch(this.tags.split(","));
-        //Refresh toolbox
+        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     OpenTab() {
         //TODO insert code for opening a new tab
+    }
+
+    SaveDecoderToServer() {
+        var bool = this.workspace.SaveAsDecoderToServer();
+        alert(bool);
     }
     
 }

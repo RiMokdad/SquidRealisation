@@ -48,15 +48,19 @@ var EditorComponent = (function () {
         //Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
-        //Refresh toolbox
+        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
         //TODO insert code for toolbox management
         this.toolboxManager.UpdateResearch(this.tags.split(","));
-        //Refresh toolbox
+        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
         //TODO insert code for opening a new tab
+    };
+    EditorComponent.prototype.SaveDecoderToServer = function () {
+        var bool = this.workspace.SaveAsDecoderToServer();
+        alert(bool);
     };
     EditorComponent = __decorate([
         core_1.Component({

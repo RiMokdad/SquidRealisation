@@ -84,6 +84,10 @@ export class ToolboxManager {
             this.decoders.removeChild(this.decoders.firstChild);
         }
         //add
+        const proc = document.createElement("block");
+        proc.setAttribute("type", "procedures_defnoreturn");
+        this.decoders.appendChild(proc);
+
         for (let i = 0; i < this.BlocksInformations.length; i++) {
             const catName = this.BlocksInformations[i].category;
             const blocks = this.BlocksInformations[i].blocks;

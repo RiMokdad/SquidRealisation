@@ -6,6 +6,7 @@ var Workspace = (function () {
      * @param cur_workspace
      */
     function Workspace(cur_workspace) {
+        this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
     }
     Workspace.Inject = function (anchor, trashcan, toolbox) {
@@ -23,23 +24,25 @@ var Workspace = (function () {
         });
         return new Workspace(workspace);
     };
+    /**
+     * Generate the CSharp corresponding to the datas in the workspace
+     */
     Workspace.prototype.GenerateCSharp = function () {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     };
+    /**
+     * Generate the French corresponding to the datas in the workspace
+     */
     Workspace.prototype.GenerateFrench = function () {
         return Blockly.French.workspaceToCode(this.workspace);
     };
     Workspace.prototype.GetBlockInfos = function () {
         //TODO give the good informations
-        // the first one should be the id
-        return new BlockInfos_1.BlockInfos(null, null, null, null, null, true);
+        return new BlockInfos_1.BlockInfos(this.id, null, null, null, null, true);
     };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();
-        if (blocks.length == 1 && blocks[0].getDef) {
-            return true;
-        }
-        return false;
+        return (blocks.length == 1 && blocks[0].getDef);
     };
     Workspace.prototype.Clear = function () {
         this.workspace.clear();
@@ -53,40 +56,34 @@ var Workspace = (function () {
     Workspace.prototype.PrettyStringyfiedXML = function () {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     };
-    Workspace.prototype.SaveWorkspace = function (location) {
-        // TODO after creating the appropriate functions
-        //var baseUrl = Squid.Storage.BaseUrl();
-        //Squid.Storage.SaveFunction(workspace);
-        //backupBlocks(workspace, baseUrl + location);
+    /************************ Workspace and storage **************************************************/
+    Workspace.prototype.SaveLocal = function (location) {
+        // TODO if we implement a local storage
     };
-    //TO BE CONTINUED
-    Workspace.prototype.SaveToServer = function () {
+    Workspace.prototype.SaveAsDecoderToServer = function () {
         if (this.IsADecoder()) {
             var blockId = this.GetBlockInfos().id;
+            //TODO request the server to save the block 
+            return true;
         }
         else {
-            alert("La sauvegarde serveur a echoué. Le workspace contient plus d'un block ou votre décodeur n'est pas du type fonction.");
+            return false;
         }
     };
-    //SaveFunction() {
-    //}
-    Workspace.prototype.BackupBlocks = function (url) {
-        if ("localStorage" in window) {
-            var prettyText = this.PrettyStringyfiedXML();
-            var xmlText = this.StringyfiedXML();
-            var code = this.GenerateCSharp();
-        }
+    ////BackupBlocks(url: any) {
+    ////    if ("localStorage" in window) {
+    ////        var prettyText = this.PrettyStringyfiedXML();
+    ////        var xmlText = this.StringyfiedXML();
+    ////        var code = this.GenerateCSharp();
+    ////        //Request.SaveDecoder(code, xmlTesx);
+    ////    }
+    ////}
+    Workspace.prototype.RestoreBlock = function (id) {
+        //TODO ask the server for the block definition corresponding to the id
     };
-    //RestoreBlocks(url: any) {
-    //}
-    //RestoreBlock(url: any) {
-    //}
-    /**************************** Variables *******************************************************/
-    Workspace.prototype.RefreshVariables = function () {
-        Blockly.Variables.allVariables(this.workspace);
-    };
-    //TODO : catmap to be created and changed to a map of blockinfo and id of decoder
-    Workspace.prototype.RefreshCategories = function (catmap) {
+    /**************************** Variables **********************************/
+    Workspace.prototype.UpdateToolbox = function (toolboxTree) {
+        this.workspace.updateToolbox(toolboxTree);
     };
     return Workspace;
 }());

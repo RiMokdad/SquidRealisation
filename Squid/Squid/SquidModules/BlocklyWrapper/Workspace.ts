@@ -4,6 +4,7 @@ declare var Blockly: any;
 
 export class Workspace {
     workspace: any;
+    id: number;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         const workspace = Blockly.inject(anchor, {
@@ -27,30 +28,32 @@ export class Workspace {
      * @param cur_workspace
      */
     constructor(cur_workspace: any) {
+        this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
     }
 
-    
+    /**
+     * Generate the CSharp corresponding to the datas in the workspace
+     */
     GenerateCSharp(): string {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     }
 
+    /**
+     * Generate the French corresponding to the datas in the workspace
+     */
     GenerateFrench(): string {
         return Blockly.French.workspaceToCode(this.workspace);
     }
 
     GetBlockInfos(): BlockInfos {
         //TODO give the good informations
-        // the first one should be the id
-        return new BlockInfos(null, null, null, null, null, true);
+        return new BlockInfos(this.id, null, null, null, null, true);
     }
 
     IsADecoder(): boolean {
-        var blocks = this.workspace.getTopBlocks();
-        if (blocks.length == 1 && blocks[0].getDef) {
-            return true;
-        }
-        return false;
+        const blocks = this.workspace.getTopBlocks();
+        return (blocks.length == 1 && blocks[0].getDef);
     }
 
     Clear() {
@@ -69,50 +72,39 @@ export class Workspace {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     }
 
-    SaveWorkspace(location: any) {
-        // TODO after creating the appropriate functions
-        //var baseUrl = Squid.Storage.BaseUrl();
-        //Squid.Storage.SaveFunction(workspace);
-        //backupBlocks(workspace, baseUrl + location);
-    }
+    /************************ Workspace and storage **************************************************/
 
-    //TO BE CONTINUED
-    SaveToServer() {
+    SaveLocal(location: any) {
+        // TODO if we implement a local storage
+    }
+    
+    SaveAsDecoderToServer(): boolean {        
         if (this.IsADecoder()) {
             var blockId = this.GetBlockInfos().id;
-            //backupBlocks(workspace, "blabla");
-        }
-        else {
-            alert("La sauvegarde serveur a echoué. Le workspace contient plus d'un block ou votre décodeur n'est pas du type fonction.");
-        }
-    }
-
-    //SaveFunction() {
-    //}
-
-    BackupBlocks(url: any) {
-        if ("localStorage" in window) {
-            var prettyText = this.PrettyStringyfiedXML();
-            var xmlText = this.StringyfiedXML();
-            var code = this.GenerateCSharp();
-            //Request.SaveDecoder(code, xmlTesx);
+            //TODO request the server to save the block 
+            return true;         
+        } else {
+            return false;
         }
     }
 
-    //RestoreBlocks(url: any) {
-    //}
+    ////BackupBlocks(url: any) {
+    ////    if ("localStorage" in window) {
+    ////        var prettyText = this.PrettyStringyfiedXML();
+    ////        var xmlText = this.StringyfiedXML();
+    ////        var code = this.GenerateCSharp();
+    ////        //Request.SaveDecoder(code, xmlTesx);
+    ////    }
+    ////}
 
-    //RestoreBlock(url: any) {
-    //}
-
-
-    /**************************** Variables *******************************************************/
-
-    RefreshVariables() {
-        Blockly.Variables.allVariables(this.workspace);
+    RestoreBlock(id: number) {
+        //TODO ask the server for the block definition corresponding to the id
     }
 
-    //TODO : catmap to be created and changed to a map of blockinfo and id of decoder
-    RefreshCategories(catmap: any) {
+    /**************************** Variables **********************************/
+
+    UpdateToolbox(toolboxTree: HTMLElement) {
+        this.workspace.updateToolbox(toolboxTree);
     }
+
 }
