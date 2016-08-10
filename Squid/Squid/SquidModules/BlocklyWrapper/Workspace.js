@@ -37,8 +37,13 @@ var Workspace = (function () {
         return Blockly.French.workspaceToCode(this.workspace);
     };
     Workspace.prototype.GetBlockInfos = function () {
-        //TODO give the good informations
-        return new BlockInfos_1.BlockInfos(this.id, null, null, null, null, true);
+        var blocks = this.workspace.getTopBlocks();
+        var id = blocks[0].id;
+        var name = blocks[0].getProcedureDef()[0];
+        var parametersArray = blocks[0].arguments_;
+        // TODO tags 
+        // TODO version 
+        return new BlockInfos_1.BlockInfos(id, name, parametersArray, null, null, true);
     };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();

@@ -47,8 +47,13 @@ export class Workspace {
     }
 
     GetBlockInfos(): BlockInfos {
-        //TODO give the good informations
-        return new BlockInfos(this.id, null, null, null, null, true);
+        const blocks = this.workspace.getTopBlocks();
+        var id = blocks[0].id;
+        var name = blocks[0].getProcedureDef()[0];
+        var parametersArray = blocks[0].arguments_;
+        // TODO tags 
+        // TODO version 
+        return new BlockInfos(id, name, parametersArray, null, null, true);
     }
 
     IsADecoder(): boolean {
@@ -78,7 +83,7 @@ export class Workspace {
         // TODO if we implement a local storage
     }
     
-    SaveAsDecoderToServer(): boolean {        
+    SaveAsDecoderToServer(): boolean { 
         if (this.IsADecoder()) {
             var blockId = this.GetBlockInfos().id;
             //TODO request the server to save the block 
