@@ -33,7 +33,7 @@ export class EditorComponent {
     }
 
     Save() {
-        //TODO insert code for saving decodeur onto the web
+        //TODO insert code for saving decoder onto the web
         if (this.workspace.IsADecoder()) {
             this.decoder = this.workspace.GetBlockInfos();
             this.decoder.id = null; //Call to the server for saving the current block

@@ -5,16 +5,16 @@
  */
 "use strict";
 var Decoder = (function () {
-    function Decoder(id, name, version, category, tags, xmlDefinition, generatedCode, frenchSpec, editable) {
-        this.id = id;
-        this.name = name;
-        this.version = version;
-        this.category = category;
-        this.tags = tags;
-        this.xmlDefinition = xmlDefinition;
-        this.generatedCode = generatedCode;
-        this.frenchSpec = frenchSpec;
-        this.editable = editable;
+    function Decoder(Id, Name, Version, Category, Tags, Xml, Code, FrenchSpec, Editable) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Version = Version;
+        this.Category = Category;
+        this.Tags = Tags;
+        this.Xml = Xml;
+        this.Code = Code;
+        this.FrenchSpec = FrenchSpec;
+        this.Editable = Editable;
     }
     return Decoder;
 }());
