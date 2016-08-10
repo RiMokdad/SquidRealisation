@@ -15,10 +15,8 @@ myHubProxy.client.hello = function () {
     alert("hello !");
 };
 
-myHubProxy.client.getCategories = function (categories) {
-    var map = JSON.parse(categories);
-    console.log(map);
-    //return map;
+myHubProxy.client.notifyRefresh = function () {
+    console.log("new version of the toolbox available");
 };
 
 

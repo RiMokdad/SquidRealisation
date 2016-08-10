@@ -192,6 +192,40 @@ namespace Squid.Services
             }
         }
 
+        public void DeleteDecoder(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                if (decoder != null)
+                {
+                    db.Decoders.Remove(decoder);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw new KeyNotFoundException("L'ID envoyée ne correspond à aucun décodeur dans la base de donnée");
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    db?.Dispose();
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+        }
+
     }
 
     public class BlockInfos

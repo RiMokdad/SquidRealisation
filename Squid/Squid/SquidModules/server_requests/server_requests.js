@@ -48,7 +48,7 @@ Squid.Requests.GetDecoderDef = function (id) {
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         //datatype: 'json',
-        data: JSON.stringify({ Id: id }),
+        data: JSON.stringify(id),
         success: function (decoder) {
             //alert(res);
             if (decoder.error) {
@@ -92,7 +92,7 @@ Squid.Requests.FindUsages = function (id) {
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         //datatype: 'json',
-        data: JSON.stringify({ Id: id }),
+        data: JSON.stringify(id),
         success: function (res) {
             if (res.error) {
                 //an error occured
@@ -152,6 +152,28 @@ Squid.Requests.FindUsages = function (id) {
 
 }
 
+Squid.Requests.DeleteDecoder = function(id) {
+    $.ajax({
+        url: '/api/Decoders/delete',
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        //datatype: 'json',
+        data: JSON.stringify(id),
+        success: function (res, status) {
+            //alert(res);
+            if (res.error) {
+                alert(res.error);
+            } else {
+                console.log(status);
+                //return decoder;
+            }
+        },
+        error: function (resp) {
+            alert("Erreur lors de la récupération,\nVoir la console pour afficher les détails de l'erreur");
+            console.log(resp.responseText);
+        }
+    });
+}
 
 
 //UTILS

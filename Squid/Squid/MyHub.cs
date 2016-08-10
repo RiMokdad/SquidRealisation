@@ -19,21 +19,9 @@ namespace Squid
             Clients.All.hello();           
         }
 
-        public void Refresh()
+        public void NotifyRefresh()
         {
-            try
-            {
-                var services = new DecoderServices();
-                var map = services.GetCategoryInfos();
-                var jsonMap =new JavaScriptSerializer().Serialize(map);
-                Clients.All.getCategories(jsonMap);
-
-            }
-            catch (Exception e)
-            {
-                //return Json(new { error = e.ToString() });
-                Clients.All.displayMessage(e.ToString());
-            }
+            Clients.All.notifyRefresh();
         }
 
         public int? Save(Decoder decoder)
@@ -89,6 +77,20 @@ namespace Squid
             {
                 Clients.Caller.displayMessage(e.ToString());
                 return null;
+            }
+        }
+
+        public void DeleteDecoder(int id)
+        {
+            try
+            {
+                var services = new DecoderServices();
+                services.DeleteDecoder(id);
+                Clients.Caller.displayMessage("Décodeur supprimé !");
+            }
+            catch (Exception e)
+            {
+                Clients.Caller.displayMessage(e.ToString());
             }
         }
     }

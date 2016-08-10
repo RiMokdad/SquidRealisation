@@ -30,7 +30,6 @@
     <script src="SquidModules/SignalR/signalr_methods.js"></script>
 
 
-    <!--Script references. -->
 
 
     <!-- 2. Configure SystemJS -->
@@ -47,19 +46,7 @@
         //Squid.Requests.SaveDecoder(decoder);
         //Squid.Requests.GetDecoderDef(6);
         //Squid.Requests.GetCategories();
-
-        function Save()
-        {
-            //Squid.Requests.SaveDecoder(decoder);
-            myHubProxy.server.save(decoder).done(function(id) {
-                if (!decoder.Id && id) {
-                    alert(id);
-                    decoder.Id = id;
-                }
-            });
-
-            //decoder.Name = decoder.Name + "1";
-        }
+        Squid.Requests.DeleteDecoder(9);
 
     </script>
 
