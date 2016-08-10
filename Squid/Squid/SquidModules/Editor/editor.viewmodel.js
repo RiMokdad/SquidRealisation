@@ -17,23 +17,16 @@ var EditorComponent = (function () {
         this.decoder = new BlockInfos_1.BlockInfos();
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
+        this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
     }
-    EditorComponent.prototype.Init = function () {
-        if (!this.initialized_) {
-            this.toolboxManager = new toolboxManager_1.ToolboxManager();
-            var xmlTb = this.toolboxManager.toolboxHTML;
-            this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, xmlTb);
-            this.initialized_ = true;
-        }
-    };
     EditorComponent.prototype.Clear = function () {
-        this.workspace.Clear();
+        Workspace_1.Workspace.GetInstance().Clear();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
-        if (this.workspace.IsADecoder()) {
-            this.decoder = this.workspace.GetBlockInfos();
+        if (Workspace_1.Workspace.GetInstance().IsADecoder()) {
+            this.decoder = Workspace_1.Workspace.GetInstance().GetBlockInfos();
             this.decoder.id = null; //Call to the server for saving the current block
         }
     };
@@ -49,17 +42,17 @@ var EditorComponent = (function () {
         //TODO Call to server for updating blocks informations
         this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
-        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
-        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
         window.open(this.GetBaseUrl());
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        var bool = this.workspace.SaveAsDecoderToServer();
+        var bool = Workspace_1.Workspace.GetInstance().SaveAsDecoderToServer();
         alert(bool);
     };
     /* Url based methods */
@@ -82,4 +75,12 @@ var EditorComponent = (function () {
     return EditorComponent;
 }());
 exports.EditorComponent = EditorComponent;
+/**
+ * Things to do on with the workspace on load of the window
+ * @returns {}
+ */
+window.onload = function () {
+    var tbMan = new toolboxManager_1.ToolboxManager();
+    Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+};
 //# sourceMappingURL=editor.viewmodel.js.map
