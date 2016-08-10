@@ -62,6 +62,7 @@ span {
 }
 
 .blocklyToolboxDiv {
+    margin: 0px;
     background-color: #200000 !important;
 }
 
@@ -246,6 +247,18 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 /*.side-bar .variable-name {
     
 }*/
+.version-item {
+    display: block;
+    width: auto;
+    margin: 10px auto;
+}
+
+.soft-background {
+    background: none;
+    box-shadow: none;
+    border: none;
+    text-align: center;
+}
 
 .side-bar input {
     width: 100%;
@@ -309,7 +322,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .edition-window {
-    margin: 5px;
+    margin: 0px;
     padding: 10px;
     color: white;
     background-color: #200000;
@@ -340,14 +353,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 
-.col-lg-10 {
-    overflow: auto;
-}
-
-
 /*-------------------- Toolbar ----------------------- */
 .toolbar-workspace {
-    z-index: 0;
     margin: 0px;
     padding: 10px;
     color: white;
@@ -364,8 +371,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .toolbar-group {
-    padding: 0px;
-    margin: 0px;
     padding-top: 2px;
     display: inline-block;
     height: 30px;
@@ -373,13 +378,30 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     border-top: 1px solid antiquewhite;  
 }
 
+.decoder-info label {
+    display: block;
+    padding-top: 5px;
+    text-align: right;
+    margin-right: 0;
+}
+
+.decoder-info input {
+    width: 100%;
+    margin: 2px;
+    padding: 0 2px;
+}
+
 .toolbar-group input {
     position: relative;
-    top: -10px !important;
     padding: 0 2px;
     color: #200000;
 }
 
+.toolbar-group p{
+    height: 30px;
+    padding: 0 4px;
+    font-size: 18px
+}
 .toolbar-group span {
     color: antiquewhite;
     font-size: 1.9em;
@@ -439,13 +461,12 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     border-radius: 1px;
     color: #200000;
     transition: 0.1s;
-    display: inline-block;
     font-family: 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: bold;
     background-color: antiquewhite;
     height: 30px;
-    margin-top: 0px;
+    margin-top: 0;
     border: 0;
 }
 
@@ -475,37 +496,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     height: 30px;
     font-size: 1.3em;
 }
-
-
-.toolbar-onglet {
-    margin-top: 2px;
-    border-top: solid #604040 1px;
-    padding-top: 5px;
-    height: 20px;
-}
-
-.onglet {
-    transition: 0.2s;
-    margin: 0px;
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    display: inline-block;
-    height: 20px;
-    padding: 1px;
-    border-radius: 2px 2px 0px 0px;
-    background-color: #603c3c;
-    border: solid #503030;
-}
-
-.onglet:hover {
-    box-shadow: 0 0 5px #A08080;
-}
-
-.onglet:checked {
-    background-color: #A08080;
-    color: #200000;
-}
-
 
 /* ---------------------- Dropwdown -----------------*/
 /*
