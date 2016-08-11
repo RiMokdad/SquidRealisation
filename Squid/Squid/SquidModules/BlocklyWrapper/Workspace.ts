@@ -73,9 +73,6 @@ export class Workspace {
             const decoder = this.workspace.getTopBlocks()[0];
             const id = decoder.id;
             const name = decoder.getProcedureDef()[0];
-            //TODO version
-            //TODO category
-            //TODO tags
             const xml = this.GetStringXML();
             const code = this.GenerateCSharp();
             const spec = this.GenerateFrench();

@@ -1,4 +1,6 @@
 "use strict";
+var BlockInfos_1 = require("../Util/BlockInfos");
+var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var BLOCKS = [
     [
         { name: "Briques de base", colour: 250 },
@@ -23,8 +25,8 @@ exports.BlocksCat = BlocksCat;
 var ToolboxManager = (function () {
     function ToolboxManager() {
         this.toolboxHTML = document.createElement("xml");
-        this.CreateCategories(BLOCKS);
         this.BlocksInformations = new Array();
+        this.CreateCategories(BLOCKS);
     }
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
@@ -58,15 +60,22 @@ var ToolboxManager = (function () {
         this.research.setAttribute("name", "Recherches");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
+        this.UpdateCategories();
     };
     /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
         
     }*/
-    ToolboxManager.prototype.UpdateBlocksInfos = function (blocksInfos) {
+    ToolboxManager.prototype.UpdateBlocksInfos = function (map) {
         this.BlocksInformations = new Array();
-        for (var category in blocksInfos) {
-            this.BlocksInformations.push(new BlocksCat(category, blocksInfos[category]));
+        for (var category in map) {
+            var cat = new BlocksCat(category);
+            for (var i = 0; i < map[category].length; i++) {
+                cat.blocks.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(map[category][i]));
+            }
+            this.BlocksInformations.push(cat);
         }
+        this.UpdateCategories();
+        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     };
     ToolboxManager.prototype.UpdateCategories = function () {
         //clear
@@ -95,27 +104,11 @@ var ToolboxManager = (function () {
             this.research.removeChild(this.research.firstChild);
         }
         //add
-        if (typeof (tags) == "string") {
-            //Parameter is a single string
-            for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                var blocks = this.BlocksInformations[i].blocks;
-                for (var j = 0; j < blocks.length; j++) {
-                    if (blocks[j].IsTagged(tags)) {
-                        this.research.appendChild(blocks[j].CreateFlyout());
-                    }
-                }
-            }
-        }
-        else {
-            //Parameter is a tab of strings
-            for (var tag in tags) {
-                for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                    var blocks = this.BlocksInformations[i].blocks;
-                    for (var j = 0; j < blocks.length; j++) {
-                        if (blocks[j].IsTagged(tag)) {
-                            this.research.appendChild(blocks[j].CreateFlyout());
-                        }
-                    }
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            var blocks = this.BlocksInformations[i].blocks;
+            for (var j = 0; j < blocks.length; j++) {
+                if (blocks[j].IsTagged(tags)) {
+                    this.research.appendChild(blocks[j].CreateFlyout());
                 }
             }
         }

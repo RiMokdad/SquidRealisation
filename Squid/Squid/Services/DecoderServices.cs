@@ -134,9 +134,9 @@ namespace Squid.Services
                      .GroupBy(d => d.Category, d => new BlockInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
                  .ToDictionary(g => g.Key, g => g.ToList());*/
                 var fromServer =
-                    db.Decoders.Select(d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Editable }).ToList();
+                    db.Decoders.Select(d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable }).ToList();
                 var categoryInfos =
-                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
+                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable))
                         .ToDictionary(d => d.Key, d => d.ToList());
                 return categoryInfos;
             }
@@ -238,14 +238,17 @@ namespace Squid.Services
 
         public string tags;
 
+        public string version;
+
         public bool editable;
 
-        public BlockInfos(int id, string name, string parameters, string tags, bool editable)
+        public BlockInfos(int id, string name, string parameters, string tags, string version, bool editable)
         {
             this.id = id;
             this.name = name;
             this.parameters = parameters;
             this.tags = tags;
+            this.version = version;
             this.editable = editable;
         }
     }

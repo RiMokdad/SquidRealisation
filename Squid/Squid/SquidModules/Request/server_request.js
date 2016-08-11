@@ -17,10 +17,11 @@ var Requests = (function () {
             success: function (res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
+                    alert("Id saved: " + res.id);
                 }
-                alert(res.id);
             },
             error: function (resp) {
+                //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
                 alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
             }

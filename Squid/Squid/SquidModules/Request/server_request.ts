@@ -19,8 +19,13 @@ export class Requests {
             success(res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
+                    alert(`Id saved: ${res.id}`);
                 }
+<<<<<<< HEAD
                 //alert(res.id);
+=======
+                alert(`Id saved: ${res.id}`);
+>>>>>>> afc6f542f66b22d5e741733f143a9874b2724ded
             },
             error(resp) {
                 //TODO  move to the view. not the responsibility of the model.

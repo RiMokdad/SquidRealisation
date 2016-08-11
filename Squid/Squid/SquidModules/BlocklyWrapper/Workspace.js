@@ -57,9 +57,6 @@ var Workspace = (function () {
             var decoder = this.workspace.getTopBlocks()[0];
             var id = decoder.id;
             var name_1 = decoder.getProcedureDef()[0];
-            //TODO version
-            //TODO category
-            //TODO tags
             var xml = this.GetStringXML();
             var code = this.GenerateCSharp();
             var spec = this.GenerateFrench();
@@ -90,15 +87,6 @@ var Workspace = (function () {
     Workspace.prototype.SaveLocal = function (location) {
         // TODO if we implement a local storage
     };
-    //TODO : move from this file, not its accurate place !
-    Workspace.prototype.SaveAsDecoderToServer = function () {
-        var decoder = this.GetDecoder();
-        var id = -1;
-        if (decoder != null) {
-            Squid.Requests.SaveDecoder(decoder);
-        }
-        return id;
-    };
     ////BackupBlocks(url: any) {
     ////    if ("localStorage" in window) {
     ////        var prettyText = this.PrettyStringyfiedXML();
@@ -107,9 +95,6 @@ var Workspace = (function () {
     ////        //Request.SaveDecoder(code, xmlTesx);
     ////    }
     ////}
-    Workspace.prototype.RestoreBlock = function (id) {
-        //TODO ask the server for the block definition corresponding to the id
-    };
     /**************************** Variables **********************************/
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);

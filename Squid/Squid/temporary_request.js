@@ -50,7 +50,6 @@ Squid.Requests.GetDecoderDef = function (id) {
             alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
         }
     });
-
 }
 
 Squid.Requests.GetCategories = function(callback) {

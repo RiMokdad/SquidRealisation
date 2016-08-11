@@ -236,7 +236,8 @@
     <Content Include="Blockly\demos\toolbox\index.html" />
     <Content Include="Blockly_override\blocks\custom.js" />
     <Content Include="Blockly_override\blocks\custom_if.js" />
-    <Content Include="Blockly_override\core_override\field_textinput.js" />
+    <Content Include="Blockly_override\blocks\procedures.js" />
+    <Content Include="Blockly_override\core\field_textinput.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />
     <Content Include="Blockly\generators\dart\lists.js" />
@@ -398,6 +399,15 @@
     <Content Include="Blockly\tests\jsunit\xml_test.js" />
     <Content Include="Blockly\tests\multi_playground.html" />
     <Content Include="Blockly\tests\playground.html" />
+    <Content Include="Blockly_override\generators\csharp.js" />
+    <Content Include="Blockly_override\generators\csharp\base_blocks.js" />
+    <Content Include="Blockly_override\generators\csharp\decoding_blocks.js" />
+    <Content Include="Blockly_override\generators\csharp\procedures.js" />
+    <Content Include="Blockly_override\generators\csharp\utils.js" />
+    <Content Include="Blockly_override\generators\french.js" />
+    <Content Include="Blockly_override\generators\french\base_blocks.js" />
+    <Content Include="Blockly_override\generators\french\decoding_blocks.js" />
+    <Content Include="Blockly_override\generators\french\procedures.js" />
     <Content Include="closure-library\.gitignore" />
     <Content Include="closure-library\alltests.js" />
     <Content Include="closure-library\all_tests.html" />
@@ -2942,15 +2952,6 @@
     <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
-    <Content Include="Blockly_override\generators_override\csharp.js" />
-    <Content Include="Blockly_override\generators_override\csharp\base_blocks.js" />
-    <Content Include="Blockly_override\generators_override\csharp\decoding_blocks.js" />
-    <Content Include="Blockly_override\generators_override\csharp\procedures.js" />
-    <Content Include="Blockly_override\generators_override\csharp\utils.js" />
-    <Content Include="Blockly_override\generators_override\french.js" />
-    <Content Include="Blockly_override\generators_override\french\base_blocks.js" />
-    <Content Include="Blockly_override\generators_override\french\decoding_blocks.js" />
-    <Content Include="Blockly_override\generators_override\french\procedures.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
