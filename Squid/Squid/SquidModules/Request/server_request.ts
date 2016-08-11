@@ -8,7 +8,7 @@ export class Requests {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    static SaveDecoder(decoder: Decoder) {
+    static SaveDecoder(decoder: Decoder){
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
@@ -20,9 +20,10 @@ export class Requests {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                 }
-                alert(res.id);
+                //alert(res.id);
             },
             error(resp) {
+                //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
                 alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
             }

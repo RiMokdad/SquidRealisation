@@ -67,6 +67,15 @@ export class EditorComponent {
         alert(bool);
     }
 
+    RestoreBlock(id: number): any {
+        //TODO construct the decoder in GetDecoderDef(id) function 
+        var decoder = Requests.GetDecoderDef(id);
+        if (decoder.editable == true) {
+            return decoder;
+        }
+        return null;      
+    }
+
     /* Url based methods */
     private GetBaseUrl(): string {
         return "index.html";

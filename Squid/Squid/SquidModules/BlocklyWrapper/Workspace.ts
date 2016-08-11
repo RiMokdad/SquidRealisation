@@ -1,8 +1,8 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Decoder } from "../Util/Decoder";
+import { Requests } from "../Request/server_request";
 
 declare var Blockly: any;
-declare var Squid: any;
 
 export class Workspace {
 
@@ -115,18 +115,6 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    //TODO : move from this file, not its accurate place !
-    SaveAsDecoderToServer(): number {
-
-        var decoder = this.GetDecoder();
-        var id = -1;
-        
-        if (decoder != null) {
-            Squid.Requests.SaveDecoder(decoder);
-            // TODO get and return the Id after the request is available in TS
-        }
-        return id; 
-    }
 
     ////BackupBlocks(url: any) {
     ////    if ("localStorage" in window) {
@@ -136,10 +124,6 @@ export class Workspace {
     ////        //Request.SaveDecoder(code, xmlTesx);
     ////    }
     ////}
-
-    RestoreBlock(id: number) {
-        //TODO ask the server for the block definition corresponding to the id
-    }
 
     /**************************** Variables **********************************/
 
