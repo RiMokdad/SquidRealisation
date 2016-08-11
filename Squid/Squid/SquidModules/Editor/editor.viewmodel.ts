@@ -1,5 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { BlockInfos} from "./../Util/BlockInfos";
+import { Decoder } from "./../Util/Decoder";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
@@ -9,8 +10,7 @@ import { Requests } from "../Request/server_request"
     templateUrl: "SquidModules/Editor/editor.view.html"
 }) 
 export class EditorComponent {
-    decoder = new BlockInfos();
-    category: string;
+    decoder = new Decoder();
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
@@ -24,9 +24,15 @@ export class EditorComponent {
 
     Save() {
         //TODO insert code for saving decodeur onto the web
-        if (Workspace.GetInstance().IsADecoder()) {
-            this.decoder = Workspace.GetInstance().GetBlockInfos();
-            this.decoder.id = null; //Call to the server for saving the current block
+        const wpDecoder = Workspace.GetInstance().GetDecoder();
+        if (wpDecoder) {
+            wpDecoder.Category = this.decoder.Category;
+            wpDecoder.Id = this.decoder.Id;
+            wpDecoder.Tags = this.decoder.Tags;
+            wpDecoder.Version = this.decoder.Version;
+
+            //TODO send wpDecoder
+            this.decoder.Id = null; //Call to the server for saving the current block
         }
     }
 
@@ -39,7 +45,7 @@ export class EditorComponent {
 
     Refresh() {
         //TODO insert code for toolbox management
-        var blocksInformations = new Array<BlockInfos>();
+        const blocksInformations = new Array<BlockInfos>();
         //TODO Call to server for updating blocks informations
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
