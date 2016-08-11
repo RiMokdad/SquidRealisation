@@ -40,9 +40,10 @@ namespace Squid.Services
             }
         }
 
-        public int? UpdateDecoder(Decoder updatedDecoder)
+        public bool UpdateDecoder(Decoder updatedDecoder)
         {
             DecoderContext db = null;
+            bool mustRefreshToolbox = false;
             try
             {
                 db = new DecoderContext();
@@ -58,9 +59,16 @@ namespace Squid.Services
                     decoder.Code = updatedDecoder.Code;
                     decoder.FrenchSpec = updatedDecoder.FrenchSpec;
                     decoder.UpdateFieldsFromXml();*/
+                    if (decoder.Name != updatedDecoder.Name || decoder.Version != updatedDecoder.Version
+                        || decoder.Category != updatedDecoder.Category
+                        || decoder.Parameters != updatedDecoder.Parameters || decoder.Tags != updatedDecoder.Tags
+                        || decoder.Editable != updatedDecoder.Editable)
+                    {
+                        mustRefreshToolbox = true;
+                    }
                     db.Entry(decoder).CurrentValues.SetValues(updatedDecoder);
                     db.SaveChanges();
-                    return decoder.Id;
+                    return mustRefreshToolbox;
                 }
                 else
                 {
