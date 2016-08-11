@@ -40,7 +40,8 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
-        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
+        //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     };

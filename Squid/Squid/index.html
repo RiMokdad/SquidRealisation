@@ -43,9 +43,7 @@
     <script src="systemjs.config.js"></script>
     <script>
         System.import('app').catch(function (err) { console.error(err); });
-        Squid = {};
     </script>
-    <script src="SquidModules/server_requests/server_requests.js"></script>
 
 </head>
 <body>
@@ -71,7 +69,7 @@
 
     <!-- 3. Load Blockly -->
     <script src="Blockly/blockly_uncompressed.js"></script>
-    <script src="Blockly_override/field_textinput.js"></script>
+    <script src="Blockly_override/core_override/field_textinput.js"></script>
     <!-- Messages -->
     <script src="Blockly/msg/js/fr.js"></script>
     <!-- Blocks -->

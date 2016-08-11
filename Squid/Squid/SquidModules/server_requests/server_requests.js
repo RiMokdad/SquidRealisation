@@ -1,9 +1,9 @@
-﻿Squid.Requests = {};
+﻿Squid = {};
+Squid.Requests = {};
 
 /**
  * Send a request to save in the server the decoder
- * @param {string} code the generated C# code
- * @param {string} xml the decoder definition in xml
+ * @param {Object} the decoder
  */
 Squid.Requests.SaveDecoder = function(decoder) {
     
@@ -53,7 +53,7 @@ Squid.Requests.GetDecoderDef = function (id) {
 
 }
 
-Squid.Requests.GetCategories = function(workspace, toolbox, callback) {
+Squid.Requests.GetCategories = function(callback) {
     $.ajax({
         url: '/api/Decoders/categories',
         type: 'POST',
@@ -63,7 +63,7 @@ Squid.Requests.GetCategories = function(workspace, toolbox, callback) {
             console.log(JSON.parse(mapstr));
             //alert(map);
             //var map = jsonToStrMap(mapstr);
-            //callback(workspace, toolbox, JSON.parse(mapstr));
+            callback(JSON.parse(mapstr));
         },
         error: function (resp) {
             console.log(resp.responseText);

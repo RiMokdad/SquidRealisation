@@ -74,9 +74,16 @@ export class ToolboxManager {
         this.toolboxHTML.appendChild(this.research);
     }
 
-    UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
+    /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
         
-    }
+    }*/
+
+    UpdateBlocksInfos(blocksInfos: Object) {
+        this.BlocksInformations = new Array<BlocksCat>();
+        for (var category in blocksInfos) {
+            this.BlocksInformations.push(new BlocksCat(category, blocksInfos[category]));
+        }
+    } 
 
     UpdateCategories() {
         //clear

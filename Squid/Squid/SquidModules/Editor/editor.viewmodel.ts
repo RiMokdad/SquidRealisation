@@ -3,6 +3,10 @@ import { BlockInfos} from "./../Util/BlockInfos";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 
+declare var Squid: any;
+declare var Requests: any;
+declare var GetCategories: any;
+
 @Component({
     selector: "editor",
     templateUrl: "SquidModules/Editor/editor.view.html"
@@ -40,7 +44,8 @@ export class EditorComponent {
         //TODO insert code for toolbox management
         var blocksInformations = new Array<BlockInfos>();
         //TODO Call to server for updating blocks informations
-        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
+        //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
         Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
