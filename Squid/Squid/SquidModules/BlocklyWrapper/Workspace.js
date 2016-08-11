@@ -118,7 +118,7 @@ var Workspace = (function () {
         // TODO if we implement a local storage
     };
     Workspace.prototype.RestoreBlock = function (decoder) {
-        //TODO ask the server for the block definition corresponding to the id
+        //TODO 
     };
     Workspace.RestoreBlock = function (decoder) {
         this.RestoreBlock(decoder);
