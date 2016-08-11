@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var BlockInfos_1 = require("./../Util/BlockInfos");
+var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
+var server_request_1 = require("../Request/server_request");
 var EditorComponent = (function () {
     function EditorComponent() {
-        this.decoder = new BlockInfos_1.BlockInfos();
+        this.decoder = new Decoder_1.Decoder();
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
@@ -25,9 +26,14 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert code for saving decodeur onto the web
-        if (Workspace_1.Workspace.GetInstance().IsADecoder()) {
-            this.decoder = Workspace_1.Workspace.GetInstance().GetBlockInfos();
-            this.decoder.id = null; //Call to the server for saving the current block
+        var wpDecoder = Workspace_1.Workspace.GetInstance().GetDecoder();
+        if (wpDecoder) {
+            wpDecoder.Category = this.decoder.Category;
+            wpDecoder.Id = this.decoder.Id;
+            wpDecoder.Tags = this.decoder.Tags;
+            wpDecoder.Version = this.decoder.Version;
+            //TODO send wpDecoder
+            this.decoder.Id = null; //Call to the server for saving the current block
         }
     };
     EditorComponent.prototype.Supress = function () {
@@ -40,7 +46,7 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
-        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         //this.toolboxManager.UpdateCategories();
         //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
@@ -64,7 +70,7 @@ var EditorComponent = (function () {
         return parseInt(window.location.href.split("#")[1]);
     };
     EditorComponent.prototype.SetUrl = function () {
-        window.location.href = "index.html" + (this.decoder.id ? "#" + this.decoder.id : "");
+        window.location.href = "index.html" + (this.decoder.Id ? "#" + this.decoder.Id : "");
     };
     EditorComponent = __decorate([
         core_1.Component({
