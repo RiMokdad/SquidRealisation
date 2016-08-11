@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var BlockInfos_1 = require("./../Util/BlockInfos");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
+var Messages_1 = require("./../Util/Messages");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new BlockInfos_1.BlockInfos();
@@ -44,6 +45,7 @@ var EditorComponent = (function () {
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         //this.toolboxManager.UpdateCategories();
         //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Messages_1.Messages.ConfirmDelete("machin truc utilise :\n-sfsfs\nssfsfs");
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));

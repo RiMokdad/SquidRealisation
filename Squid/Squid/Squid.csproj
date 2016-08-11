@@ -2952,6 +2952,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\loading.css" />
+    <TypeScriptCompile Include="Scripts\typings\bootbox\bootbox.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\blockly-core.d.ts" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\Workspace.ts" />
     <TypeScriptCompile Include="closure-library.d.ts\all.d.ts" />
@@ -3730,7 +3732,7 @@
     <TypeScriptCompile Include="SquidModules\main.ts" />
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
-    <TypeScriptCompile Include="SquidModules\Util\alerts.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
   </ItemGroup>
   <ItemGroup>

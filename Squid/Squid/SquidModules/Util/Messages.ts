@@ -1,12 +1,13 @@
-"use strict";
-var Messages = (function () {
-    function Messages() {
-    }
-    Messages.Alert = function (message) {
+﻿declare var bootbox: any;
+
+export class Messages {
+
+    static Alert(message: any) {
         bootbox.alert(message);
-    };
-    Messages.ConfirmDelete = function (bodyMsg) {
-        var correctMsg = bodyMsg.replace(/\n/g, "<br>");
+    }
+
+    static ConfirmDelete(bodyMsg) {
+        var correctMsg: string = bodyMsg.replace(/\n/g, "<br>");
         bootbox.dialog({
             message: correctMsg,
             title: "Custom title",
@@ -19,14 +20,15 @@ var Messages = (function () {
                         Messages.Alert("Décodeur supprimé");
                     }
                 },
+
                 cancel: {
                     label: "Annuler",
                     className: "btn-primary"
+                    /*callback: function () {
+                        //window.show("Suppression annulée");
+                    }*/
                 }
             }
         });
-    };
-    return Messages;
-}());
-exports.Messages = Messages;
-//# sourceMappingURL=alerts.js.map
+    }
+}

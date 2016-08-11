@@ -2,6 +2,7 @@
 import { BlockInfos} from "./../Util/BlockInfos";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
+import {Messages} from "./../Util/Messages";
 
 declare var Squid: any;
 declare var Requests: any;
@@ -48,6 +49,7 @@ export class EditorComponent {
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         //this.toolboxManager.UpdateCategories();
         //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Messages.ConfirmDelete("machin truc utilise :\n-sfsfs\nssfsfs");
     }
 
     SearchTag() {
