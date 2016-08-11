@@ -8,7 +8,7 @@ var BlockInfos = (function () {
     function BlockInfos(name, parameters, tags, version, id, editable) {
         this.id = id || null;
         this.name = name || "Decodeur";
-        this.parameters = parameters || [];
+        this.parameters = parameters || "";
         if (tags) {
             if (typeof (tags) == "string") {
                 this.tags = tags;
@@ -25,14 +25,15 @@ var BlockInfos = (function () {
     }
     BlockInfos.prototype.CreateFlyout = function () {
         var elem = document.createElement("block");
-        elem.setAttribute("type", "procedures_defnoreturn");
+        elem.setAttribute("type", "procedures_callnoreturn");
         elem.setAttribute("id", this.id);
         elem.setAttribute("gap", "16");
         var mutation = document.createElement("mutation");
         mutation.setAttribute("name", this.name);
-        for (var item in this.parameters) {
+        var params = this.parameters.split(',');
+        for (var i = 0; i < params.length; i++) {
             var arg = document.createElement("arg");
-            arg.setAttribute("name", item);
+            arg.setAttribute("name", params[i]);
             mutation.appendChild(arg);
         }
         elem.appendChild(mutation);
@@ -59,6 +60,10 @@ var BlockInfos = (function () {
             }
         }
         return false;
+    };
+    BlockInfos.ObjectToBlockInfos = function (object) {
+        var blockInfos = new BlockInfos(object.name, object.parameters, object.tags, object.version, object.id, object.editable);
+        return blockInfos;
     };
     return BlockInfos;
 }());
