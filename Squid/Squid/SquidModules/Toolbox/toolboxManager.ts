@@ -1,5 +1,5 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
-
+import { Workspace } from "./../BlocklyWrapper/Workspace";
 const BLOCKS: any[] = [
     [
         { name: "Briques de base", colour: 250 },
@@ -78,11 +78,17 @@ export class ToolboxManager {
         
     }*/
 
-    UpdateBlocksInfos(blocksInfos: Object) {
+    UpdateBlocksInfos(map: Object) {
         this.BlocksInformations = new Array<BlocksCat>();
-        for (var category in blocksInfos) {
-            this.BlocksInformations.push(new BlocksCat(category, blocksInfos[category]));
+        for (var category in map) {
+            var cat = new BlocksCat(category);
+            for (let i=0; i<map[category].length; i++) {
+                cat.blocks.push(BlockInfos.ObjectToBlockInfos(map[category][i]));               
+            }
+            this.BlocksInformations.push(cat);          
         }
+        this.UpdateCategories();
+        Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
 
     UpdateCategories() {

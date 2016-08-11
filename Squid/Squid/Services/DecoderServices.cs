@@ -238,14 +238,17 @@ namespace Squid.Services
 
         public string tags;
 
+        public string version;
+
         public bool editable;
 
-        public BlockInfos(int id, string name, string parameters, string tags, bool editable)
+        public BlockInfos(int id, string name, string parameters, string tags, string version, bool editable)
         {
             this.id = id;
             this.name = name;
             this.parameters = parameters;
             this.tags = tags;
+            this.version = version;
             this.editable = editable;
         }
     }

@@ -40,10 +40,10 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
-        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
+        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
-        this.toolboxManager.UpdateCategories();
-        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        //this.toolboxManager.UpdateCategories();
+        //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
