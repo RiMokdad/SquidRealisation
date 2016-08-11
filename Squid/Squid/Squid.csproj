@@ -2943,7 +2943,6 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
-    <Content Include="SquidModules\Request\server_request.js" />
     <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
@@ -3882,7 +3881,6 @@
     <Content Include="closure-library\scripts\ci\run_all_tests.sh" />
     <Content Include="closure-library\scripts\ci\sauce_connect.sh" />
     <Content Include="packages.config" />
-    <Content Include="SquidModules\Request\server_request.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
