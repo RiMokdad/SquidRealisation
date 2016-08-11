@@ -5,7 +5,7 @@
      */
     init: function () {
         this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-        this.setColour(Blockly.Blocks.logic.HUE);
+        this.setColour(20);
 
 
         this.appendDummyInput("IF0")
