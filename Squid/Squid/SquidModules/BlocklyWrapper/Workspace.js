@@ -1,5 +1,6 @@
 "use strict";
 var BlockInfos_1 = require("../Util/BlockInfos");
+var Decoder_1 = require("../Util/Decoder");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -51,6 +52,21 @@ var Workspace = (function () {
         var parametersArray = blocks[0].arguments_;
         return new BlockInfos_1.BlockInfos(id, name, parametersArray, null, null, true);
     };
+    Workspace.prototype.GetDecoder = function () {
+        if (this.IsADecoder()) {
+            var decoder = this.workspace.getTopBlocks()[0];
+            var id = decoder.id;
+            var name_1 = decoder.getProcedureDef()[0];
+            //TODO version
+            //TODO category
+            //TODO tags
+            var xml = this.GetStringXML();
+            var code = this.GenerateCSharp();
+            var spec = this.GenerateFrench();
+            return new Decoder_1.Decoder(id, name_1, null, null, null, xml, code, spec, true);
+        }
+        return null;
+    };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getDef);
@@ -59,6 +75,9 @@ var Workspace = (function () {
         this.workspace.clear();
     };
     Workspace.prototype.GetXML = function () {
+        return Blockly.Xml.workspaceToDom(this.workspace);
+    };
+    Workspace.prototype.GetStringXML = function () {
         return Blockly.Xml.workspaceToDom(this.workspace);
     };
     Workspace.prototype.StringyfiedXML = function () {
@@ -71,15 +90,14 @@ var Workspace = (function () {
     Workspace.prototype.SaveLocal = function (location) {
         // TODO if we implement a local storage
     };
+    //TODO : move from this file, not its accurate place !
     Workspace.prototype.SaveAsDecoderToServer = function () {
-        if (this.IsADecoder()) {
-            var blockId = this.GetBlockInfos().id;
-            //TODO request the server to save the block 
-            return true;
+        var decoder = this.GetDecoder();
+        var id = -1;
+        if (decoder != null) {
+            Squid.Requests.SaveDecoder(decoder);
         }
-        else {
-            return false;
-        }
+        return id;
     };
     ////BackupBlocks(url: any) {
     ////    if ("localStorage" in window) {
