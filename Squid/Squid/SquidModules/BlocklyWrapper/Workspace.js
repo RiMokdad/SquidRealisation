@@ -39,11 +39,17 @@ var Workspace = (function () {
     Workspace.prototype.GenerateCSharp = function () {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     };
+    Workspace.GenerateCSharp = function () {
+        return Workspace.singleton.GenerateCSharp();
+    };
     /**
      * Generate the French corresponding to the datas in the workspace
      */
     Workspace.prototype.GenerateFrench = function () {
         return Blockly.French.workspaceToCode(this.workspace);
+    };
+    Workspace.GenerateFrench = function () {
+        return Workspace.singleton.GenerateFrench();
     };
     Workspace.prototype.GetBlockInfos = function () {
         var blocks = this.workspace.getTopBlocks();
@@ -51,6 +57,9 @@ var Workspace = (function () {
         var name = blocks[0].getProcedureDef()[0];
         var parametersArray = blocks[0].arguments_;
         return new BlockInfos_1.BlockInfos(id, name, parametersArray, null, null, true);
+    };
+    Workspace.GetBlockInfos = function () {
+        return Workspace.singleton.GetBlockInfos();
     };
     Workspace.prototype.GetDecoder = function () {
         if (this.IsADecoder()) {
@@ -64,40 +73,62 @@ var Workspace = (function () {
         }
         return null;
     };
+    Workspace.GetDecoder = function () {
+        return Workspace.singleton.GetDecoder();
+    };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();
-        return (blocks.length == 1 && blocks[0].getDef);
+        return (blocks.length == 1 && blocks[0].getProcedureDef);
+    };
+    Workspace.IsADecoder = function () {
+        return Workspace.singleton.IsADecoder();
     };
     Workspace.prototype.Clear = function () {
         this.workspace.clear();
     };
+    Workspace.Clear = function () {
+        Workspace.singleton.Clear();
+    };
     Workspace.prototype.GetXML = function () {
         return Blockly.Xml.workspaceToDom(this.workspace);
+    };
+    Workspace.GetXML = function () {
+        return Workspace.singleton.GetXML();
     };
     Workspace.prototype.GetStringXML = function () {
         return Blockly.Xml.workspaceToDom(this.workspace);
     };
+    Workspace.GetStringXML = function () {
+        return Workspace.singleton.GetStringXML();
+    };
     Workspace.prototype.StringyfiedXML = function () {
         return Blockly.Xml.domToText(this.GetXML());
     };
+    Workspace.StringyfieldXML = function () {
+        return Workspace.singleton.StringyfiedXML();
+    };
     Workspace.prototype.PrettyStringyfiedXML = function () {
         return Blockly.Xml.domToPrettyText(this.GetXML());
+    };
+    Workspace.PrettyStringyfieldXML = function () {
+        return Workspace.singleton.PrettyStringyfiedXML();
     };
     /************************ Workspace and storage **************************************************/
     Workspace.prototype.SaveLocal = function (location) {
         // TODO if we implement a local storage
     };
-    ////BackupBlocks(url: any) {
-    ////    if ("localStorage" in window) {
-    ////        var prettyText = this.PrettyStringyfiedXML();
-    ////        var xmlText = this.StringyfiedXML();
-    ////        var code = this.GenerateCSharp();
-    ////        //Request.SaveDecoder(code, xmlTesx);
-    ////    }
-    ////}
+    Workspace.prototype.RestoreBlock = function (decoder) {
+        //TODO 
+    };
+    Workspace.RestoreBlock = function (decoder) {
+        this.RestoreBlock(decoder);
+    };
     /**************************** Variables **********************************/
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
+    };
+    Workspace.UpdateToolbox = function (toolboxTree) {
+        Workspace.singleton.UpdateToolbox(toolboxTree);
     };
     return Workspace;
 }());

@@ -19,6 +19,7 @@ var Requests = (function () {
                     decoder.Id = res.id;
                     alert("Id saved: " + res.id);
                 }
+                alert("Id saved: " + res.id);
             },
             error: function (resp) {
                 //TODO  move to the view. not the responsibility of the model.
