@@ -39,12 +39,8 @@ export class EditorComponent {
 
     Refresh() {
         //TODO insert code for toolbox management
-        const blocksInformations = new Array<BlockInfos>();
         //TODO Call to server for updating blocks informations
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
-        this.toolboxManager.UpdateCategories();
-        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     SearchTag() {
