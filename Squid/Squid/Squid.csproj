@@ -3746,7 +3746,6 @@
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
-    <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
@@ -3894,9 +3893,6 @@
     <Content Include="closure-library\scripts\ci\lint_pull_request.sh" />
     <Content Include="closure-library\scripts\ci\run_all_tests.sh" />
     <Content Include="closure-library\scripts\ci\sauce_connect.sh" />
-    <Content Include="package.json" />
-    <Content Include="tsconfig.json" />
-    <Content Include="typings.json" />
     <Content Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
