@@ -33,8 +33,9 @@ export class ToolboxManager {
 
     constructor() {
         this.toolboxHTML = document.createElement("xml");
-        this.CreateCategories(BLOCKS);
         this.BlocksInformations = new Array<BlocksCat>();
+        this.CreateCategories(BLOCKS);
+        
     }
 
     private CreateCategories(blocks: any) {
@@ -72,6 +73,8 @@ export class ToolboxManager {
         this.research.setAttribute("name", "Recherches");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
+
+        this.UpdateCategories();
     }
 
     /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
@@ -124,30 +127,17 @@ export class ToolboxManager {
         while (this.research.firstChild) {
             this.research.removeChild(this.research.firstChild);
         }
+
         //add
-        if (typeof (tags) == "string") {
-            //Parameter is a single string
-            for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                var blocks = this.BlocksInformations[i].blocks;
-                for (var j = 0; j < blocks.length; j++) {
-                    if (blocks[j].IsTagged(tags)) {
-                        this.research.appendChild(blocks[j].CreateFlyout());
-                    }
-                }
-            }
-        } else {
-            //Parameter is a tab of strings
-            for (var tag in tags) {
-                for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                    var blocks = this.BlocksInformations[i].blocks;
-                    for (var j = 0; j < blocks.length; j++) {
-                        if (blocks[j].IsTagged(tag)) {
-                            this.research.appendChild(blocks[j].CreateFlyout());
-                        }
-                    }
+        for (let i = 0; i < this.BlocksInformations.length; i++) {
+            const blocks = this.BlocksInformations[i].blocks;
+            for (let j = 0; j < blocks.length; j++) {
+                if (blocks[j].IsTagged(tags)) {
+                    this.research.appendChild(blocks[j].CreateFlyout());
                 }
             }
         }
+
         const l = this.research.childNodes.length;
         if (l > 0) {
             this.research.setAttribute("name", `Recherche: ${l}`);

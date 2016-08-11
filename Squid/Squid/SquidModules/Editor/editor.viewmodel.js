@@ -22,19 +22,11 @@ var EditorComponent = (function () {
         this.initialized_ = false;
     }
     EditorComponent.prototype.Clear = function () {
-        Workspace_1.Workspace.GetInstance().Clear();
+        Workspace_1.Workspace.Clear();
     };
     EditorComponent.prototype.Save = function () {
-        //TODO insert code for saving decodeur onto the web
-        var wpDecoder = Workspace_1.Workspace.GetInstance().GetDecoder();
-        if (wpDecoder) {
-            wpDecoder.Category = this.decoder.Category;
-            wpDecoder.Id = this.decoder.Id;
-            wpDecoder.Tags = this.decoder.Tags;
-            wpDecoder.Version = this.decoder.Version;
-            //TODO send wpDecoder
-            this.decoder.Id = null; //Call to the server for saving the current block
-        }
+        //TODO insert local save
+        this.SaveDecoderToServer();
     };
     EditorComponent.prototype.Supress = function () {
         //TODO insert code to supress a decoder onto the server 
@@ -47,20 +39,33 @@ var EditorComponent = (function () {
         var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
-        //this.toolboxManager.UpdateCategories();
-        //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        this.toolboxManager.UpdateCategories();
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
-        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
         window.open(this.GetBaseUrl());
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        var bool = Workspace_1.Workspace.GetInstance().SaveAsDecoderToServer();
-        alert(bool);
+        //TODO insert code for saving decodeur onto the web
+        console.log("Saving");
+        var wpDecoder = Workspace_1.Workspace.GetDecoder();
+        if (wpDecoder) {
+            wpDecoder.Category = this.decoder.Category;
+            wpDecoder.Tags = this.decoder.Tags;
+            wpDecoder.Version = this.decoder.Version;
+            server_request_1.Requests.SaveDecoder(wpDecoder);
+        }
+        else {
+            alert("Un des problèmes suivants se pose:" +
+                "\n - Vous avez plus d'un bloc" +
+                "\n - Le bloc n'est pas un bloc décodeur de base" +
+                "\n - Vous n'avez rien à sauvegarder");
+        }
     };
     /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
