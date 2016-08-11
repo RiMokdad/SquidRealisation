@@ -236,20 +236,20 @@
     <Content Include="Blockly\demos\storage\index.html" />
     <Content Include="Blockly\demos\toolbox\icon.png" />
     <Content Include="Blockly\demos\toolbox\index.html" />
-    <Content Include="Blockly\generators\csharp.js" />
-    <Content Include="Blockly\generators\csharp\colour.js" />
-    <Content Include="Blockly\generators\csharp\custom.js" />
-    <Content Include="Blockly\generators\csharp\inferboilerplate.js" />
-    <Content Include="Blockly\generators\csharp\inferbool_variables.js" />
-    <Content Include="Blockly\generators\csharp\inferdistributions.js" />
-    <Content Include="Blockly\generators\csharp\inferdouble_variables.js" />
-    <Content Include="Blockly\generators\csharp\lists.js" />
-    <Content Include="Blockly\generators\csharp\logic.js" />
-    <Content Include="Blockly\generators\csharp\loops.js" />
-    <Content Include="Blockly\generators\csharp\math.js" />
-    <Content Include="Blockly\generators\csharp\procedures.js" />
-    <Content Include="Blockly\generators\csharp\text.js" />
-    <Content Include="Blockly\generators\csharp\variables.js" />
+    <Content Include="Blockly_override\generators_override\csharp.js" />
+    <Content Include="Blockly_override\generators_override\csharp\colour.js" />
+    <Content Include="Blockly_override\generators_override\csharp\custom.js" />
+    <Content Include="Blockly_override\generators_override\csharp\inferboilerplate.js" />
+    <Content Include="Blockly_override\generators_override\csharp\inferbool_variables.js" />
+    <Content Include="Blockly_override\generators_override\csharp\inferdistributions.js" />
+    <Content Include="Blockly_override\generators_override\csharp\inferdouble_variables.js" />
+    <Content Include="Blockly_override\generators_override\csharp\lists.js" />
+    <Content Include="Blockly_override\generators_override\csharp\logic.js" />
+    <Content Include="Blockly_override\generators_override\csharp\loops.js" />
+    <Content Include="Blockly_override\generators_override\csharp\math.js" />
+    <Content Include="Blockly_override\generators_override\csharp\procedures.js" />
+    <Content Include="Blockly_override\generators_override\csharp\text.js" />
+    <Content Include="Blockly_override\generators_override\csharp\variables.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />
     <Content Include="Blockly\generators\dart\lists.js" />
@@ -259,10 +259,10 @@
     <Content Include="Blockly\generators\dart\procedures.js" />
     <Content Include="Blockly\generators\dart\text.js" />
     <Content Include="Blockly\generators\dart\variables.js" />
-    <Content Include="Blockly\generators\french.js" />
-    <Content Include="Blockly\generators\french\base_blocks.js" />
-    <Content Include="Blockly\generators\french\decoding_blocks.js" />
-    <Content Include="Blockly\generators\french\procedures.js" />
+    <Content Include="Blockly_override\generators_override\french.js" />
+    <Content Include="Blockly_override\generators_override\french\base_blocks.js" />
+    <Content Include="Blockly_override\generators_override\french\decoding_blocks.js" />
+    <Content Include="Blockly_override\generators_override\french\procedures.js" />
     <Content Include="Blockly\generators\javascript.js" />
     <Content Include="Blockly\generators\javascript\colour.js" />
     <Content Include="Blockly\generators\javascript\lists.js" />
@@ -415,6 +415,13 @@
     <Content Include="Blockly\tests\jsunit\xml_test.js" />
     <Content Include="Blockly\tests\multi_playground.html" />
     <Content Include="Blockly\tests\playground.html" />
+    <Content Include="Blockly_override\blocks_override\custom.js" />
+    <Content Include="Blockly_override\blocks_override\custom_if.js" />
+    <Content Include="Blockly_override\core_override\blocks.js" />
+    <Content Include="Blockly_override\core_override\procedures.js" />
+    <Content Include="Blockly_override\core_override\variables.js" />
+    <Content Include="Blockly_override\core_override\workspace.js" />
+    <Content Include="Blockly_override\field_textinput.js" />
     <Content Include="closure-library\.gitignore" />
     <Content Include="closure-library\alltests.js" />
     <Content Include="closure-library\all_tests.html" />
@@ -2944,6 +2951,9 @@
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
     <Content Include="Global.asax" />
+    <Content Include="BlocklyWrapper\BlocklyTS.js.map" />
+    <Content Include="BlocklyWrapper\BlocklyTSGenerated.js.map" />
+    <Content Include="BlocklyWrapper\Workspace.js.map" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -3908,6 +3918,7 @@
   <ItemGroup>
     <Folder Include="closure-library\obj\Debug\TempPE\" />
     <Folder Include="closure-library\obj\Release\TempPE\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
