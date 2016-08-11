@@ -2,6 +2,7 @@
 import { Decoder } from "../Util/Decoder";
 
 declare var Blockly: any;
+declare var Squid: any;
 
 export class Workspace {
 
@@ -67,6 +68,22 @@ export class Workspace {
         return new BlockInfos(id, name, parametersArray, null, null, true);
     }
 
+    GetDecoder(): Decoder {
+        if (this.IsADecoder()) {
+            const decoder = this.workspace.getTopBlocks()[0];
+            const id = decoder.id;
+            const name = decoder.getProcedureDef()[0];
+            //TODO version
+            //TODO category
+            //TODO tags
+            const xml = this.GetStringXML();
+            const code = this.GenerateCSharp();
+            const spec = this.GenerateFrench();
+            return new Decoder(id, name, null, null, null, xml, code, spec, true);
+        } 
+        return null;      
+    }
+
     IsADecoder(): boolean {
         const blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getDef);
@@ -77,6 +94,10 @@ export class Workspace {
     }
 
     GetXML(): Element {
+        return Blockly.Xml.workspaceToDom(this.workspace);
+    }
+
+    GetStringXML(): string {
         return Blockly.Xml.workspaceToDom(this.workspace);
     }
 
@@ -93,15 +114,18 @@ export class Workspace {
     SaveLocal(location: any) {
         // TODO if we implement a local storage
     }
-    
-    SaveAsDecoderToServer(): boolean { 
-        if (this.IsADecoder()) {
-            var blockId = this.GetBlockInfos().id;
-            //TODO request the server to save the block 
-            return true;         
-        } else {
-            return false;
+
+    //TODO : move from this file, not its accurate place !
+    SaveAsDecoderToServer(): number {
+
+        var decoder = this.GetDecoder();
+        var id = -1;
+        
+        if (decoder != null) {
+            Squid.Requests.SaveDecoder(decoder);
+            // TODO get and return the Id after the request is available in TS
         }
+        return id; 
     }
 
     ////BackupBlocks(url: any) {
