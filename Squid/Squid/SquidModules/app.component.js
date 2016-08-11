@@ -24,7 +24,4 @@ var DecoderComponent = (function () {
     return DecoderComponent;
 }());
 exports.DecoderComponent = DecoderComponent;
-window.onload = function () {
-    console.log("The window is openned");
-};
 //# sourceMappingURL=app.component.js.map

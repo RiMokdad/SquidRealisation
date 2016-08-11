@@ -17,29 +17,18 @@ export class EditorComponent {
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
-    toolboxManager: ToolboxManager;
-    
-    workspace: Workspace;
+    toolboxManager = new ToolboxManager();
 
     private initialized_ = false;
 
-    Init() {
-        if (!this.initialized_) {
-            this.toolboxManager = new ToolboxManager();
-            const xmlTb = this.toolboxManager.toolboxHTML;
-            this.workspace = Workspace.Inject("blocklyDiv", false, xmlTb);
-            this.initialized_ = true;
-        }
-    }
-
     Clear() {
-        this.workspace.Clear();
+        Workspace.GetInstance().Clear();
     }
 
     Save() {
-        //TODO insert code for saving decoder onto the web
-        if (this.workspace.IsADecoder()) {
-            this.decoder = this.workspace.GetBlockInfos();
+        //TODO insert code for saving decodeur onto the web
+        if (Workspace.GetInstance().IsADecoder()) {
+            this.decoder = Workspace.GetInstance().GetBlockInfos();
             this.decoder.id = null; //Call to the server for saving the current block
         }
     }
@@ -58,12 +47,12 @@ export class EditorComponent {
         Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
-        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
-        this.workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     OpenTab() {
@@ -71,7 +60,7 @@ export class EditorComponent {
     }
 
     SaveDecoderToServer() {
-        const bool = this.workspace.SaveAsDecoderToServer();
+        const bool = Workspace.GetInstance().SaveAsDecoderToServer();
         alert(bool);
     }
 
@@ -87,4 +76,13 @@ export class EditorComponent {
     private SetUrl() {
         window.location.href = `index.html${this.decoder.id ? `#${this.decoder.id}` : ""}`;
     }
+}
+
+/**
+ * Things to do on with the workspace on load of the window
+ * @returns {} 
+ */
+window.onload = () => {
+    var tbMan = new ToolboxManager();
+    Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
 }

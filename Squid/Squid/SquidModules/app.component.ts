@@ -9,7 +9,3 @@ import { EditorComponent } from "./Editor/editor.viewmodel";
 export class DecoderComponent {
     
 }
-
-window.onload = () => {
-    console.log("The window is openned");
-};
