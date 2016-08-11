@@ -55,7 +55,7 @@ export class EditorComponent {
     private SaveDecoderToServer() {
         //TODO insert code for saving decodeur onto the web
         console.log("Saving");
-        if (Workspace.IsADecoder())
+        if (Workspace.IsADecoder()){
             this.decoder.Name = Workspace.GetName();
             this.decoder.Code = Workspace.GenerateCSharp();
             this.decoder.FrenchSpec = Workspace.GenerateFrench();
