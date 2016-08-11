@@ -96,7 +96,7 @@ export class Workspace {
     GetName(): string {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     }
-
+     
     static GetName(): string {
         return Workspace.singleton.GetName();
     }
