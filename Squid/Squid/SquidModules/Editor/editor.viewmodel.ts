@@ -55,18 +55,38 @@ export class EditorComponent {
     private SaveDecoderToServer() {
         //TODO insert code for saving decodeur onto the web
         console.log("Saving");
-        const wpDecoder = Workspace.GetDecoder();
-        if (wpDecoder) {
-            wpDecoder.Category = this.decoder.Category;
-            wpDecoder.Tags = this.decoder.Tags;
-            wpDecoder.Version = this.decoder.Version;
-            Requests.SaveDecoder(wpDecoder);
+        if (Workspace.IsADecoder())
+            this.decoder.Name = Workspace.GetName();
+            this.decoder.Code = Workspace.GenerateCSharp();
+            this.decoder.FrenchSpec = Workspace.GenerateFrench();
+            this.decoder.Xml = Workspace.GetStringXML();
+            this.decoder.Editable = true;
+            Requests.SaveDecoder(decoder);
         } else {
             alert("Un des problèmes suivants se pose:" +
                 "\n - Vous avez plus d'un bloc" +
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+    }
+
+    RestoreBlock(id: number): any {
+        //TODO construct the decoder in GetDecoderDef(id) function 
+        var decoder = new Decoder(); 
+        Requests.GetDecoderDef(id, decoder);
+        if (decoder.Editable == true) {
+            return decoder;
+        }
+        return null;      
+    }
+
+    RestoreBlock(id: number): any {
+        //TODO construct the decoder in GetDecoderDef(id) function 
+        var decoder = Requests.GetDecoderDef(id);
+        if (decoder.editable == true) {
+            return decoder;
+        }
+        return null;      
     }
 
     /* Url based methods */

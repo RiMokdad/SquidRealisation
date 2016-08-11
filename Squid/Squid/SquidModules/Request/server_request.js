@@ -19,9 +19,10 @@ var Requests = (function () {
                     decoder.Id = res.id;
                     alert("Id saved: " + res.id);
                 }
-                alert("Id saved: " + res.id);
+                //alert(res.id);
             },
             error: function (resp) {
+                //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
                 alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
             }
@@ -31,7 +32,7 @@ var Requests = (function () {
      *
      * @param id
      */
-    Requests.GetDecoderDef = function (id) {
+    Requests.GetDecoderDef = function (id, decoder) {
         $.ajax({
             url: "/api/Decoders/decoderdef",
             type: "POST",

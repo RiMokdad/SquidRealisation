@@ -8,7 +8,7 @@ export class Requests {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    static SaveDecoder(decoder: Decoder) {
+    static SaveDecoder(decoder: Decoder){
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
@@ -21,9 +21,10 @@ export class Requests {
                     decoder.Id = res.id;
                     alert(`Id saved: ${res.id}`);
                 }
-                alert(`Id saved: ${res.id}`);
+                //alert(res.id);
             },
             error(resp) {
+                //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
                 alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
             }
@@ -34,7 +35,7 @@ export class Requests {
      * 
      * @param id
      */
-    static GetDecoderDef(id: number) {
+    static GetDecoderDef(id: number, decoder : Decoder) {
         $.ajax({
             url: "/api/Decoders/decoderdef",
             type: "POST",

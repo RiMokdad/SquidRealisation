@@ -49,29 +49,13 @@ var EditorComponent = (function () {
     EditorComponent.prototype.SaveDecoderToServer = function () {
         //TODO insert code for saving decodeur onto the web
         console.log("Saving");
-        var wpDecoder = Workspace_1.Workspace.GetDecoder();
-        if (wpDecoder) {
-            wpDecoder.Category = this.decoder.Category;
-            wpDecoder.Tags = this.decoder.Tags;
-            wpDecoder.Version = this.decoder.Version;
-            server_request_1.Requests.SaveDecoder(wpDecoder);
-        }
-        else {
-            alert("Un des problèmes suivants se pose:" +
-                "\n - Vous avez plus d'un bloc" +
-                "\n - Le bloc n'est pas un bloc décodeur de base" +
-                "\n - Vous n'avez rien à sauvegarder");
-        }
-    };
-    /* Url based methods */
-    EditorComponent.prototype.GetBaseUrl = function () {
-        return "index.html";
-    };
-    EditorComponent.prototype.GetBlockIdInUrl = function () {
-        return parseInt(window.location.href.split("#")[1]);
-    };
-    EditorComponent.prototype.SetUrl = function () {
-        window.location.href = "index.html" + (this.decoder.Id ? "#" + this.decoder.Id : "");
+        if (Workspace_1.Workspace.IsADecoder())
+            this.decoder.Name = Workspace_1.Workspace.GetName();
+        this.decoder.Code = Workspace_1.Workspace.GenerateCSharp();
+        this.decoder.FrenchSpec = Workspace_1.Workspace.GenerateFrench();
+        this.decoder.Xml = Workspace_1.Workspace.GetStringXML();
+        this.decoder.Editable = true;
+        server_request_1.Requests.SaveDecoder(decoder);
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -83,6 +67,47 @@ var EditorComponent = (function () {
     return EditorComponent;
 }());
 exports.EditorComponent = EditorComponent;
+{
+    alert("Un des problèmes suivants se pose:" +
+        "\n - Vous avez plus d'un bloc" +
+        "\n - Le bloc n'est pas un bloc décodeur de base" +
+        "\n - Vous n'avez rien à sauvegarder");
+}
+RestoreBlock(id, number);
+any;
+{
+    //TODO construct the decoder in GetDecoderDef(id) function 
+    var decoder = new Decoder_1.Decoder();
+    server_request_1.Requests.GetDecoderDef(id, decoder);
+    if (decoder.Editable == true) {
+        return decoder;
+    }
+    return null;
+}
+RestoreBlock(id, number);
+any;
+{
+    //TODO construct the decoder in GetDecoderDef(id) function 
+    var decoder = server_request_1.Requests.GetDecoderDef(id);
+    if (decoder.editable == true) {
+        return decoder;
+    }
+    return null;
+}
+GetBaseUrl();
+string;
+{
+    return "index.html";
+}
+GetBlockIdInUrl();
+number;
+{
+    return parseInt(window.location.href.split("#")[1]);
+}
+SetUrl();
+{
+    window.location.href = "index.html" + (this.decoder.Id ? "#" + this.decoder.Id : "");
+}
 /**
  * Things to do on with the workspace on load of the window
  * @returns {}

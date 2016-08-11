@@ -1,15 +1,15 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Decoder } from "../Util/Decoder";
+import { Requests } from "../Request/server_request";
 
 declare var Blockly: any;
-declare var Squid: any;
 
 export class Workspace {
 
     private static singleton: Workspace;
 
     private id: number;
-    private workspace: any;   
+    private workspace: any;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         if (Workspace.singleton) {
@@ -40,7 +40,7 @@ export class Workspace {
      * /!\ DO NOT USE IT
      * @param cur_workspace
      */
-    constructor(cur_workspace: any) {  
+    constructor(cur_workspace: any) {
         this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
         Workspace.singleton = this;
@@ -80,21 +80,25 @@ export class Workspace {
         return Workspace.singleton.GetBlockInfos();
     }
 
-    GetDecoder(): Decoder {
-        if (this.IsADecoder()) {
-            const decoder = this.workspace.getTopBlocks()[0];
-            const id = decoder.id;
-            const name = decoder.getProcedureDef()[0];
-            const xml = this.GetStringXML();
-            const code = this.GenerateCSharp();
-            const spec = this.GenerateFrench();
-            return new Decoder(id, name, null, null, null, xml, code, spec, true);
-        } 
-        return null;      
-    }
+    //GetDecoder(): Decoder {
+    //    if (this.IsADecoder()) {
+    //        const decoder = this.workspace.getTopBlocks()[0];
+    //        const id = decoder.id;
+    //        const name = decoder.getProcedureDef()[0];
+    //        const xml = this.GetStringXML();
+    //        const code = this.GenerateCSharp();
+    //        const spec = this.GenerateFrench();
+    //        return new Decoder(id, name, null, null, null, xml, code, spec, true);
+    //    } 
+    //    return null;      
+    //}
 
-    static GetDecoder(): Decoder {
-        return Workspace.singleton.GetDecoder();
+    GetName(): string {
+        return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
+    }
+     
+    static GetName(): string {
+        return Workspace.singleton.GetName();
     }
 
     IsADecoder(): boolean {
@@ -105,6 +109,8 @@ export class Workspace {
     static IsADecoder(): boolean {
         return Workspace.singleton.IsADecoder();
     }
+
+
 
     Clear() {
         this.workspace.clear();
@@ -153,7 +159,7 @@ export class Workspace {
     }
 
     RestoreBlock(decoder: Decoder) {
-        //TODO ask the server for the block definition corresponding to the id
+        //TODO 
     }
 
     static RestoreBlock(decoder: Decoder) {

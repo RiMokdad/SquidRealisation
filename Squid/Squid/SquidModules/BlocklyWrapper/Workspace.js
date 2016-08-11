@@ -1,6 +1,5 @@
 "use strict";
 var BlockInfos_1 = require("../Util/BlockInfos");
-var Decoder_1 = require("../Util/Decoder");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -61,20 +60,23 @@ var Workspace = (function () {
     Workspace.GetBlockInfos = function () {
         return Workspace.singleton.GetBlockInfos();
     };
-    Workspace.prototype.GetDecoder = function () {
-        if (this.IsADecoder()) {
-            var decoder = this.workspace.getTopBlocks()[0];
-            var id = decoder.id;
-            var name_1 = decoder.getProcedureDef()[0];
-            var xml = this.GetStringXML();
-            var code = this.GenerateCSharp();
-            var spec = this.GenerateFrench();
-            return new Decoder_1.Decoder(id, name_1, null, null, null, xml, code, spec, true);
-        }
-        return null;
+    //GetDecoder(): Decoder {
+    //    if (this.IsADecoder()) {
+    //        const decoder = this.workspace.getTopBlocks()[0];
+    //        const id = decoder.id;
+    //        const name = decoder.getProcedureDef()[0];
+    //        const xml = this.GetStringXML();
+    //        const code = this.GenerateCSharp();
+    //        const spec = this.GenerateFrench();
+    //        return new Decoder(id, name, null, null, null, xml, code, spec, true);
+    //    } 
+    //    return null;      
+    //}
+    Workspace.prototype.GetName = function () {
+        return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     };
-    Workspace.GetDecoder = function () {
-        return Workspace.singleton.GetDecoder();
+    Workspace.GetName = function () {
+        return Workspace.singleton.GetName();
     };
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();
@@ -118,7 +120,7 @@ var Workspace = (function () {
         // TODO if we implement a local storage
     };
     Workspace.prototype.RestoreBlock = function (decoder) {
-        //TODO ask the server for the block definition corresponding to the id
+        //TODO 
     };
     Workspace.RestoreBlock = function (decoder) {
         this.RestoreBlock(decoder);
