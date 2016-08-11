@@ -59,7 +59,14 @@ var ToolboxManager = (function () {
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
     };
+    /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
+        
+    }*/
     ToolboxManager.prototype.UpdateBlocksInfos = function (blocksInfos) {
+        this.BlocksInformations = new Array();
+        for (var category in blocksInfos) {
+            this.BlocksInformations.push(new BlocksCat(category, blocksInfos[category]));
+        }
     };
     ToolboxManager.prototype.UpdateCategories = function () {
         //clear
