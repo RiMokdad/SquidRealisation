@@ -94,7 +94,7 @@ export class Workspace {
     //}
 
     GetName(): string {
-        return (this.IsADecoder() ? null : this.workspace.getTopBlocks()[0].getProcedureDef()[0]);
+        return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     }
 
     static GetName(): string {
