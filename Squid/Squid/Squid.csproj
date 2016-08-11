@@ -2952,8 +2952,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\loading.css" />
-    <TypeScriptCompile Include="Scripts\typings\bootbox\bootbox.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\blockly-core.d.ts" />
     <TypeScriptCompile Include="SquidModules\BlocklyWrapper\Workspace.ts" />
     <TypeScriptCompile Include="closure-library.d.ts\all.d.ts" />

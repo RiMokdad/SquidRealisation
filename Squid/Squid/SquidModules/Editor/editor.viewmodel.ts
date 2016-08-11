@@ -49,7 +49,6 @@ export class EditorComponent {
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         //this.toolboxManager.UpdateCategories();
         //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
-        Messages.ConfirmDelete("machin truc utilise :\n-sfsfs\nssfsfs");
     }
 
     SearchTag() {

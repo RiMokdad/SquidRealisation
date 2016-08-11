@@ -9,7 +9,7 @@ var Messages = (function () {
         var correctMsg = bodyMsg.replace(/\n/g, "<br>");
         bootbox.dialog({
             message: correctMsg,
-            title: "Custom title",
+            title: "Demande de suppression",
             buttons: {
                 ok: {
                     label: "Supprimer",
