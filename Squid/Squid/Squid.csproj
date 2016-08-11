@@ -2946,7 +2946,6 @@
     <Content Include="SquidModules\Request\server_request.js" />
     <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
-    <Content Include="SquidModules\Util\Decoder.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
     <Content Include="web.config" />
@@ -3884,7 +3883,6 @@
     <Content Include="closure-library\scripts\ci\sauce_connect.sh" />
     <Content Include="packages.config" />
     <Content Include="SquidModules\Request\server_request.js.map" />
-    <Content Include="SquidModules\Util\Decoder.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
