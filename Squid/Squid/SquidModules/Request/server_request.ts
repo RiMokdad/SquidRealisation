@@ -35,7 +35,7 @@ export class Requests {
      * 
      * @param id
      */
-    static GetDecoderDef(id: number) {
+    static GetDecoderDef(id: number, decoder : Decoder) {
         $.ajax({
             url: "/api/Decoders/decoderdef",
             type: "POST",

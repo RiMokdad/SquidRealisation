@@ -80,21 +80,25 @@ export class Workspace {
         return Workspace.singleton.GetBlockInfos();
     }
 
-    GetDecoder(): Decoder {
-        if (this.IsADecoder()) {
-            const decoder = this.workspace.getTopBlocks()[0];
-            const id = decoder.id;
-            const name = decoder.getProcedureDef()[0];
-            const xml = this.GetStringXML();
-            const code = this.GenerateCSharp();
-            const spec = this.GenerateFrench();
-            return new Decoder(id, name, null, null, null, xml, code, spec, true);
-        } 
-        return null;      
+    //GetDecoder(): Decoder {
+    //    if (this.IsADecoder()) {
+    //        const decoder = this.workspace.getTopBlocks()[0];
+    //        const id = decoder.id;
+    //        const name = decoder.getProcedureDef()[0];
+    //        const xml = this.GetStringXML();
+    //        const code = this.GenerateCSharp();
+    //        const spec = this.GenerateFrench();
+    //        return new Decoder(id, name, null, null, null, xml, code, spec, true);
+    //    } 
+    //    return null;      
+    //}
+
+    GetName(): string {
+        return (this.IsADecoder() ? null : this.workspace.getTopBlocks()[0].getProcedureDef()[0]);
     }
 
-    static GetDecoder(): Decoder {
-        return Workspace.singleton.GetDecoder();
+    static GetName(): string {
+        return Workspace.singleton.GetName();
     }
 
     IsADecoder(): boolean {
@@ -105,6 +109,8 @@ export class Workspace {
     static IsADecoder(): boolean {
         return Workspace.singleton.IsADecoder();
     }
+
+
 
     Clear() {
         this.workspace.clear();
