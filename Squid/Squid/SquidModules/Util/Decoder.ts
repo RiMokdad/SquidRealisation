@@ -5,28 +5,28 @@
  */
 
 export class Decoder {
-    id: number;
-    name: string;
-    version: string;
-    category: string;
-    tags: string;
-    xmlDefinition: string;
-    generatedCode: string;
-    frenchSpec: string;
-    editable: boolean;
+    Id: number;
+    Name: string;
+    Version: string;
+    Category: string;
+    Tags: string;
+    Xml: string;
+    Code: string;
+    FrenchSpec: string;
+    Editable: boolean;
     
-    constructor(id: number, name: string, version: string, category: string, tags: string, xmlDefinition: string, generatedCode: string, frenchSpec: string, editable: boolean);
+    constructor(Id: number, Name: string, Version: string, Category: string, Tags: string, Xml: string, Code: string, FrenchSpec: string, Editable: boolean);
 
-    constructor(id: number, name: string, version: string, category: string, tags: string, xmlDefinition: string, generatedCode: string, frenchSpec: string, editable: boolean) {
-        this.id = id;
-        this.name = name;
-        this.version = version;
-        this.category = category;
-        this.tags = tags;
-        this.xmlDefinition = xmlDefinition;
-        this.generatedCode = generatedCode;
-        this.frenchSpec = frenchSpec;
-        this.editable = editable;
+    constructor(Id: number, Name: string, Version: string, Category: string, Tags: string, Xml: string, Code: string, FrenchSpec: string, Editable: boolean) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Version = Version;
+        this.Category = Category;
+        this.Tags = Tags;
+        this.Xml = Xml;
+        this.Code = Code;
+        this.FrenchSpec = FrenchSpec;
+        this.Editable = Editable;
     }
 
 }

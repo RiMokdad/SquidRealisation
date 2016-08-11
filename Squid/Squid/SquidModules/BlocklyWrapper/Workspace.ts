@@ -4,10 +4,16 @@ import { Decoder } from "../Util/Decoder";
 declare var Blockly: any;
 
 export class Workspace {
-    workspace: any;
-    id: number;
+
+    private static singleton: Workspace;
+
+    private id: number;
+    private workspace: any;   
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
+        if (Workspace.singleton) {
+            return Workspace.singleton;
+        }
         document.getElementById(anchor).innerHTML = "";
         const workspace = Blockly.inject(anchor, {
             toolbox: toolbox,
@@ -25,13 +31,18 @@ export class Workspace {
         return new Workspace(workspace);
     }
 
+    static GetInstance(): Workspace {
+        return Workspace.singleton;
+    }
+
     /**
-     * /!\ THIS CONSTRUCTOR IS VISIBLE BUT PLEASE, PREFER THE STATIC INJECT
+     * /!\ DO NOT USE IT
      * @param cur_workspace
      */
-    constructor(cur_workspace: any) {
+    constructor(cur_workspace: any) {  
         this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
+        Workspace.singleton = this;
     }
 
     /**
@@ -111,5 +122,4 @@ export class Workspace {
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
     }
-
 }

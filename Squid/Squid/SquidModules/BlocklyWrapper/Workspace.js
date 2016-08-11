@@ -2,14 +2,18 @@
 var BlockInfos_1 = require("../Util/BlockInfos");
 var Workspace = (function () {
     /**
-     * /!\ THIS CONSTRUCTOR IS VISIBLE BUT PLEASE, PREFER THE STATIC INJECT
+     * /!\ DO NOT USE IT
      * @param cur_workspace
      */
     function Workspace(cur_workspace) {
         this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
+        Workspace.singleton = this;
     }
     Workspace.Inject = function (anchor, trashcan, toolbox) {
+        if (Workspace.singleton) {
+            return Workspace.singleton;
+        }
         document.getElementById(anchor).innerHTML = "";
         var workspace = Blockly.inject(anchor, {
             toolbox: toolbox,
@@ -24,6 +28,9 @@ var Workspace = (function () {
             trashcan: trashcan
         });
         return new Workspace(workspace);
+    };
+    Workspace.GetInstance = function () {
+        return Workspace.singleton;
     };
     /**
      * Generate the CSharp corresponding to the datas in the workspace
