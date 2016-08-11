@@ -55,13 +55,13 @@ export class EditorComponent {
     private SaveDecoderToServer() {
         //TODO insert code for saving decodeur onto the web
         console.log("Saving");
-        if (Workspace.IsADecoder()){
+        if (Workspace.IsADecoder()) {
             this.decoder.Name = Workspace.GetName();
             this.decoder.Code = Workspace.GenerateCSharp();
             this.decoder.FrenchSpec = Workspace.GenerateFrench();
             this.decoder.Xml = Workspace.GetStringXML();
             this.decoder.Editable = true;
-            Requests.SaveDecoder(decoder);
+            Requests.SaveDecoder(this.decoder);
         } else {
             alert("Un des problèmes suivants se pose:" +
                 "\n - Vous avez plus d'un bloc" +
@@ -74,16 +74,7 @@ export class EditorComponent {
         //TODO construct the decoder in GetDecoderDef(id) function 
         var decoder = new Decoder(); 
         Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable == true) {
-            return decoder;
-        }
-        return null;      
-    }
-
-    RestoreBlock(id: number): any {
-        //TODO construct the decoder in GetDecoderDef(id) function 
-        var decoder = Requests.GetDecoderDef(id);
-        if (decoder.editable == true) {
+        if (decoder.Editable) {
             return decoder;
         }
         return null;      

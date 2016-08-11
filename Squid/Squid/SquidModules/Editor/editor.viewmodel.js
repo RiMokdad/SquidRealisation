@@ -55,7 +55,7 @@ var EditorComponent = (function () {
             this.decoder.FrenchSpec = Workspace_1.Workspace.GenerateFrench();
             this.decoder.Xml = Workspace_1.Workspace.GetStringXML();
             this.decoder.Editable = true;
-            server_request_1.Requests.SaveDecoder(decoder);
+            server_request_1.Requests.SaveDecoder(this.decoder);
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -68,15 +68,7 @@ var EditorComponent = (function () {
         //TODO construct the decoder in GetDecoderDef(id) function 
         var decoder = new Decoder_1.Decoder();
         server_request_1.Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable == true) {
-            return decoder;
-        }
-        return null;
-    };
-    EditorComponent.prototype.RestoreBlock = function (id) {
-        //TODO construct the decoder in GetDecoderDef(id) function 
-        var decoder = server_request_1.Requests.GetDecoderDef(id);
-        if (decoder.editable == true) {
+        if (decoder.Editable) {
             return decoder;
         }
         return null;
