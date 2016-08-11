@@ -2937,9 +2937,6 @@
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
     <Content Include="Global.asax" />
-    <Content Include="BlocklyWrapper\BlocklyTS.js.map" />
-    <Content Include="BlocklyWrapper\BlocklyTSGenerated.js.map" />
-    <Content Include="BlocklyWrapper\Workspace.js.map" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -3733,6 +3730,7 @@
     <TypeScriptCompile Include="SquidModules\main.ts" />
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\alerts.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
   </ItemGroup>
   <ItemGroup>

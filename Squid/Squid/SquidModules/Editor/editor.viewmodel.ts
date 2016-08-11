@@ -59,7 +59,7 @@ export class EditorComponent {
         window.open(this.GetBaseUrl());
     }
 
-    SaveDecoderToServer() {
+    private SaveDecoderToServer() {
         const bool = Workspace.GetInstance().SaveAsDecoderToServer();
         alert(bool);
     }
