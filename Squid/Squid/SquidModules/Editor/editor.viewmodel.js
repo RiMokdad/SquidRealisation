@@ -67,6 +67,14 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     };
+    EditorComponent.prototype.RestoreBlock = function (id) {
+        //TODO construct the decoder in GetDecoderDef(id) function 
+        var decoder = server_request_1.Requests.GetDecoderDef(id);
+        if (decoder.editable == true) {
+            return decoder;
+        }
+        return null;
+    };
     /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
         return "index.html";

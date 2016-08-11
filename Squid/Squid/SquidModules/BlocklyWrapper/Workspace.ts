@@ -9,7 +9,7 @@ export class Workspace {
     private static singleton: Workspace;
 
     private id: number;
-    private workspace: any;   
+    private workspace: any;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         if (Workspace.singleton) {
@@ -40,7 +40,7 @@ export class Workspace {
      * /!\ DO NOT USE IT
      * @param cur_workspace
      */
-    constructor(cur_workspace: any) {  
+    constructor(cur_workspace: any) {
         this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
         Workspace.singleton = this;
@@ -159,7 +159,7 @@ export class Workspace {
     }
 
     RestoreBlock(decoder: Decoder) {
-        //TODO ask the server for the block definition corresponding to the id
+        //TODO 
     }
 
     static RestoreBlock(decoder: Decoder) {
