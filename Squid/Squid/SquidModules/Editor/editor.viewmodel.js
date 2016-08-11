@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var BlockInfos_1 = require("./../Util/BlockInfos");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
+var server_request_1 = require("../Request/server_request");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new BlockInfos_1.BlockInfos();
@@ -40,7 +41,7 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
-        Squid.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
+        server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos);
         //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
         this.toolboxManager.UpdateCategories();
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);

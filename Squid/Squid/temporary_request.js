@@ -1,4 +1,4 @@
-﻿Squid = {};
+Squid = {};
 Squid.Requests = {};
 
 /**
