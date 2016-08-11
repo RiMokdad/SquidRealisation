@@ -234,20 +234,9 @@
     <Content Include="Blockly\demos\storage\index.html" />
     <Content Include="Blockly\demos\toolbox\icon.png" />
     <Content Include="Blockly\demos\toolbox\index.html" />
-    <Content Include="Blockly_override\generators_override\csharp.js" />
-    <Content Include="Blockly_override\generators_override\csharp\colour.js" />
-    <Content Include="Blockly_override\generators_override\csharp\custom.js" />
-    <Content Include="Blockly_override\generators_override\csharp\inferboilerplate.js" />
-    <Content Include="Blockly_override\generators_override\csharp\inferbool_variables.js" />
-    <Content Include="Blockly_override\generators_override\csharp\inferdistributions.js" />
-    <Content Include="Blockly_override\generators_override\csharp\inferdouble_variables.js" />
-    <Content Include="Blockly_override\generators_override\csharp\lists.js" />
-    <Content Include="Blockly_override\generators_override\csharp\logic.js" />
-    <Content Include="Blockly_override\generators_override\csharp\loops.js" />
-    <Content Include="Blockly_override\generators_override\csharp\math.js" />
-    <Content Include="Blockly_override\generators_override\csharp\procedures.js" />
-    <Content Include="Blockly_override\generators_override\csharp\text.js" />
-    <Content Include="Blockly_override\generators_override\csharp\variables.js" />
+    <Content Include="Blockly_override\blocks\custom.js" />
+    <Content Include="Blockly_override\blocks\custom_if.js" />
+    <Content Include="Blockly_override\core_override\field_textinput.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />
     <Content Include="Blockly\generators\dart\lists.js" />
@@ -257,10 +246,6 @@
     <Content Include="Blockly\generators\dart\procedures.js" />
     <Content Include="Blockly\generators\dart\text.js" />
     <Content Include="Blockly\generators\dart\variables.js" />
-    <Content Include="Blockly_override\generators_override\french.js" />
-    <Content Include="Blockly_override\generators_override\french\base_blocks.js" />
-    <Content Include="Blockly_override\generators_override\french\decoding_blocks.js" />
-    <Content Include="Blockly_override\generators_override\french\procedures.js" />
     <Content Include="Blockly\generators\javascript.js" />
     <Content Include="Blockly\generators\javascript\colour.js" />
     <Content Include="Blockly\generators\javascript\lists.js" />
@@ -413,13 +398,6 @@
     <Content Include="Blockly\tests\jsunit\xml_test.js" />
     <Content Include="Blockly\tests\multi_playground.html" />
     <Content Include="Blockly\tests\playground.html" />
-    <Content Include="Blockly_override\blocks_override\custom.js" />
-    <Content Include="Blockly_override\blocks_override\custom_if.js" />
-    <Content Include="Blockly_override\core_override\blocks.js" />
-    <Content Include="Blockly_override\core_override\procedures.js" />
-    <Content Include="Blockly_override\core_override\variables.js" />
-    <Content Include="Blockly_override\core_override\workspace.js" />
-    <Content Include="Blockly_override\field_textinput.js" />
     <Content Include="closure-library\.gitignore" />
     <Content Include="closure-library\alltests.js" />
     <Content Include="closure-library\all_tests.html" />
@@ -2960,17 +2938,18 @@
     <Content Include="SquidModules\Editor\editor.view.html" />
     <Content Include="SquidModules\server_requests\server_requests.js" />
     <Content Include="SquidModules\SignalR\signalr_methods.js" />
+    <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
-    <Content Include="SquidModules\generators\csharp.js" />
-    <Content Include="SquidModules\generators\csharp\base_blocks.js" />
-    <Content Include="SquidModules\generators\csharp\decoding_blocks.js" />
-    <Content Include="SquidModules\generators\csharp\procedures.js" />
-    <Content Include="SquidModules\generators\csharp\utils.js" />
-    <Content Include="SquidModules\generators\french.js" />
-    <Content Include="SquidModules\generators\french\base_blocks.js" />
-    <Content Include="SquidModules\generators\french\decoding_blocks.js" />
-    <Content Include="SquidModules\generators\french\procedures.js" />
+    <Content Include="Blockly_override\generators_override\csharp.js" />
+    <Content Include="Blockly_override\generators_override\csharp\base_blocks.js" />
+    <Content Include="Blockly_override\generators_override\csharp\decoding_blocks.js" />
+    <Content Include="Blockly_override\generators_override\csharp\procedures.js" />
+    <Content Include="Blockly_override\generators_override\csharp\utils.js" />
+    <Content Include="Blockly_override\generators_override\french.js" />
+    <Content Include="Blockly_override\generators_override\french\base_blocks.js" />
+    <Content Include="Blockly_override\generators_override\french\decoding_blocks.js" />
+    <Content Include="Blockly_override\generators_override\french\procedures.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -3912,7 +3891,6 @@
   <ItemGroup>
     <Folder Include="closure-library\obj\Debug\TempPE\" />
     <Folder Include="closure-library\obj\Release\TempPE\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
