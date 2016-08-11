@@ -10,6 +10,7 @@ import { Requests } from "../Request/server_request"
     templateUrl: "SquidModules/Editor/editor.view.html"
 }) 
 export class EditorComponent {
+
     decoder = new Decoder();
 
     tagsSearch = "";
@@ -19,21 +20,13 @@ export class EditorComponent {
     private initialized_ = false;
 
     Clear() {
-        Workspace.GetInstance().Clear();
+        Workspace.Clear();
     }
 
     Save() {
-        //TODO insert code for saving decodeur onto the web
-        const wpDecoder = Workspace.GetInstance().GetDecoder();
-        if (wpDecoder) {
-            wpDecoder.Category = this.decoder.Category;
-            wpDecoder.Id = this.decoder.Id;
-            wpDecoder.Tags = this.decoder.Tags;
-            wpDecoder.Version = this.decoder.Version;
-
-            //TODO send wpDecoder
-            this.decoder.Id = null; //Call to the server for saving the current block
-        }
+        //TODO insert local save
+        this.SaveDecoderToServer();
+        
     }
 
     Supress() {
@@ -48,23 +41,35 @@ export class EditorComponent {
         const blocksInformations = new Array<BlockInfos>();
         //TODO Call to server for updating blocks informations
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        //this.toolboxManager.UpdateBlocksInfos(blocksInformations);
-        //this.toolboxManager.UpdateCategories();
-        //Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
+        this.toolboxManager.UpdateCategories();
+        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
-        Workspace.GetInstance().UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
     OpenTab() {
         window.open(this.GetBaseUrl());
     }
 
-    SaveDecoderToServer() {
-        const bool = Workspace.GetInstance().SaveAsDecoderToServer();
-        alert(bool);
+    private SaveDecoderToServer() {
+        //TODO insert code for saving decodeur onto the web
+        console.log("Saving");
+        const wpDecoder = Workspace.GetDecoder();
+        if (wpDecoder) {
+            wpDecoder.Category = this.decoder.Category;
+            wpDecoder.Tags = this.decoder.Tags;
+            wpDecoder.Version = this.decoder.Version;
+            Requests.SaveDecoder(wpDecoder);
+        } else {
+            alert("Un des problèmes suivants se pose:" +
+                "\n - Vous avez plus d'un bloc" +
+                "\n - Le bloc n'est pas un bloc décodeur de base" +
+                "\n - Vous n'avez rien à sauvegarder");
+        }
     }
 
     /* Url based methods */

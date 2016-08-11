@@ -19,8 +19,9 @@ export class Requests {
             success(res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
+                    alert(`Id saved: ${res.id}`);
                 }
-                alert(res.id);
+                alert(`Id saved: ${res.id}`);
             },
             error(resp) {
                 console.log(resp.responseText);

@@ -25,8 +25,8 @@ exports.BlocksCat = BlocksCat;
 var ToolboxManager = (function () {
     function ToolboxManager() {
         this.toolboxHTML = document.createElement("xml");
-        this.CreateCategories(BLOCKS);
         this.BlocksInformations = new Array();
+        this.CreateCategories(BLOCKS);
     }
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
@@ -60,6 +60,7 @@ var ToolboxManager = (function () {
         this.research.setAttribute("name", "Recherches");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
+        this.UpdateCategories();
     };
     /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
         
@@ -103,27 +104,11 @@ var ToolboxManager = (function () {
             this.research.removeChild(this.research.firstChild);
         }
         //add
-        if (typeof (tags) == "string") {
-            //Parameter is a single string
-            for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                var blocks = this.BlocksInformations[i].blocks;
-                for (var j = 0; j < blocks.length; j++) {
-                    if (blocks[j].IsTagged(tags)) {
-                        this.research.appendChild(blocks[j].CreateFlyout());
-                    }
-                }
-            }
-        }
-        else {
-            //Parameter is a tab of strings
-            for (var tag in tags) {
-                for (var i = 0; i < this.BlocksInformations.length; this.BlocksInformations) {
-                    var blocks = this.BlocksInformations[i].blocks;
-                    for (var j = 0; j < blocks.length; j++) {
-                        if (blocks[j].IsTagged(tag)) {
-                            this.research.appendChild(blocks[j].CreateFlyout());
-                        }
-                    }
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            var blocks = this.BlocksInformations[i].blocks;
+            for (var j = 0; j < blocks.length; j++) {
+                if (blocks[j].IsTagged(tags)) {
+                    this.research.appendChild(blocks[j].CreateFlyout());
                 }
             }
         }
