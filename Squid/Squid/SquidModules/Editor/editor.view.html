@@ -38,12 +38,12 @@
             </div>
             <div class="col-sm-4">
                 <div class="container-fluid">
-                    <h1 class="title-toolbar-workspace col-lg-12">{{decoder.name}}</h1>
+                    <h1 class="title-toolbar-workspace col-lg-12">{{decoder.Name}}</h1>
                     <div class="col-lg-12">                       
                         <input class="soft-background version-item"
                                type="text"
                                placeholder="version"
-                               [(ngModel)]="decoder.version"/>
+                               [(ngModel)]="decoder.Version"/>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                             <input class="item-workspace"
                                    type="text"
                                    placeholder="Category"
-                                   [(ngModel)]="category" />
+                                   [(ngModel)]="decoder.Category" />
                         </div>
                     </div>
                     <div class="row decoder-info">
@@ -68,7 +68,7 @@
                             <input class="item-workspace"
                                    type="text"
                                    placeholder="tags1, tags2, ..."
-                                   [(ngModel)]="decoder.tags" />
+                                   [(ngModel)]="decoder.Tags" />
                         </div>
                     </div>
                 </div>
