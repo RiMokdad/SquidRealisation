@@ -234,6 +234,8 @@
     <Content Include="Blockly\demos\storage\index.html" />
     <Content Include="Blockly\demos\toolbox\icon.png" />
     <Content Include="Blockly\demos\toolbox\index.html" />
+    <Content Include="Blockly_override\blocks\custom.js" />
+    <Content Include="Blockly_override\blocks\custom_if.js" />
     <Content Include="Blockly_override\core_override\field_textinput.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />
@@ -396,8 +398,6 @@
     <Content Include="Blockly\tests\jsunit\xml_test.js" />
     <Content Include="Blockly\tests\multi_playground.html" />
     <Content Include="Blockly\tests\playground.html" />
-    <Content Include="Blockly_override\blocks_override\custom.js" />
-    <Content Include="Blockly_override\blocks_override\custom_if.js" />
     <Content Include="closure-library\.gitignore" />
     <Content Include="closure-library\alltests.js" />
     <Content Include="closure-library\all_tests.html" />
@@ -3891,7 +3891,6 @@
   <ItemGroup>
     <Folder Include="closure-library\obj\Debug\TempPE\" />
     <Folder Include="closure-library\obj\Release\TempPE\" />
-    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
