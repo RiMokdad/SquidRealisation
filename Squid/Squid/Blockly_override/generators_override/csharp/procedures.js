@@ -2,7 +2,7 @@
 
 Blockly.CSharp.procedures = {};
 
-Blockly.CSharp.procedures_defreturn = function() {
+Blockly.CSharp.procedures_defnoreturn = function() {
     // Define a procedure with a return value.
   var funcName = Blockly.CSharp.variableDB_.getName(
       this.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
@@ -83,23 +83,6 @@ Blockly.CSharp.procedures_defreturn = function() {
     return null;
 };
 
-// Defining a procedure without a return value uses the same generator as
-// a procedure with a return value.
-Blockly.CSharp.procedures_defnoreturn =
-    Blockly.CSharp.procedures_defreturn;
-
-Blockly.CSharp.procedures_callreturn = function() {
-  // Call a procedure with a return value.
-  var funcName = Blockly.CSharp.variableDB_.getName(
-      this.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
-  var args = [];
-  for (var x = 0; x < this.arguments_.length; x++) {
-    args[x] = Blockly.CSharp.valueToCode(this, 'ARG' + x,
-        Blockly.CSharp.ORDER_COMMA) || 'null';
-  }
-  var code = '.' + funcName + '(' + args.join(', ') + ')';
-  return [code, Blockly.CSharp.ORDER_FUNCTION_CALL];
-};
 
 Blockly.CSharp.procedures_callnoreturn = function() {
   // Call a procedure with no return value.
@@ -113,16 +96,3 @@ Blockly.CSharp.procedures_callnoreturn = function() {
   return code;
 };
 
-Blockly.CSharp.procedures_ifreturn = function() {
-  // Conditionally return value from a procedure.
-  var condition = Blockly.CSharp.valueToCode(this, 'CONDITION', Blockly.CSharp.ORDER_NONE) || 'false';
-  var code = 'if (' + condition + ') {\n';
-  if (this.hasReturnValue_) {
-    var value = Blockly.CSharp.valueToCode(this, 'VALUE', Blockly.CSharp.ORDER_NONE) || 'null';
-    code += '  return ' + value + ';\n';
-  } else {
-    code += '  return;\n';
-  }
-  code += '}\n';
-  return code;
-};
