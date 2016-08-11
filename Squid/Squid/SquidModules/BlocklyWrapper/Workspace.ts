@@ -53,11 +53,19 @@ export class Workspace {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     }
 
+    static GenerateCSharp(): string {
+        return Workspace.singleton.GenerateCSharp();
+    }
+
     /**
      * Generate the French corresponding to the datas in the workspace
      */
     GenerateFrench(): string {
         return Blockly.French.workspaceToCode(this.workspace);
+    }
+
+    static GenerateFrench(): string {
+        return Workspace.singleton.GenerateFrench();
     }
 
     GetBlockInfos(): BlockInfos {
@@ -68,14 +76,15 @@ export class Workspace {
         return new BlockInfos(id, name, parametersArray, null, null, true);
     }
 
+    static GetBlockInfos(): BlockInfos {
+        return Workspace.singleton.GetBlockInfos();
+    }
+
     GetDecoder(): Decoder {
         if (this.IsADecoder()) {
             const decoder = this.workspace.getTopBlocks()[0];
             const id = decoder.id;
             const name = decoder.getProcedureDef()[0];
-            //TODO version
-            //TODO category
-            //TODO tags
             const xml = this.GetStringXML();
             const code = this.GenerateCSharp();
             const spec = this.GenerateFrench();
@@ -84,29 +93,57 @@ export class Workspace {
         return null;      
     }
 
+    static GetDecoder(): Decoder {
+        return Workspace.singleton.GetDecoder();
+    }
+
     IsADecoder(): boolean {
         const blocks = this.workspace.getTopBlocks();
-        return (blocks.length == 1 && blocks[0].getDef);
+        return (blocks.length == 1 && blocks[0].getProcedureDef);
+    }
+
+    static IsADecoder(): boolean {
+        return Workspace.singleton.IsADecoder();
     }
 
     Clear() {
         this.workspace.clear();
     }
 
+    static Clear() {
+        Workspace.singleton.Clear();
+    }
+
     GetXML(): Element {
         return Blockly.Xml.workspaceToDom(this.workspace);
+    }
+
+    static GetXML(): Element {
+        return Workspace.singleton.GetXML();
     }
 
     GetStringXML(): string {
         return Blockly.Xml.workspaceToDom(this.workspace);
     }
 
+    static GetStringXML(): string {
+        return Workspace.singleton.GetStringXML();
+    }
+
     StringyfiedXML(): string {
         return Blockly.Xml.domToText(this.GetXML());
     }
 
+    static StringyfieldXML(): string {
+        return Workspace.singleton.StringyfiedXML();
+    }
+
     PrettyStringyfiedXML(): string {
         return Blockly.Xml.domToPrettyText(this.GetXML());
+    }
+
+    static PrettyStringyfieldXML(): string {
+        return Workspace.singleton.PrettyStringyfiedXML();
     }
 
     /************************ Workspace and storage **************************************************/
@@ -115,35 +152,21 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    //TODO : move from this file, not its accurate place !
-    SaveAsDecoderToServer(): number {
-
-        var decoder = this.GetDecoder();
-        var id = -1;
-        
-        if (decoder != null) {
-            Squid.Requests.SaveDecoder(decoder);
-            // TODO get and return the Id after the request is available in TS
-        }
-        return id; 
+    RestoreBlock(decoder: Decoder) {
+        //TODO ask the server for the block definition corresponding to the id
     }
 
-    ////BackupBlocks(url: any) {
-    ////    if ("localStorage" in window) {
-    ////        var prettyText = this.PrettyStringyfiedXML();
-    ////        var xmlText = this.StringyfiedXML();
-    ////        var code = this.GenerateCSharp();
-    ////        //Request.SaveDecoder(code, xmlTesx);
-    ////    }
-    ////}
-
-    RestoreBlock(id: number) {
-        //TODO ask the server for the block definition corresponding to the id
+    static RestoreBlock(decoder: Decoder) {
+        this.RestoreBlock(decoder);
     }
 
     /**************************** Variables **********************************/
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
+    }
+
+    static UpdateToolbox(toolboxTree: HTMLElement) {
+        Workspace.singleton.UpdateToolbox(toolboxTree);
     }
 }
