@@ -40,7 +40,7 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
     };
     EditorComponent.prototype.SearchTag = function () {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
@@ -55,6 +55,7 @@ var EditorComponent = (function () {
             this.decoder.FrenchSpec = Workspace_1.Workspace.GenerateFrench();
             this.decoder.Xml = Workspace_1.Workspace.GetStringXML();
             this.decoder.Editable = true;
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
         }
         else {

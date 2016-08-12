@@ -44,7 +44,7 @@ export class EditorComponent {
     }
 
     SearchTag() {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
@@ -61,6 +61,7 @@ export class EditorComponent {
             this.decoder.FrenchSpec = Workspace.GenerateFrench();
             this.decoder.Xml = Workspace.GetStringXML();
             this.decoder.Editable = true;
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g,"");
             Requests.SaveDecoder(this.decoder);
         } else {
             alert("Un des problèmes suivants se pose:" +
