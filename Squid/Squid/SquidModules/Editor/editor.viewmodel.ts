@@ -71,7 +71,6 @@ export class EditorComponent {
     }
 
     RestoreBlock(id: number): any {
-        //TODO construct the decoder in GetDecoderDef(id) function 
         var decoder = new Decoder(); 
         Requests.GetDecoderDef(id, decoder);
         if (decoder.Editable) {
