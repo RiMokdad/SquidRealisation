@@ -40,7 +40,7 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
     };
     EditorComponent.prototype.SearchTag = function () {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {

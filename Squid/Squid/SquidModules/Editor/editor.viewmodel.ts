@@ -44,7 +44,7 @@ export class EditorComponent {
     }
 
     SearchTag() {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
