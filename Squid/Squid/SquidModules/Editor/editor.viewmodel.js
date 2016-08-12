@@ -51,6 +51,7 @@ var EditorComponent = (function () {
         console.log("Saving");
         if (Workspace_1.Workspace.IsADecoder()) {
             Workspace_1.Workspace.CompleteDecoder(this.decoder);
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
             this.SetUrl();
         }
