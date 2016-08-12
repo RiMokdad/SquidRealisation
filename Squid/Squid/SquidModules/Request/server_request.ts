@@ -1,4 +1,5 @@
 ﻿import { Decoder } from "../Util/Decoder";
+import {Messages} from "./../Util/Messages";
 
 declare var $: any;
 
@@ -19,7 +20,7 @@ export class Requests {
             success(res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
-                    alert(`Id saved: ${res.id}`);
+                    Messages.Alert(`Décodeur sauvegardé avec l'Id : ${res.id}`);
                 }
                 //alert(res.id);
             },
