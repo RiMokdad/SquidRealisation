@@ -1,4 +1,5 @@
 "use strict";
+var Messages_1 = require("./../Util/Messages");
 var Requests = (function () {
     function Requests() {
     }
@@ -17,7 +18,7 @@ var Requests = (function () {
             success: function (res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
-                    alert("Id saved: " + res.id);
+                    Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
                 }
                 //alert(res.id);
             },
