@@ -68,18 +68,6 @@ export class Workspace {
         return Workspace.singleton.GenerateFrench();
     }
 
-    GetBlockInfos(): BlockInfos {
-        const blocks = this.workspace.getTopBlocks();
-        const id = blocks[0].id;
-        const name = blocks[0].getProcedureDef()[0];
-        const parametersArray = blocks[0].arguments_;
-        return new BlockInfos(id, name, parametersArray, null, null, true);
-    }
-
-    static GetBlockInfos(): BlockInfos {
-        return Workspace.singleton.GetBlockInfos();
-    }
-
     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
      * @param decoder
@@ -155,12 +143,17 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    RestoreBlock(decoder: Decoder) {
-        //TODO 
+    RestoreBlocks(xml: string); 
+    RestoreBlocks(decoder: Decoder);
+    RestoreBlocks(blocks?: any) {
+        const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
+        Blockly.Xml.domToWorkspace(Xml, this.workspace);
     }
 
-    static RestoreBlock(decoder: Decoder) {
-        this.RestoreBlock(decoder);
+    static RestoreBlocks(decoder: Decoder);
+    static RestoreBlocks(xml: string);
+    static RestoreBlocks(blocks?: any) {
+        Workspace.singleton.RestoreBlocks(blocks);
     }
 
     /**************************** Variables **********************************/

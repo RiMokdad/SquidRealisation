@@ -47,4 +47,16 @@ export class Decoder {
             decoder.Editable);
     }
 
+    update(decoder: Decoder) {
+        this.Id         = decoder.Id || this.Id;
+        this.Name       = decoder.Name || this.Name;
+        this.Version    = decoder.Version || this.Version;
+        this.Category   = decoder.Category || this.Category;
+        this.Tags       = decoder.Tags || this.Tags;
+        this.Xml        = decoder.Xml || this.Xml;
+        this.Code       = decoder.Code || this.Code;
+        this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
+        this.Editable   = decoder.Editable || this.Editable;
+    }
+
 }
