@@ -1,5 +1,4 @@
 "use strict";
-var BlockInfos_1 = require("../Util/BlockInfos");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -49,16 +48,6 @@ var Workspace = (function () {
     };
     Workspace.GenerateFrench = function () {
         return Workspace.singleton.GenerateFrench();
-    };
-    Workspace.prototype.GetBlockInfos = function () {
-        var blocks = this.workspace.getTopBlocks();
-        var id = blocks[0].id;
-        var name = blocks[0].getProcedureDef()[0];
-        var parametersArray = blocks[0].arguments_;
-        return new BlockInfos_1.BlockInfos(id, name, parametersArray, null, null, true);
-    };
-    Workspace.GetBlockInfos = function () {
-        return Workspace.singleton.GetBlockInfos();
     };
     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
@@ -117,11 +106,13 @@ var Workspace = (function () {
     Workspace.prototype.SaveLocal = function (location) {
         // TODO if we implement a local storage
     };
-    Workspace.prototype.RestoreBlock = function (decoder) {
-        //TODO 
+    Workspace.prototype.RestoreBlocks = function (blocks) {
+        var Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
+        console.log(Xml);
+        Blockly.Xml.domToWorkspace(Xml, this.workspace);
     };
-    Workspace.RestoreBlock = function (decoder) {
-        this.RestoreBlock(decoder);
+    Workspace.RestoreBlocks = function (blocks) {
+        Workspace.singleton.RestoreBlocks(blocks);
     };
     /**************************** Variables **********************************/
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {

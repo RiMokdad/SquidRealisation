@@ -20,6 +20,13 @@ export class EditorComponent {
 
     private initialized_ = false;
 
+    //Init() {
+    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
+    //    if (window.location.hash !== "") {
+    //        alert("chargera le bloc");
+    //    }
+    //}
+
     Clear() {
         Workspace.Clear();
     }
@@ -32,9 +39,13 @@ export class EditorComponent {
 
     Supress() {
         //TODO insert code to supress a decoder onto the server 
-        //Verify existance 
-        //Ask the list of direct depencies for function calls
-        //Supress the block if the user really wants it
+
+        Requests.FindUsages(this.decoder.Id);
+        const deletion = () => {
+            this.decoder = new Decoder();
+            alert("Décodeur supprimé");
+        };
+        Requests.DeleteDecoder(this.decoder, deletion);
     }
 
     Refresh() {
@@ -53,8 +64,6 @@ export class EditorComponent {
     }
 
     private SaveDecoderToServer() {
-        //TODO insert code for saving decodeur onto the web
-        console.log("Saving");
         if (Workspace.IsADecoder()) {
             Workspace.CompleteDecoder(this.decoder);
             Requests.SaveDecoder(this.decoder);
@@ -67,13 +76,12 @@ export class EditorComponent {
         }
     }
 
-    RestoreBlock(id: number): any {
-        //TODO construct the decoder in GetDecoderDef(id) function 
-        var decoder = new Decoder(); 
-        Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable) {
-            return decoder;
-        }
+    private RestoreBlock(id: number) {
+        const callback = () => {
+            console.log(this.decoder);
+            Workspace.RestoreBlocks(this.decoder);
+        };
+        Requests.GetDecoderDef(id, this.decoder, callback);
         return null;      
     }
 
@@ -87,7 +95,7 @@ export class EditorComponent {
     }
 
     private SetUrl() {
-        window.location.href = this.GetBaseUrl() + `${this.decoder.Id ? `#${this.decoder.Id}` : ""}`;
+        window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
     }
 }
 
@@ -98,4 +106,7 @@ export class EditorComponent {
 window.onload = () => {
     var tbMan = new ToolboxManager();
     Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+    if (window.location.hash !== "") {
+        alert("chargera le bloc");
+    }
 }

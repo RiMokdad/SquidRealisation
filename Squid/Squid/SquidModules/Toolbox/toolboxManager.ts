@@ -106,11 +106,15 @@ export class ToolboxManager {
 
         for (let i = 0; i < this.BlocksInformations.length; i++) {
             const catName = this.BlocksInformations[i].category;
+            let valName = 0;
+            for (let j = 0; j < catName.length; j++) {
+                valName += catName.charCodeAt(j);
+            }
             const blocks = this.BlocksInformations[i].blocks;
 
             const cat = document.createElement("category");
             cat.setAttribute("name", catName);
-            cat.setAttribute("colour", "100");
+            cat.setAttribute("colour", <string><any>(valName % 360 + 1));
             this.decoders.appendChild(cat);
 
             for (let j = 0; j < blocks.length; j++) {

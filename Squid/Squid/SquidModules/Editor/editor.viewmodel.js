@@ -21,6 +21,12 @@ var EditorComponent = (function () {
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
     }
+    //Init() {
+    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
+    //    if (window.location.hash !== "") {
+    //        alert("chargera le bloc");
+    //    }
+    //}
     EditorComponent.prototype.Clear = function () {
         Workspace_1.Workspace.Clear();
     };
@@ -30,9 +36,13 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Supress = function () {
         //TODO insert code to supress a decoder onto the server 
-        //Verify existance 
-        //Ask the list of direct depencies for function calls
-        //Supress the block if the user really wants it
+        var _this = this;
+        server_request_1.Requests.FindUsages(this.decoder.Id);
+        var deletion = function () {
+            _this.decoder = new Decoder_1.Decoder();
+            alert("Décodeur supprimé");
+        };
+        server_request_1.Requests.DeleteDecoder(this.decoder, deletion);
     };
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
@@ -47,8 +57,6 @@ var EditorComponent = (function () {
         window.open(this.GetBaseUrl());
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        //TODO insert code for saving decodeur onto the web
-        console.log("Saving");
         if (Workspace_1.Workspace.IsADecoder()) {
             Workspace_1.Workspace.CompleteDecoder(this.decoder);
             server_request_1.Requests.SaveDecoder(this.decoder);
@@ -62,12 +70,12 @@ var EditorComponent = (function () {
         }
     };
     EditorComponent.prototype.RestoreBlock = function (id) {
-        //TODO construct the decoder in GetDecoderDef(id) function 
-        var decoder = new Decoder_1.Decoder();
-        server_request_1.Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable) {
-            return decoder;
-        }
+        var _this = this;
+        var callback = function () {
+            console.log(_this.decoder);
+            Workspace_1.Workspace.RestoreBlocks(_this.decoder);
+        };
+        server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
     };
     /* Url based methods */
@@ -78,7 +86,7 @@ var EditorComponent = (function () {
         return parseInt(window.location.href.split("#")[1]);
     };
     EditorComponent.prototype.SetUrl = function () {
-        window.location.href = this.GetBaseUrl() + ("" + (this.decoder.Id ? "#" + this.decoder.Id : ""));
+        window.location.hash = this.decoder.Id ? this.decoder.Id : "";
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -97,5 +105,8 @@ exports.EditorComponent = EditorComponent;
 window.onload = function () {
     var tbMan = new toolboxManager_1.ToolboxManager();
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+    if (window.location.hash !== "") {
+        alert("chargera le bloc");
+    }
 };
 //# sourceMappingURL=editor.viewmodel.js.map
