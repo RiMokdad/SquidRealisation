@@ -45,6 +45,7 @@ Blockly.CSharp.addVariablePrefix = function (varName) {
     return prefixedName;
 }
 */
+
 /**
  * 
  * @param {String} expression to make legal 

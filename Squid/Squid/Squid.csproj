@@ -236,6 +236,7 @@
     <Content Include="Blockly_override\blocks\custom.js" />
     <Content Include="Blockly_override\blocks\custom_if.js" />
     <Content Include="Blockly_override\blocks\procedures.js" />
+    <Content Include="Blockly_override\core\block_svg.js" />
     <Content Include="Blockly_override\core\field_textinput.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />

@@ -147,7 +147,6 @@ export class Workspace {
     RestoreBlocks(decoder: Decoder);
     RestoreBlocks(blocks?: any) {
         const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
-        console.log(Xml);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
     }
 
