@@ -80,18 +80,23 @@ export class Workspace {
         return Workspace.singleton.GetBlockInfos();
     }
 
-    //GetDecoder(): Decoder {
-    //    if (this.IsADecoder()) {
-    //        const decoder = this.workspace.getTopBlocks()[0];
-    //        const id = decoder.id;
-    //        const name = decoder.getProcedureDef()[0];
-    //        const xml = this.GetStringXML();
-    //        const code = this.GenerateCSharp();
-    //        const spec = this.GenerateFrench();
-    //        return new Decoder(id, name, null, null, null, xml, code, spec, true);
-    //    } 
-    //    return null;      
-    //}
+    /**
+     * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
+     * @param decoder
+     */
+    CompleteDecoder(decoder: Decoder) {
+        if (this.IsADecoder()) {
+            decoder.Name = Workspace.GetName();
+            decoder.Code = Workspace.GenerateCSharp();
+            decoder.FrenchSpec = Workspace.GenerateFrench();
+            decoder.Xml = Workspace.GetStringXML();
+            decoder.Editable = true;
+        }  
+    }
+
+    static CompleteDecoder(decoder: Decoder) {
+        Workspace.singleton.CompleteDecoder(decoder);
+    }
 
     GetName(): string {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);

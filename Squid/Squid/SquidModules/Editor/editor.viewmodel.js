@@ -54,12 +54,9 @@ var EditorComponent = (function () {
         //TODO insert code for saving decodeur onto the web
         console.log("Saving");
         if (Workspace_1.Workspace.IsADecoder()) {
-            this.decoder.Name = Workspace_1.Workspace.GetName();
-            this.decoder.Code = Workspace_1.Workspace.GenerateCSharp();
-            this.decoder.FrenchSpec = Workspace_1.Workspace.GenerateFrench();
-            this.decoder.Xml = Workspace_1.Workspace.GetStringXML();
-            this.decoder.Editable = true;
+            Workspace_1.Workspace.CompleteDecoder(this.decoder);
             server_request_1.Requests.SaveDecoder(this.decoder);
+            this.SetUrl();
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -85,7 +82,7 @@ var EditorComponent = (function () {
         return parseInt(window.location.href.split("#")[1]);
     };
     EditorComponent.prototype.SetUrl = function () {
-        window.location.href = "index.html" + (this.decoder.Id ? "#" + this.decoder.Id : "");
+        window.location.href = this.GetBaseUrl() + ("" + (this.decoder.Id ? "#" + this.decoder.Id : ""));
     };
     EditorComponent = __decorate([
         core_1.Component({
