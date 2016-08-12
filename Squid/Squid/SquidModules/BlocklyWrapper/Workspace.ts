@@ -156,7 +156,7 @@ export class Workspace {
     }
 
     RestoreBlock(decoder: Decoder) {
-        //TODO 
+        Blockly.Xml.domToWorkspace(decoder.Xml, this.workspace);
     }
 
     static RestoreBlock(decoder: Decoder) {
