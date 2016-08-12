@@ -2937,17 +2937,12 @@
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
     <Content Include="Global.asax" />
-    <Content Include="BlocklyWrapper\BlocklyTS.js.map" />
-    <Content Include="BlocklyWrapper\BlocklyTSGenerated.js.map" />
-    <Content Include="BlocklyWrapper\Workspace.js.map" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
-    <Content Include="SquidModules\Request\server_request.js" />
-    <Content Include="SquidModules\server_requests\server_requests.js" />
     <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
@@ -3735,7 +3730,9 @@
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Request\server_request.ts" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />

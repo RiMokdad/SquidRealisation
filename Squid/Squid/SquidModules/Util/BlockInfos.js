@@ -30,11 +30,13 @@ var BlockInfos = (function () {
         elem.setAttribute("gap", "16");
         var mutation = document.createElement("mutation");
         mutation.setAttribute("name", this.name);
-        var params = this.parameters.split(',');
-        for (var i = 0; i < params.length; i++) {
-            var arg = document.createElement("arg");
-            arg.setAttribute("name", params[i]);
-            mutation.appendChild(arg);
+        if (this.parameters !== "") {
+            var params = this.parameters.split(',');
+            for (var i = 0; i < params.length; i++) {
+                var arg = document.createElement("arg");
+                arg.setAttribute("name", params[i]);
+                mutation.appendChild(arg);
+            }
         }
         elem.appendChild(mutation);
         return elem;

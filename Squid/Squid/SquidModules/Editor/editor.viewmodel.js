@@ -36,12 +36,8 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
-        var blocksInformations = new Array();
         //TODO Call to server for updating blocks informations
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        this.toolboxManager.UpdateBlocksInfos(blocksInformations);
-        this.toolboxManager.UpdateCategories();
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
