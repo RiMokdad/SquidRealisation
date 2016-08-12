@@ -64,8 +64,8 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     };
+    /* the view has to put it in the workspace on the page loading*/
     EditorComponent.prototype.RestoreBlock = function (id) {
-        //TODO construct the decoder in GetDecoderDef(id) function 
         var decoder = new Decoder_1.Decoder();
         server_request_1.Requests.GetDecoderDef(id, decoder);
         if (decoder.Editable) {

@@ -50,6 +50,9 @@ var Workspace = (function () {
     Workspace.GenerateFrench = function () {
         return Workspace.singleton.GenerateFrench();
     };
+    /**
+     * Returns an object BlockInfos that contains the main informations needed in the toolbox.
+     */
     Workspace.prototype.GetBlockInfos = function () {
         var blocks = this.workspace.getTopBlocks();
         var id = blocks[0].id;
@@ -60,24 +63,15 @@ var Workspace = (function () {
     Workspace.GetBlockInfos = function () {
         return Workspace.singleton.GetBlockInfos();
     };
-    //GetDecoder(): Decoder {
-    //    if (this.IsADecoder()) {
-    //        const decoder = this.workspace.getTopBlocks()[0];
-    //        const id = decoder.id;
-    //        const name = decoder.getProcedureDef()[0];
-    //        const xml = this.GetStringXML();
-    //        const code = this.GenerateCSharp();
-    //        const spec = this.GenerateFrench();
-    //        return new Decoder(id, name, null, null, null, xml, code, spec, true);
-    //    } 
-    //    return null;      
-    //}
     Workspace.prototype.GetName = function () {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     };
     Workspace.GetName = function () {
         return Workspace.singleton.GetName();
     };
+    /**
+     * Checks if the workspace contains only one element and that element is a decoder.
+     */
     Workspace.prototype.IsADecoder = function () {
         var blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getProcedureDef);
@@ -119,7 +113,7 @@ var Workspace = (function () {
     Workspace.RestoreBlock = function (decoder) {
         this.RestoreBlock(decoder);
     };
-    /**************************** Variables **********************************/
+    /**************************** Toolbox **********************************/
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
     };

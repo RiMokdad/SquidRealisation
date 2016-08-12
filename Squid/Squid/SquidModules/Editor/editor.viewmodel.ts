@@ -69,7 +69,7 @@ export class EditorComponent {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     }
-
+    /* the view has to put it in the workspace on the page loading*/
     RestoreBlock(id: number): any {
         var decoder = new Decoder(); 
         Requests.GetDecoderDef(id, decoder);
