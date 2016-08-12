@@ -30,11 +30,16 @@ namespace Squid.Controllers
                 if (decoder.Id == null)
                 {
                     var decoderId = services.AddDecoder(decoder);
+                    MyHub.NotifyRefresh();
                     return Json(new { id = decoderId });
                 }
                 else
                 {
-                    services.UpdateDecoder(decoder);
+                    var mustRefreshToolbox = services.UpdateDecoder(decoder);
+                    if (mustRefreshToolbox)
+                    {
+                        MyHub.NotifyRefresh();
+                    }
                     return Json(new { id = decoder.Id });
                 }
             }

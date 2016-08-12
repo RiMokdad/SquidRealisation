@@ -102,22 +102,16 @@ var Workspace = (function () {
         return Workspace.singleton.GetXML();
     };
     Workspace.prototype.GetStringXML = function () {
-        return Blockly.Xml.workspaceToDom(this.workspace);
+        return Blockly.Xml.domToText(this.GetXML());
     };
     Workspace.GetStringXML = function () {
         return Workspace.singleton.GetStringXML();
     };
-    Workspace.prototype.StringyfiedXML = function () {
-        return Blockly.Xml.domToText(this.GetXML());
-    };
-    Workspace.StringyfieldXML = function () {
-        return Workspace.singleton.StringyfiedXML();
-    };
-    Workspace.prototype.PrettyStringyfiedXML = function () {
+    Workspace.prototype.GetPrettyStringXML = function () {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     };
-    Workspace.PrettyStringyfieldXML = function () {
-        return Workspace.singleton.PrettyStringyfiedXML();
+    Workspace.GetPrettyStringXML = function () {
+        return Workspace.singleton.GetPrettyStringXML();
     };
     /************************ Workspace and storage **************************************************/
     Workspace.prototype.SaveLocal = function (location) {

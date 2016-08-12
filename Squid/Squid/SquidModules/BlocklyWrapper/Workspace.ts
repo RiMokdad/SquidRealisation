@@ -134,27 +134,19 @@ export class Workspace {
     }
 
     GetStringXML(): string {
-        return Blockly.Xml.workspaceToDom(this.workspace);
+        return Blockly.Xml.domToText(this.GetXML());
     }
 
     static GetStringXML(): string {
         return Workspace.singleton.GetStringXML();
     }
 
-    StringyfiedXML(): string {
-        return Blockly.Xml.domToText(this.GetXML());
-    }
-
-    static StringyfieldXML(): string {
-        return Workspace.singleton.StringyfiedXML();
-    }
-
-    PrettyStringyfiedXML(): string {
+    GetPrettyStringXML(): string {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     }
 
-    static PrettyStringyfieldXML(): string {
-        return Workspace.singleton.PrettyStringyfiedXML();
+    static GetPrettyStringXML(): string {
+        return Workspace.singleton.GetPrettyStringXML();
     }
 
     /************************ Workspace and storage **************************************************/

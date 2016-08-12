@@ -153,7 +153,7 @@ Blockly.CSharp.scrub_ = function (block, code) {
         // Collect comments for all value arguments.
         // Don't collect comments for nested statements.
         for (var x = 0; x < block.inputList.length; x++) {
-            if (block.inputList[x].type == Blockly.INPUT_VALUE) {
+            if (block.inputList[x].type === Blockly.INPUT_VALUE) {
                 var childBlock = block.inputList[x].connection.targetBlock();
                 if (childBlock) {
                     var comment = this.allNestedComments(childBlock);
