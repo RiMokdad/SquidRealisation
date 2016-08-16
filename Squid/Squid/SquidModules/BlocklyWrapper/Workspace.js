@@ -55,14 +55,14 @@ var Workspace = (function () {
     //    //block.setAttribute('gap', '16');
     //    //return block; 
     //}
-    Workspace.prototype.InitializeWorkspace = function () {
+    Workspace.prototype.Initialize = function () {
         var procedureXML = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn" id="0" x="312" y="112"><field name="NAME">faire quelque chose</field><comment pinned="false" h="80" w="160">Décrire cette fonction…</comment></block></xml>';
         var dom = Blockly.Xml.textToDom(procedureXML);
         //console.log(dom);
         Blockly.Xml.domToWorkspace(dom, this.workspace);
     };
-    Workspace.InitializeWorkspace = function () {
-        Workspace.singleton.InitializeWorkspace();
+    Workspace.Initialize = function () {
+        Workspace.singleton.Initialize();
     };
     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter

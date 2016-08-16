@@ -13,15 +13,27 @@ var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
+var EventHandler_1 = require("./../Util/EventHandler");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new Decoder_1.Decoder();
-        //loading = this.OnLoad();
+        this.eventHandler = EventHandler_1.EventHandler.SetEditorComponent(this);
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
+        console.log("I'm constructed");
     }
+    EditorComponent.prototype.OnLoad = function () {
+        this.toolboxManager = new toolboxManager_1.ToolboxManager();
+        Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        var id = this.GetBlockIdInUrl();
+        if (id != null) {
+            this.RestoreBlock(id);
+        }
+        else {
+            Workspace_1.Workspace.Initialize();
+        }
+    };
     EditorComponent.prototype.Clear = function () {
         Workspace_1.Workspace.Clear();
     };
@@ -43,30 +55,14 @@ var EditorComponent = (function () {
         var _this = this;
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        var callback = function (map) {
-            _this.toolboxManager.UpdateBlocksInfos(map);
-            if (!_this.acTags) {
-                Ac.SetTagsAutocomplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-                _this.acTags = true;
-            }
-            else {
-                Ac.RefreshTags(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-            }
-            if (!_this.acCategory) {
-                Ac.SetCategoryAutocomplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-                _this.acCategory = true;
-            }
-            else {
-                Ac.RefreshCategories(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-            }
-        };
-        server_request_1.Requests.GetCategories(callback);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS autocomplete
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
     EditorComponent.prototype.OpenTab = function () {
         window.open(this.GetBaseUrl());
@@ -89,6 +85,7 @@ var EditorComponent = (function () {
         var _this = this;
         var callback = function () {
             //console.log(this.decoder);
+            _this.decoder.Id = id;
             Workspace_1.Workspace.RestoreBlocks(_this.decoder);
         };
         console.log(this.decoder);
@@ -100,19 +97,10 @@ var EditorComponent = (function () {
         return "index.html";
     };
     EditorComponent.prototype.GetBlockIdInUrl = function () {
-        return parseInt(window.location.hash.substring(1));
+        return parseInt(window.location.hash.substring(1)) || null;
     };
     EditorComponent.prototype.SetUrl = function () {
         window.location.hash = this.decoder.Id ? this.decoder.Id : "";
-    };
-    EditorComponent.prototype.OnLoad = function () {
-        var id = this.GetBlockIdInUrl();
-        if (id !== null) {
-            this.RestoreBlock(id);
-        }
-        else {
-            Workspace_1.Workspace.InitializeWorkspace();
-        }
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -129,9 +117,6 @@ exports.EditorComponent = EditorComponent;
  * @returns {}
  */
 window.onload = function () {
-    var tbMan = new toolboxManager_1.ToolboxManager();
-    Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
-    if (window.location.hash !== "") {
-    }
+    EventHandler_1.EventHandler.OnLoad();
 };
 //# sourceMappingURL=editor.viewmodel.js.map

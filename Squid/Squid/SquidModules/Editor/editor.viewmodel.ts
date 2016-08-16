@@ -5,6 +5,7 @@ import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
 import {Messages} from "./../Util/Messages";
+import {EventHandler} from "./../Util/EventHandler";
 
 declare var Ac:any;
 
@@ -15,17 +16,33 @@ declare var Ac:any;
 export class EditorComponent {
 
     decoder = new Decoder();
-    //loading = this.OnLoad();
+    eventHandler = EventHandler.SetEditorComponent(this);
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
-    toolboxManager = new ToolboxManager();
+    toolboxManager: ToolboxManager;
     acTags;
     acCategory;
 
     
 
     private initialized_ = false;
+
+    constructor() {
+        console.log("I'm constructed");
+    }
+
+    OnLoad() {
+        this.toolboxManager = new ToolboxManager();
+        Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+
+        const id = this.GetBlockIdInUrl();
+        if (id != null) {
+            this.RestoreBlock(id);
+        } else {
+            Workspace.Initialize();
+        }
+    }
 
     Clear() {
         Workspace.Clear();
@@ -51,6 +68,7 @@ export class EditorComponent {
     Refresh() {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const callback = (map) => {
             this.toolboxManager.UpdateBlocksInfos(map);
             if (!this.acTags) {
@@ -68,7 +86,7 @@ export class EditorComponent {
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS autocomplete
         
               
@@ -76,7 +94,7 @@ export class EditorComponent {
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
     OpenTab() {
@@ -100,6 +118,7 @@ export class EditorComponent {
     public RestoreBlock(id: number) {
         const callback = () => {
             //console.log(this.decoder);
+            this.decoder.Id = id;
             Workspace.RestoreBlocks(this.decoder);
         };
         console.log(this.decoder);
@@ -113,7 +132,7 @@ export class EditorComponent {
     }
 
     private GetBlockIdInUrl(): number {
-        return parseInt(window.location.hash.substring(1));
+        return parseInt(window.location.hash.substring(1)) || null;
     }
 
     private SetUrl() {
@@ -138,10 +157,5 @@ export class EditorComponent {
  * @returns {} 
  */
 window.onload = () => {
-    var tbMan = new ToolboxManager();
-    Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
-    if (window.location.hash !== "") {
-        //alert("chargera le bloc");
-
-    }     
+    EventHandler.OnLoad();
 }

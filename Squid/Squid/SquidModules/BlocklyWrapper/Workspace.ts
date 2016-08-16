@@ -75,15 +75,15 @@ export class Workspace {
     //    //return block; 
     //}
 
-    InitializeWorkspace() {
+    Initialize() {
         const procedureXML = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn" id="0" x="312" y="112"><field name="NAME">faire quelque chose</field><comment pinned="false" h="80" w="160">Décrire cette fonction…</comment></block></xml>';
         const dom = Blockly.Xml.textToDom(procedureXML);
         //console.log(dom);
         Blockly.Xml.domToWorkspace(dom, this.workspace);
     }
 
-    static InitializeWorkspace() {
-        Workspace.singleton.InitializeWorkspace();
+    static Initialize() {
+        Workspace.singleton.Initialize();
     }
 
     /**
