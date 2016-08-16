@@ -20,9 +20,20 @@ var EditorComponent = (function () {
         this.eventHandler = EventHandler_1.EventHandler.SetEditorComponent(this);
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
+        console.log("I'm constructed");
     }
+    EditorComponent.prototype.OnLoad = function () {
+        this.toolboxManager = new toolboxManager_1.ToolboxManager();
+        Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        var id = this.GetBlockIdInUrl();
+        if (id != null) {
+            this.RestoreBlock(id);
+        }
+        else {
+            Workspace_1.Workspace.Initialize();
+        }
+    };
     EditorComponent.prototype.Clear = function () {
         Workspace_1.Workspace.Clear();
     };
@@ -74,6 +85,7 @@ var EditorComponent = (function () {
         var _this = this;
         var callback = function () {
             //console.log(this.decoder);
+            _this.decoder.Id = id;
             Workspace_1.Workspace.RestoreBlocks(_this.decoder);
         };
         console.log(this.decoder);
@@ -85,20 +97,10 @@ var EditorComponent = (function () {
         return "index.html";
     };
     EditorComponent.prototype.GetBlockIdInUrl = function () {
-        //console.log("l'id = " + window.location.hash.substring(1));
-        return window.location.hash.substring(1);
+        return parseInt(window.location.hash.substring(1)) || null;
     };
     EditorComponent.prototype.SetUrl = function () {
         window.location.hash = this.decoder.Id ? this.decoder.Id : "";
-    };
-    EditorComponent.prototype.OnLoad = function () {
-        var id = this.GetBlockIdInUrl();
-        if (id !== "") {
-            this.RestoreBlock(parseInt(id));
-        }
-        else {
-            Workspace_1.Workspace.InitializeWorkspace();
-        }
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -115,8 +117,6 @@ exports.EditorComponent = EditorComponent;
  * @returns {}
  */
 window.onload = function () {
-    var tbMan = new toolboxManager_1.ToolboxManager();
-    Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     EventHandler_1.EventHandler.OnLoad();
 };
 //# sourceMappingURL=editor.viewmodel.js.map

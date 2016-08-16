@@ -20,9 +20,25 @@ export class EditorComponent {
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
-    toolboxManager = new ToolboxManager();
+    toolboxManager: ToolboxManager;
 
     private initialized_ = false;
+
+    constructor() {
+        console.log("I'm constructed");
+    }
+
+    OnLoad() {
+        this.toolboxManager = new ToolboxManager();
+        Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+
+        const id = this.GetBlockIdInUrl();
+        if (id != null) {
+            this.RestoreBlock(id);
+        } else {
+            Workspace.Initialize();
+        }
+    }
 
     Clear() {
         Workspace.Clear();
@@ -81,6 +97,7 @@ export class EditorComponent {
     public RestoreBlock(id: number) {
         const callback = () => {
             //console.log(this.decoder);
+            this.decoder.Id = id;
             Workspace.RestoreBlocks(this.decoder);
         };
         console.log(this.decoder);
@@ -93,23 +110,12 @@ export class EditorComponent {
         return "index.html";
     }
 
-    private GetBlockIdInUrl(): string {
-        //console.log("l'id = " + window.location.hash.substring(1));
-        return window.location.hash.substring(1);
+    private GetBlockIdInUrl(): number {
+        return parseInt(window.location.hash.substring(1)) || null;
     }
 
     private SetUrl() {
         window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
-    }
-
-    public OnLoad() {
-        var id = this.GetBlockIdInUrl();
-        if (id !== "") {
-            this.RestoreBlock(parseInt(id));
-        }
-        else {
-            Workspace.InitializeWorkspace();
-        }
     }
 
 }
@@ -119,7 +125,5 @@ export class EditorComponent {
  * @returns {} 
  */
 window.onload = () => {
-    var tbMan = new ToolboxManager();
-    Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     EventHandler.OnLoad();
 }
