@@ -9,7 +9,7 @@ export class EventHandler {
         EventHandler.editor = editor;
     }
 
-    OnLoad() {
+    static OnLoad() {
         EventHandler.editor.OnLoad();
     }
 }

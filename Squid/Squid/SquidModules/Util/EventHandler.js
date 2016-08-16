@@ -5,7 +5,7 @@ var EventHandler = (function () {
     EventHandler.SetEditorComponent = function (editor) {
         EventHandler.editor = editor;
     };
-    EventHandler.prototype.OnLoad = function () {
+    EventHandler.OnLoad = function () {
         EventHandler.editor.OnLoad();
     };
     return EventHandler;

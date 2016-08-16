@@ -5,6 +5,7 @@ import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
 import {Messages} from "./../Util/Messages";
+import {EventHandler} from "./../Util/EventHandler";
 
 declare var Ac:any;
 
@@ -15,7 +16,7 @@ declare var Ac:any;
 export class EditorComponent {
 
     decoder = new Decoder();
-    //loading = this.OnLoad();
+    eventHandler = EventHandler.SetEditorComponent(this);
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
@@ -91,8 +92,9 @@ export class EditorComponent {
         return "index.html";
     }
 
-    private GetBlockIdInUrl(): number {
-        return parseInt(window.location.hash.substring(1));
+    private GetBlockIdInUrl(): string {
+        //console.log("l'id = " + window.location.hash.substring(1));
+        return window.location.hash.substring(1);
     }
 
     private SetUrl() {
@@ -101,8 +103,8 @@ export class EditorComponent {
 
     public OnLoad() {
         var id = this.GetBlockIdInUrl();
-        if (id !== null) {
-            this.RestoreBlock(id);
+        if (id !== "") {
+            this.RestoreBlock(parseInt(id));
         }
         else {
             Workspace.InitializeWorkspace();
@@ -118,9 +120,5 @@ export class EditorComponent {
 window.onload = () => {
     var tbMan = new ToolboxManager();
     Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
-    if (window.location.hash !== "") {
-        //alert("chargera le bloc");
-
-    }
-    //setTimeout(Ac.SetTagsAutocomplete(),1000);
+    EventHandler.OnLoad();
 }
