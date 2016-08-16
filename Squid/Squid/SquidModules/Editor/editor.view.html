@@ -16,7 +16,7 @@
                 <!-- Adding the search bar for tags -->
                 <div class="toolbar-group">
                     <!-- There's a fix for this input, but i don't get why anchor is not at he good spot -->
-                    <input class="item-workspace"
+                    <input class="item-workspace"                           
                            style="top: -10px;"
                            type="text"
                            placeholder="{{placeholderTags}}"
@@ -67,6 +67,7 @@
                         </div>
                         <div class="col-sm-5 ">
                             <input class="item-workspace"
+                                   id="tags"
                                    type="text"
                                    placeholder="tags1, tags2, ..."
                                    [(ngModel)]="decoder.Tags" />

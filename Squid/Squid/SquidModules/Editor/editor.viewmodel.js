@@ -45,7 +45,7 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
         //TESTS autocomplete
-        //Ac.RefreshTags();
+        Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -116,6 +116,6 @@ window.onload = function () {
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     if (window.location.hash !== "") {
     }
-    //setTimeout(Ac.SetTagsAutocomplete(),1000);
+    setTimeout(Ac.SetTagsAutocomplete(), 1000);
 };
 //# sourceMappingURL=editor.viewmodel.js.map

@@ -50,7 +50,7 @@ export class EditorComponent {
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
         //TESTS autocomplete
-        //Ac.RefreshTags();
+        Ac.RefreshTags();
     }
 
     SearchTag() {
@@ -122,5 +122,5 @@ window.onload = () => {
         //alert("chargera le bloc");
 
     }
-    //setTimeout(Ac.SetTagsAutocomplete(),1000);
+    setTimeout(Ac.SetTagsAutocomplete(),1000);
 }
