@@ -42,7 +42,7 @@ var BlockInfos = (function () {
         return elem;
     };
     BlockInfos.prototype.IsTagged = function (tags) {
-        var innerTags = tags.split(",");
+        var innerTags = this.tags.split(",");
         if (typeof (tags) == "string") {
             //Parameter is a single string
             for (var i = 0; i < innerTags.length; i++) {

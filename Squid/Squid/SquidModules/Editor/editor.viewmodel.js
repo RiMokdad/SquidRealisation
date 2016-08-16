@@ -51,7 +51,7 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
     };
     EditorComponent.prototype.SearchTag = function () {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
@@ -60,6 +60,7 @@ var EditorComponent = (function () {
     EditorComponent.prototype.SaveDecoderToServer = function () {
         if (Workspace_1.Workspace.IsADecoder()) {
             Workspace_1.Workspace.CompleteDecoder(this.decoder);
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
             this.SetUrl();
         }

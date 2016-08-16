@@ -56,7 +56,7 @@ export class EditorComponent {
     }
 
     SearchTag() {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
@@ -67,6 +67,7 @@ export class EditorComponent {
     private SaveDecoderToServer() {
         if (Workspace.IsADecoder()) {
             Workspace.CompleteDecoder(this.decoder);
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             Requests.SaveDecoder(this.decoder);
             this.SetUrl();
         } else {
