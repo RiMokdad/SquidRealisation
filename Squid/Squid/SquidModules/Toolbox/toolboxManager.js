@@ -116,17 +116,24 @@ var ToolboxManager = (function () {
         this.decoders.appendChild(proc);
         for (var i = 0; i < this.BlocksInCat.length; i++) {
             var catName = this.BlocksInCat[i].category;
-            var valName = 0;
-            for (var j = 0; j < catName.length; j++) {
-                valName += catName.charCodeAt(j);
-            }
             var blocks = this.BlocksInCat[i].blocks;
-            var cat = document.createElement("category");
-            cat.setAttribute("name", catName);
-            cat.setAttribute("colour", (valName % 360 + 1));
-            this.decoders.appendChild(cat);
-            for (var j = 0; j < blocks.length; j++) {
-                cat.appendChild(blocks[j].CreateFlyout());
+            if (catName !== "") {
+                var valName = 0;
+                for (var j = 0; j < catName.length; j++) {
+                    valName += catName.charCodeAt(j);
+                }
+                var cat = document.createElement("category");
+                cat.setAttribute("name", catName);
+                cat.setAttribute("colour", (valName % 360));
+                this.decoders.appendChild(cat);
+                for (var j = 0; j < blocks.length; j++) {
+                    cat.appendChild(blocks[j].CreateFlyout());
+                }
+            }
+            else {
+                for (var j = 0; j < blocks.length; j++) {
+                    this.decoders.appendChild(blocks[j].CreateFlyout());
+                }
             }
         }
     };

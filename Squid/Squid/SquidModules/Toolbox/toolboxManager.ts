@@ -136,19 +136,26 @@ export class ToolboxManager {
 
         for (let i = 0; i < this.BlocksInCat.length; i++) {
             const catName = this.BlocksInCat[i].category;
-            let valName = 0;
-            for (let j = 0; j < catName.length; j++) {
-                valName += catName.charCodeAt(j);
-            }
             const blocks = this.BlocksInCat[i].blocks;
 
-            const cat = document.createElement("category");
-            cat.setAttribute("name", catName);
-            cat.setAttribute("colour", <string><any>(valName % 360 + 1));
-            this.decoders.appendChild(cat);
+            if (catName !== "") {
+                let valName = 0;
+                for (let j = 0; j < catName.length; j++) {
+                    valName += catName.charCodeAt(j);
+                }
 
-            for (let j = 0; j < blocks.length; j++) {
-                cat.appendChild(blocks[j].CreateFlyout());
+                const cat = document.createElement("category");
+                cat.setAttribute("name", catName);
+                cat.setAttribute("colour", ((valName % 360) as any) as string);
+                this.decoders.appendChild(cat);
+
+                for (let j = 0; j < blocks.length; j++) {
+                    cat.appendChild(blocks[j].CreateFlyout());
+                }
+            } else {
+                for (let j = 0; j < blocks.length; j++) {
+                    this.decoders.appendChild(blocks[j].CreateFlyout());
+                }
             }
         }
     }

@@ -22,12 +22,6 @@ var EditorComponent = (function () {
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
     }
-    //Init() {
-    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
-    //    if (window.location.hash !== "") {
-    //        alert("chargera le bloc");
-    //    }
-    //}
     EditorComponent.prototype.Clear = function () {
         Workspace_1.Workspace.Clear();
     };

@@ -21,13 +21,6 @@ export class EditorComponent {
 
     private initialized_ = false;
 
-    //Init() {
-    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
-    //    if (window.location.hash !== "") {
-    //        alert("chargera le bloc");
-    //    }
-    //}
-
     Clear() {
         Workspace.Clear();
     }
