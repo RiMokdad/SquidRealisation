@@ -19,6 +19,10 @@ export class EditorComponent {
     tagsSearch: string;
     placeholderTags: string;
     toolboxManager: ToolboxManager;
+    acTags;
+    acCategory;
+
+    
 
     constructor() {
         EventHandler.SetEditorComponent(this);
@@ -37,6 +41,7 @@ export class EditorComponent {
         } else {
             Workspace.Initialize();
         }
+        this.Refresh();
     }
 
     Clear() {
@@ -64,10 +69,27 @@ export class EditorComponent {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        const callback = (map) => {
+            this.toolboxManager.UpdateBlocksInfos(map);
+            if (!this.acTags) {
+                Ac.SetTagsAutocomplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+                this.acTags = true;
+            } else {
+                Ac.RefreshTags(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+            }
+            if (!this.acCategory) {
+                Ac.SetCategoryAutocomplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+                this.acCategory = true;
+            } else {
+                Ac.RefreshCategories(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+            }
+        };
+
+        Requests.GetCategories(callback);
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS autocomplete
-        //Ac.RefreshTags();
+        
+              
     }
 
     SearchTag() {
@@ -116,6 +138,7 @@ export class EditorComponent {
     private SetUrl() {
         window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
     }
+    
 
 }
 
