@@ -68,6 +68,24 @@ export class Workspace {
         return Workspace.singleton.GenerateFrench();
     }
 
+    //CreateProcedure(): any {
+    //    //var block = goog.dom.createDom('block');
+    //    //block.setAttribute('type', 'procedures_defnoreturn');
+    //    //block.setAttribute('gap', '16');
+    //    //return block; 
+    //}
+
+    InitializeWorkspace() {
+        const procedureXML = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn" id="0" x="312" y="112"><field name="NAME">faire quelque chose</field><comment pinned="false" h="80" w="160">Décrire cette fonction…</comment></block></xml>';
+        const dom = Blockly.Xml.textToDom(procedureXML);
+        //console.log(dom);
+        Blockly.Xml.domToWorkspace(dom, this.workspace);
+    }
+
+    static InitializeWorkspace() {
+        Workspace.singleton.InitializeWorkspace();
+    }
+
     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
      * @param decoder
@@ -93,7 +111,9 @@ export class Workspace {
     static GetName(): string {
         return Workspace.singleton.GetName();
     }
-
+    /**
+     * Checks if the workspace contains only one element and that element is a decoder.
+     */
     IsADecoder(): boolean {
         const blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getProcedureDef);
@@ -102,7 +122,6 @@ export class Workspace {
     static IsADecoder(): boolean {
         return Workspace.singleton.IsADecoder();
     }
-
 
 
     Clear() {
@@ -156,7 +175,7 @@ export class Workspace {
         Workspace.singleton.RestoreBlocks(blocks);
     }
 
-    /**************************** Variables **********************************/
+    /**************************** Toolbox **********************************/
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);

@@ -78,20 +78,24 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
     };
-    EditorComponent.prototype.OnLoad = function () {
-        if (window.location.hash !== "") {
-            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
-        }
-    };
     /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
         return "index.html";
     };
     EditorComponent.prototype.GetBlockIdInUrl = function () {
-        return parseInt(window.location.href.split("#")[1]);
+        return parseInt(window.location.hash.substring(1));
     };
     EditorComponent.prototype.SetUrl = function () {
         window.location.hash = this.decoder.Id ? this.decoder.Id : "";
+    };
+    EditorComponent.prototype.OnLoad = function () {
+        var id = this.GetBlockIdInUrl();
+        if (id !== null) {
+            this.RestoreBlock(id);
+        }
+        else {
+            Workspace_1.Workspace.InitializeWorkspace();
+        }
     };
     EditorComponent = __decorate([
         core_1.Component({
