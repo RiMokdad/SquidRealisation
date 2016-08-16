@@ -47,15 +47,16 @@ export class EditorComponent {
     Refresh() {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS autocomplete
         //Ac.RefreshTags();
     }
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
     OpenTab() {
@@ -117,7 +118,7 @@ export class EditorComponent {
  */
 window.onload = () => {
     var tbMan = new ToolboxManager();
-    Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+    Workspace.Inject("blocklyDiv", false, tbMan.GetToolbox());
     if (window.location.hash !== "") {
         //alert("chargera le bloc");
 

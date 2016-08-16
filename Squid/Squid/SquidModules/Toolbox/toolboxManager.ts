@@ -24,7 +24,7 @@ export class BlocksCat {
 }
 
 export class ToolboxManager {
-    toolboxHTML: HTMLElement;
+    private toolboxHTML: HTMLElement;
     private decoders: HTMLElement;
     private research: HTMLElement;
     private BlocksInformations: BlockInfos[];
@@ -34,6 +34,17 @@ export class ToolboxManager {
         this.toolboxHTML = document.createElement("xml");
         this.BlocksInformations = new Array<BlockInfos>();
         this.CreateCategories(BLOCKS);
+    }
+
+    GetToolbox(loading?: boolean): HTMLElement {
+        if (loading) {
+            this.EmptyDecoders_();
+            this.decoders.setAttribute("name", "Chargement...");
+            this.UpdateResearch(null);
+        } else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
+        return this.toolboxHTML;
     }
 
     private CreateCategories(blocks: any) {
@@ -68,7 +79,7 @@ export class ToolboxManager {
 
         //Add researched decoders
         this.research = document.createElement("category");
-        this.research.setAttribute("name", "Recherches");
+        this.research.setAttribute("name", "Recherche");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
     }
@@ -90,17 +101,8 @@ export class ToolboxManager {
         }
 
         this.UpdateCategories();
-        this.SetLoadingText(false);
         Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
-
-    private SetLoadingText(flag: boolean) {
-        if (flag) {
-            this.decoders.setAttribute("name", "Chargement...");
-        } else {
-            this.decoders.setAttribute("name", "Mes décodeurs");
-        }
-    }
 
     private GenerateBlocksListFromMap(map: Object) {
         this.BlocksInCat = new Array<BlocksCat>();
@@ -134,11 +136,20 @@ export class ToolboxManager {
         }
     }
 
-    UpdateCategories() {
-        //clear
+    private EmptyDecoders_() {
         while (this.decoders.firstChild) {
             this.decoders.removeChild(this.decoders.firstChild);
         }
+    }
+
+    private EmptyResearch_() {
+        while (this.research.firstChild) {
+            this.research.removeChild(this.research.firstChild);
+        }
+    }
+
+    UpdateCategories() {
+        this.EmptyDecoders_();
         //add
         const proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
@@ -168,16 +179,17 @@ export class ToolboxManager {
                 }
             }
         }
-        this.SetLoadingText(true);
     }
 
     UpdateResearch(tags: string[]);
     UpdateResearch(tag: string);
 
     UpdateResearch(tags: any) {
-        //clear
-        while (this.research.firstChild) {
-            this.research.removeChild(this.research.firstChild);
+
+        this.EmptyResearch_();
+        if (tags == null) {
+            this.research.setAttribute("name", "Recherche");
+            return;
         }
 
         //add
