@@ -84,13 +84,23 @@ export class ToolboxManager {
         } else {
             for (let i = 0; i < list.length; i++) {
                 this.BlocksInformations.push(BlockInfos.ObjectToBlockInfos(list[i]));
+
             }
             this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
 
         this.UpdateCategories();
+        this.SetLoadingText(false);
         Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
+
+    private SetLoadingText(flag: boolean) {
+        if (flag) {
+            this.decoders.setAttribute("name", "Chargement...");
+        } else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
+    }
 
     private GenerateBlocksListFromMap(map: Object) {
         this.BlocksInCat = new Array<BlocksCat>();
@@ -158,6 +168,7 @@ export class ToolboxManager {
                 }
             }
         }
+        this.SetLoadingText(true);
     }
 
     UpdateResearch(tags: string[]);

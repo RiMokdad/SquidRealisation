@@ -43,6 +43,9 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        //TESTS autocomplete
+        //Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -109,5 +112,6 @@ window.onload = function () {
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     if (window.location.hash !== "") {
     }
+    //setTimeout(Ac.SetTagsAutocomplete(),1000);
 };
 //# sourceMappingURL=editor.viewmodel.js.map

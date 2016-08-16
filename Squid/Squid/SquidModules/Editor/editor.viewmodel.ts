@@ -6,6 +6,8 @@ import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
 import {Messages} from "./../Util/Messages";
 
+declare var Ac:any;
+
 @Component({
     selector: "editor",
     templateUrl: "SquidModules/Editor/editor.view.html"
@@ -46,6 +48,9 @@ export class EditorComponent {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        //TESTS autocomplete
+        //Ac.RefreshTags();
     }
 
     SearchTag() {
@@ -113,4 +118,5 @@ window.onload = () => {
         //alert("chargera le bloc");
 
     }
+    //setTimeout(Ac.SetTagsAutocomplete(),1000);
 }

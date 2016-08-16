@@ -73,7 +73,16 @@ var ToolboxManager = (function () {
             this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
         this.UpdateCategories();
+        this.SetLoadingText(false);
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
+    };
+    ToolboxManager.prototype.SetLoadingText = function (flag) {
+        if (flag) {
+            this.decoders.setAttribute("name", "Chargement...");
+        }
+        else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
     };
     ToolboxManager.prototype.GenerateBlocksListFromMap = function (map) {
         this.BlocksInCat = new Array();
@@ -136,6 +145,7 @@ var ToolboxManager = (function () {
                 }
             }
         }
+        this.SetLoadingText(true);
     };
     ToolboxManager.prototype.UpdateResearch = function (tags) {
         //clear
