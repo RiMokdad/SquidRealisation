@@ -16,6 +16,7 @@ var server_request_1 = require("../Request/server_request");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new Decoder_1.Decoder();
+        this.loading = this.OnLoad();
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
@@ -72,11 +73,17 @@ var EditorComponent = (function () {
     EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function () {
-            console.log(_this.decoder);
+            //console.log(this.decoder);
             Workspace_1.Workspace.RestoreBlocks(_this.decoder);
         };
+        console.log(this.decoder);
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
+    };
+    EditorComponent.prototype.OnLoad = function () {
+        if (window.location.hash !== "") {
+            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
+        }
     };
     /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
@@ -106,7 +113,6 @@ window.onload = function () {
     var tbMan = new toolboxManager_1.ToolboxManager();
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     if (window.location.hash !== "") {
-        alert("chargera le bloc");
     }
 };
 //# sourceMappingURL=editor.viewmodel.js.map
