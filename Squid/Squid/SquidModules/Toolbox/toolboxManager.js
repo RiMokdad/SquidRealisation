@@ -65,6 +65,14 @@ var ToolboxManager = (function () {
     /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
         
     }*/
+    ToolboxManager.prototype.SetLoadingText = function (flag) {
+        if (flag) {
+            this.decoders.setAttribute("name", "Chargement...");
+        }
+        else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
+    };
     ToolboxManager.prototype.UpdateBlocksInfos = function (map) {
         this.BlocksInformations = new Array();
         for (var category in map) {
@@ -75,6 +83,7 @@ var ToolboxManager = (function () {
             this.BlocksInformations.push(cat);
         }
         this.UpdateCategories();
+        this.SetLoadingText(false);
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     };
     ToolboxManager.prototype.UpdateCategories = function () {

@@ -21,6 +21,7 @@ var EditorComponent = (function () {
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
     }
+    //Auto completion
     //Init() {
     //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
     //    if (window.location.hash !== "") {
@@ -48,6 +49,10 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        this.toolboxManager.SetLoadingText(true);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        //TESTS autocomplete
+        //Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -109,5 +114,6 @@ window.onload = function () {
     if (window.location.hash !== "") {
         alert("chargera le bloc");
     }
+    //setTimeout(Ac.SetTagsAutocomplete(),1000);
 };
 //# sourceMappingURL=editor.viewmodel.js.map

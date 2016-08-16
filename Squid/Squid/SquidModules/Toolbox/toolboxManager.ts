@@ -81,6 +81,14 @@ export class ToolboxManager {
         
     }*/
 
+    SetLoadingText(flag: boolean) {
+        if (flag) {
+            this.decoders.setAttribute("name", "Chargement...");
+        } else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
+    }
+
     UpdateBlocksInfos(map: Object) {
         this.BlocksInformations = new Array<BlocksCat>();
         for (var category in map) {
@@ -91,6 +99,7 @@ export class ToolboxManager {
             this.BlocksInformations.push(cat);          
         }
         this.UpdateCategories();
+        this.SetLoadingText(false);
         Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
 
