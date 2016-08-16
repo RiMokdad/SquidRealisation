@@ -20,6 +20,10 @@ export class EditorComponent {
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
     toolboxManager = new ToolboxManager();
+    acTags;
+    acCategory;
+
+    
 
     private initialized_ = false;
 
@@ -47,10 +51,27 @@ export class EditorComponent {
     Refresh() {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        const callback = (map) => {
+            this.toolboxManager.UpdateBlocksInfos(map);
+            if (!this.acTags) {
+                Ac.SetTagsAutocomplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+                this.acTags = true;
+            } else {
+                Ac.RefreshTags(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+            }
+            if (!this.acCategory) {
+                Ac.SetCategoryAutocomplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+                this.acCategory = true;
+            } else {
+                Ac.RefreshCategories(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+            }
+        };
+
+        Requests.GetCategories(callback);
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
         //TESTS autocomplete
-        Ac.RefreshTags();
+        
+              
     }
 
     SearchTag() {
@@ -108,6 +129,7 @@ export class EditorComponent {
             Workspace.InitializeWorkspace();
         }
     }
+    
 
 }
 
@@ -121,6 +143,5 @@ window.onload = () => {
     if (window.location.hash !== "") {
         //alert("chargera le bloc");
 
-    }
-    setTimeout(Ac.SetTagsAutocomplete(),1000);
+    }     
 }

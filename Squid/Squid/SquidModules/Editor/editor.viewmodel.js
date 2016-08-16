@@ -40,12 +40,29 @@ var EditorComponent = (function () {
         server_request_1.Requests.DeleteDecoder(this.decoder, deletion);
     };
     EditorComponent.prototype.Refresh = function () {
+        var _this = this;
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
+        var callback = function (map) {
+            _this.toolboxManager.UpdateBlocksInfos(map);
+            if (!_this.acTags) {
+                Ac.SetTagsAutocomplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
+                _this.acTags = true;
+            }
+            else {
+                Ac.RefreshTags(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
+            }
+            if (!_this.acCategory) {
+                Ac.SetCategoryAutocomplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
+                _this.acCategory = true;
+            }
+            else {
+                Ac.RefreshCategories(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
+            }
+        };
+        server_request_1.Requests.GetCategories(callback);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
         //TESTS autocomplete
-        Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -116,6 +133,5 @@ window.onload = function () {
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     if (window.location.hash !== "") {
     }
-    setTimeout(Ac.SetTagsAutocomplete(), 1000);
 };
 //# sourceMappingURL=editor.viewmodel.js.map

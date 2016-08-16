@@ -1,5 +1,6 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
+declare var Ac: any;
 const BLOCKS: any[] = [
     [
         { name: "Briques de base", colour: 250 },
@@ -29,6 +30,8 @@ export class ToolboxManager {
     private research: HTMLElement;
     private BlocksInformations: BlockInfos[];
     private BlocksInCat: BlocksCat[];
+    //autocompletion
+    acTags;
 
     constructor() {
         this.toolboxHTML = document.createElement("xml");
