@@ -42,6 +42,7 @@ export class EditorComponent {
         } else {
             Workspace.Initialize();
         }
+        this.Refresh();
     }
 
     Clear() {
@@ -137,16 +138,6 @@ export class EditorComponent {
 
     private SetUrl() {
         window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
-    }
-
-    public OnLoad() {
-        var id = this.GetBlockIdInUrl();
-        if (id !== null) {
-            this.RestoreBlock(id);
-        }
-        else {
-            Workspace.InitializeWorkspace();
-        }
     }
     
 
