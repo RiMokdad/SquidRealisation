@@ -17,34 +17,31 @@ export class Decoder {
     Editable: boolean;
 
     constructor();
-    constructor(Id: number, Name: string, Version: string, Category: string, Tags: string, Xml: string, Code: string, FrenchSpec: string, Editable: boolean);
+    constructor(decoder: Decoder);
+    constructor(Name: string, Tags: string, Category: string, Version: string, Id: number, Xml: string, Code: string, FrenchSpec: string, Editable: boolean);
 
-    constructor(Id?: any, Name?: string, Version?: string, Category?: string, Tags?: string, Xml?: string, Code?: string, FrenchSpec?: string, Editable?: boolean) {
-        this.Id         = Id || null;
-        this.Name       = Name || "Decoder";
-        this.Version    = Version || "0.0";
-        this.Category   = Category || "";
-        this.Tags       = Tags || "";
-        this.Xml        = Xml || "";
-        this.Code       = Code || "";
-        this.FrenchSpec = FrenchSpec || "";
-        this.Editable   = Editable || true;
+    constructor(Name?: any, Tags?: string, Category?: string, Version?: string, Id?: number, Xml?: string, Code?: string, FrenchSpec?: string, Editable?: boolean) {
+        if (Name instanceof Decoder) {
+            this.update(Name);
+        } else {
+            this.Id = Id || null;
+            this.Name = Name || "Decoder";
+            this.Version = Version || "0.0";
+            this.Category = Category || "";
+            this.Tags = Tags || "";
+            this.Xml = Xml || "";
+            this.Code = Code || "";
+            this.FrenchSpec = FrenchSpec || "";
+            this.Editable = Editable || true;
+        }
     }
 
     static fromBlockInfos(bi: BlockInfos) {
-        return new Decoder(bi.id, bi.name, bi.version, null, bi.tags, null, null, null, bi.editable);
+        return new Decoder(bi.name, bi.tags, bi.category, bi.version, bi.id, null, null, null, bi.editable);
     }
 
     static copy(decoder: Decoder) {
-        return new Decoder(decoder.Id,
-            decoder.Name,
-            decoder.Version,
-            decoder.Category,
-            decoder.Tags,
-            decoder.Xml,
-            decoder.Code,
-            decoder.FrenchSpec,
-            decoder.Editable);
+        return new Decoder(decoder);
     }
 
     update(decoder: Decoder) {

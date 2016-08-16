@@ -28,6 +28,17 @@ var ToolboxManager = (function () {
         this.BlocksInformations = new Array();
         this.CreateCategories(BLOCKS);
     }
+    ToolboxManager.prototype.GetToolbox = function (loading) {
+        if (loading) {
+            this.EmptyDecoders_();
+            this.decoders.setAttribute("name", "Chargement...");
+            this.UpdateResearch(null);
+        }
+        else {
+            this.decoders.setAttribute("name", "Mes décodeurs");
+        }
+        return this.toolboxHTML;
+    };
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
             var name_1 = blocks[i][0].name;
@@ -57,7 +68,7 @@ var ToolboxManager = (function () {
         this.toolboxHTML.appendChild(this.decoders);
         //Add researched decoders
         this.research = document.createElement("category");
-        this.research.setAttribute("name", "Recherches");
+        this.research.setAttribute("name", "Recherche");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
     };
@@ -73,16 +84,7 @@ var ToolboxManager = (function () {
             this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
         this.UpdateCategories();
-        this.SetLoadingText(false);
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
-    };
-    ToolboxManager.prototype.SetLoadingText = function (flag) {
-        if (flag) {
-            this.decoders.setAttribute("name", "Chargement...");
-        }
-        else {
-            this.decoders.setAttribute("name", "Mes décodeurs");
-        }
     };
     ToolboxManager.prototype.GenerateBlocksListFromMap = function (map) {
         this.BlocksInCat = new Array();
@@ -114,11 +116,18 @@ var ToolboxManager = (function () {
             }
         }
     };
-    ToolboxManager.prototype.UpdateCategories = function () {
-        //clear
+    ToolboxManager.prototype.EmptyDecoders_ = function () {
         while (this.decoders.firstChild) {
             this.decoders.removeChild(this.decoders.firstChild);
         }
+    };
+    ToolboxManager.prototype.EmptyResearch_ = function () {
+        while (this.research.firstChild) {
+            this.research.removeChild(this.research.firstChild);
+        }
+    };
+    ToolboxManager.prototype.UpdateCategories = function () {
+        this.EmptyDecoders_();
         //add
         var proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
@@ -145,12 +154,12 @@ var ToolboxManager = (function () {
                 }
             }
         }
-        this.SetLoadingText(true);
     };
     ToolboxManager.prototype.UpdateResearch = function (tags) {
-        //clear
-        while (this.research.firstChild) {
-            this.research.removeChild(this.research.firstChild);
+        this.EmptyResearch_();
+        if (tags == null) {
+            this.research.setAttribute("name", "Recherche");
+            return;
         }
         //add
         for (var i = 0; i < this.BlocksInCat.length; i++) {

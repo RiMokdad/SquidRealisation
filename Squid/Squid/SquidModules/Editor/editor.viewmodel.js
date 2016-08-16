@@ -43,14 +43,15 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS autocomplete
         //Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
+        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
     EditorComponent.prototype.OpenTab = function () {
         window.open(this.GetBaseUrl());
