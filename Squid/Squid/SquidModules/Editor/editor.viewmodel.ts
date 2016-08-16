@@ -13,6 +13,7 @@ import {Messages} from "./../Util/Messages";
 export class EditorComponent {
 
     decoder = new Decoder();
+    loading = this.OnLoad();
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
@@ -77,13 +78,20 @@ export class EditorComponent {
         }
     }
 
-    private RestoreBlock(id: number) {
+    public RestoreBlock(id: number) {
         const callback = () => {
-            console.log(this.decoder);
+            //console.log(this.decoder);
             Workspace.RestoreBlocks(this.decoder);
         };
+        console.log(this.decoder);
         Requests.GetDecoderDef(id, this.decoder, callback);
         return null;      
+    }
+
+    public OnLoad() {
+        if (window.location.hash !== "") {
+            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
+        }
     }
 
     /* Url based methods */
@@ -98,6 +106,7 @@ export class EditorComponent {
     private SetUrl() {
         window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
     }
+
 }
 
 /**
@@ -108,6 +117,7 @@ window.onload = () => {
     var tbMan = new ToolboxManager();
     Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
     if (window.location.hash !== "") {
-        alert("chargera le bloc");
+        //alert("chargera le bloc");
+
     }
 }
