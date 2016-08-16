@@ -3,23 +3,13 @@ import { EditorComponent} from "./../Editor/editor.viewmodel";
 
 export class EventHandler {
 
-    editorViewModel = new EditorComponent();
+    private static editor: EditorComponent;
 
-    private static singleton: EventHandler;
-
-    static GetInstance(): EventHandler {
-        return EventHandler.singleton;
+    static SetEditorComponent(editor: EditorComponent) {
+        EventHandler.editor = editor;
     }
 
-    constructor() {
-        EventHandler.singleton = this;
-    }
-
-    OnLoadEvent() {
-        this.editorViewModel.OnLoad();
-    }
-
-    static OnLoadEvent() {
-        EventHandler.singleton.OnLoadEvent();
+    OnLoad() {
+        EventHandler.editor.OnLoad();
     }
 }
