@@ -16,12 +16,10 @@ var server_request_1 = require("../Request/server_request");
 var EventHandler_1 = require("./../Util/EventHandler");
 var EditorComponent = (function () {
     function EditorComponent() {
+        EventHandler_1.EventHandler.SetEditorComponent(this);
         this.decoder = new Decoder_1.Decoder();
-        this.eventHandler = EventHandler_1.EventHandler.SetEditorComponent(this);
-        this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
-        this.initialized_ = false;
-        console.log("I'm constructed");
+        this.tagsSearch = "";
     }
     EditorComponent.prototype.OnLoad = function () {
         this.toolboxManager = new toolboxManager_1.ToolboxManager();

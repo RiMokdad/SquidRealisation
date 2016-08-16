@@ -15,17 +15,16 @@ declare var Ac:any;
 }) 
 export class EditorComponent {
 
-    decoder = new Decoder();
-    eventHandler = EventHandler.SetEditorComponent(this);
-
-    tagsSearch = "";
-    placeholderTags = "tags1, tags2,...";
+    decoder: Decoder;
+    tagsSearch: string;
+    placeholderTags: string;
     toolboxManager: ToolboxManager;
 
-    private initialized_ = false;
-
     constructor() {
-        console.log("I'm constructed");
+        EventHandler.SetEditorComponent(this);
+        this.decoder = new Decoder();
+        this.placeholderTags = "tags1, tags2,...";
+        this.tagsSearch = "";
     }
 
     OnLoad() {
