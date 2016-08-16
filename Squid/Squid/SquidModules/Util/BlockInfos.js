@@ -5,7 +5,7 @@
  * for the definition.
  */
 var BlockInfos = (function () {
-    function BlockInfos(name, parameters, tags, version, id, editable) {
+    function BlockInfos(name, parameters, tags, category, version, id, editable) {
         this.id = id || null;
         this.name = name || "Decodeur";
         this.parameters = parameters || "";
@@ -20,6 +20,7 @@ var BlockInfos = (function () {
         else {
             this.tags = "";
         }
+        this.category = category || "";
         this.version = version || "0.0";
         this.editable = (editable !== false);
     }
@@ -64,8 +65,7 @@ var BlockInfos = (function () {
         return false;
     };
     BlockInfos.ObjectToBlockInfos = function (object) {
-        var blockInfos = new BlockInfos(object.name, object.parameters, object.tags, object.version, object.id, object.editable);
-        return blockInfos;
+        return new BlockInfos(object.name, object.parameters, object.tags, object.category, object.version, object.id, object.editable);
     };
     return BlockInfos;
 }());

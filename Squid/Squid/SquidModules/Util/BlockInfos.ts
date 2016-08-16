@@ -10,12 +10,13 @@ export class BlockInfos {
     editable: boolean;
     tags: string;
     version: string;
+    category: string;
 
     constructor();
-    constructor(name: string, parameters: string, tags: string, version: string, id: number, editable: boolean);
-    constructor(name: string, parameters: string, tags: string[], version: string, id: number,  editable: boolean) ;
+    constructor(name: string, parameters: string, tags: string, category: string, version: string, id: number, editable: boolean);
+    constructor(name: string, parameters: string, tags: string[], category: string,  version: string, id: number,  editable: boolean) ;
     
-    constructor(name?: string, parameters?: string, tags?: any, version?: string, id?: number, editable?: boolean) {
+    constructor(name?: string, parameters?: string, tags?: any, category?: string, version?: string, id?: number, editable?: boolean) {
         this.id = id || null;
         this.name = name || "Decodeur";
         this.parameters = parameters || "";
@@ -28,6 +29,7 @@ export class BlockInfos {
         } else {
             this.tags = "";
         }
+        this.category = category || "";
         this.version = version || "0.0";
         this.editable = (editable !== false);
     }
@@ -77,13 +79,13 @@ export class BlockInfos {
     }
 
     public static ObjectToBlockInfos(object: any):BlockInfos {
-        var blockInfos = new BlockInfos(
+        return new BlockInfos(
             object.name,
             object.parameters,
             object.tags,
+            object.category,
             object.version,
             object.id,
             object.editable);
-        return blockInfos;
     }
 }

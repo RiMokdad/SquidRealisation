@@ -60,22 +60,50 @@ var ToolboxManager = (function () {
         this.research.setAttribute("name", "Recherches");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
-        this.UpdateCategories();
     };
-    /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
-        
-    }*/
-    ToolboxManager.prototype.UpdateBlocksInfos = function (map) {
+    ToolboxManager.prototype.UpdateBlocksInfos = function (list, flatList) {
         this.BlocksInformations = new Array();
-        for (var category in map) {
-            var cat = new BlocksCat(category);
-            for (var i = 0; i < map[category].length; i++) {
-                cat.blocks.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(map[category][i]));
+        if (!flatList) {
+            this.GenerateBlocksListFromMap(list);
+        }
+        else {
+            for (var i = 0; i < list.length; i++) {
+                this.BlocksInformations.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(list[i]));
             }
-            this.BlocksInformations.push(cat);
+            this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
         this.UpdateCategories();
         Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
+    };
+    ToolboxManager.prototype.GenerateBlocksListFromMap = function (map) {
+        this.BlocksInCat = new Array();
+        for (var category in map) {
+            var cat = new BlocksCat(category);
+            for (var i = 0; i < map[category].length; i++) {
+                cat.blocks.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(map[category][i])); //BlocksInCat
+                this.BlocksInformations.push(map[category][i]); //BlocksInformations
+            }
+            this.BlocksInCat.push(cat);
+        }
+    };
+    ToolboxManager.prototype.GenerateBlocksInCatFromList = function (list) {
+        this.BlocksInCat = new Array();
+        //For each block we place it in the good category
+        for (var i = 0; i < list.length; i++) {
+            var newCat = true;
+            for (var j = 0; j < this.BlocksInCat.length; j++) {
+                if (this.BlocksInCat[j].category == list[i].category) {
+                    newCat = false;
+                    this.BlocksInCat[j].blocks.push(list[i]);
+                    break;
+                }
+            }
+            if (newCat) {
+                var cat = new BlocksCat(list[i].category);
+                cat.blocks.push(list[i]);
+                this.BlocksInCat.push(cat);
+            }
+        }
     };
     ToolboxManager.prototype.UpdateCategories = function () {
         //clear
@@ -86,13 +114,13 @@ var ToolboxManager = (function () {
         var proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
         this.decoders.appendChild(proc);
-        for (var i = 0; i < this.BlocksInformations.length; i++) {
-            var catName = this.BlocksInformations[i].category;
+        for (var i = 0; i < this.BlocksInCat.length; i++) {
+            var catName = this.BlocksInCat[i].category;
             var valName = 0;
             for (var j = 0; j < catName.length; j++) {
                 valName += catName.charCodeAt(j);
             }
-            var blocks = this.BlocksInformations[i].blocks;
+            var blocks = this.BlocksInCat[i].blocks;
             var cat = document.createElement("category");
             cat.setAttribute("name", catName);
             cat.setAttribute("colour", (valName % 360 + 1));
@@ -108,8 +136,8 @@ var ToolboxManager = (function () {
             this.research.removeChild(this.research.firstChild);
         }
         //add
-        for (var i = 0; i < this.BlocksInformations.length; i++) {
-            var blocks = this.BlocksInformations[i].blocks;
+        for (var i = 0; i < this.BlocksInCat.length; i++) {
+            var blocks = this.BlocksInCat[i].blocks;
             for (var j = 0; j < blocks.length; j++) {
                 if (blocks[j].IsTagged(tags)) {
                     this.research.appendChild(blocks[j].CreateFlyout());
@@ -123,6 +151,25 @@ var ToolboxManager = (function () {
         else {
             this.research.setAttribute("name", "Pas de résultat");
         }
+    };
+    ToolboxManager.prototype.GetTagsList = function () {
+        var tagsList = new Array();
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            var tagsBloc = this.BlocksInformations[i].tags.split(",");
+            for (var j = 0; j < tagsBloc.length; j++) {
+                if (tagsList.indexOf(tagsBloc[j]) == -1) {
+                    tagsList.push(tagsBloc[j]);
+                }
+            }
+        }
+        return tagsList;
+    };
+    ToolboxManager.prototype.GetCategoryList = function () {
+        var catList = new Array();
+        for (var i = 0; i < this.BlocksInCat.length; i++) {
+            catList.push(this.BlocksInCat[i].category);
+        }
+        return catList;
     };
     return ToolboxManager;
 }());

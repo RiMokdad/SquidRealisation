@@ -21,21 +21,19 @@ export class BlocksCat {
         this.category = cat;
         this.blocks = blocks || new Array<BlockInfos>();
     }
-
-
 }
 
 export class ToolboxManager {
     toolboxHTML: HTMLElement;
     private decoders: HTMLElement;
     private research: HTMLElement;
-    private BlocksInformations: BlocksCat[];
+    private BlocksInformations: BlockInfos[];
+    private BlocksInCat: BlocksCat[];
 
     constructor() {
         this.toolboxHTML = document.createElement("xml");
-        this.BlocksInformations = new Array<BlocksCat>();
+        this.BlocksInformations = new Array<BlockInfos>();
         this.CreateCategories(BLOCKS);
-        
     }
 
     private CreateCategories(blocks: any) {
@@ -73,26 +71,58 @@ export class ToolboxManager {
         this.research.setAttribute("name", "Recherches");
         this.research.setAttribute("colour", "200");
         this.toolboxHTML.appendChild(this.research);
-
-        this.UpdateCategories();
     }
 
-    /*UpdateBlocksInfos(blocksInfos: BlockInfos[]) {
-        
-    }*/
+    UpdateBlocksInfos(blocks: Array<Object>, flatList: boolean);
+    UpdateBlocksInfos(map: Object);
 
-    UpdateBlocksInfos(map: Object) {
-        this.BlocksInformations = new Array<BlocksCat>();
-        for (var category in map) {
-            var cat = new BlocksCat(category);
-            for (let i=0; i<map[category].length; i++) {
-                cat.blocks.push(BlockInfos.ObjectToBlockInfos(map[category][i]));               
+    UpdateBlocksInfos(list?: any, flatList?: boolean) {
+        this.BlocksInformations = new Array<BlockInfos>();
+
+        if (!flatList) {
+            this.GenerateBlocksListFromMap(list);      
+        } else {
+            for (let i = 0; i < list.length; i++) {
+                this.BlocksInformations.push(BlockInfos.ObjectToBlockInfos(list[i]));
             }
-            this.BlocksInformations.push(cat);          
+            this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
+
         this.UpdateCategories();
         Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
+
+    private GenerateBlocksListFromMap(map: Object) {
+        this.BlocksInCat = new Array<BlocksCat>();
+        for (let category in map) {
+            const cat = new BlocksCat(category);
+            for (let i = 0; i < map[category].length; i++) {
+                cat.blocks.push(BlockInfos.ObjectToBlockInfos(map[category][i]));//BlocksInCat
+                this.BlocksInformations.push(map[category][i]);//BlocksInformations
+            }
+            this.BlocksInCat.push(cat);
+        }
+    }
+
+    private GenerateBlocksInCatFromList(list: Array<BlockInfos>) {
+        this.BlocksInCat = new Array<BlocksCat>();
+        //For each block we place it in the good category
+        for (let i = 0; i < list.length; i++) { 
+            let newCat = true;
+            for (let j = 0; j < this.BlocksInCat.length; j++) {
+                if (this.BlocksInCat[j].category == list[i].category) {
+                    newCat = false;
+                    this.BlocksInCat[j].blocks.push(list[i]);
+                    break;
+                }
+            }
+            if (newCat) {
+                const cat = new BlocksCat(list[i].category);
+                cat.blocks.push(list[i]);
+                this.BlocksInCat.push(cat);
+            }
+        }
+    }
 
     UpdateCategories() {
         //clear
@@ -104,13 +134,13 @@ export class ToolboxManager {
         proc.setAttribute("type", "procedures_defnoreturn");
         this.decoders.appendChild(proc);
 
-        for (let i = 0; i < this.BlocksInformations.length; i++) {
-            const catName = this.BlocksInformations[i].category;
+        for (let i = 0; i < this.BlocksInCat.length; i++) {
+            const catName = this.BlocksInCat[i].category;
             let valName = 0;
             for (let j = 0; j < catName.length; j++) {
                 valName += catName.charCodeAt(j);
             }
-            const blocks = this.BlocksInformations[i].blocks;
+            const blocks = this.BlocksInCat[i].blocks;
 
             const cat = document.createElement("category");
             cat.setAttribute("name", catName);
@@ -133,8 +163,8 @@ export class ToolboxManager {
         }
 
         //add
-        for (let i = 0; i < this.BlocksInformations.length; i++) {
-            const blocks = this.BlocksInformations[i].blocks;
+        for (let i = 0; i < this.BlocksInCat.length; i++) {
+            const blocks = this.BlocksInCat[i].blocks;
             for (let j = 0; j < blocks.length; j++) {
                 if (blocks[j].IsTagged(tags)) {
                     this.research.appendChild(blocks[j].CreateFlyout());
@@ -148,5 +178,26 @@ export class ToolboxManager {
         } else {
             this.research.setAttribute("name", "Pas de résultat");
         }
+    }
+
+    GetTagsList(): Array<string> {
+        const tagsList = new Array<string>();
+        for (let i = 0; i < this.BlocksInformations.length; i++) {//For each block...
+            const tagsBloc = this.BlocksInformations[i].tags.split(",");
+            for (let j = 0; j < tagsBloc.length; j++) {//...and each tag...
+                if(tagsList.indexOf(tagsBloc[j]) == -1) {//...if it's new, add it
+                    tagsList.push(tagsBloc[j]);
+                }
+            }
+        }
+        return tagsList;
+    }
+
+    GetCategoryList(): Array<string> {
+        const catList = new Array<string>();
+        for (let i = 0; i < this.BlocksInCat.length; i++) {
+            catList.push(this.BlocksInCat[i].category);
+        }
+        return catList;
     }
 }
