@@ -2,12 +2,10 @@
 Ac = {};
 var acTags;
 
-Ac.SetTagsAutocomplete=function(getTags) {
+Ac.SetTagsAutocomplete = function (getTags) {
+    var anchor = document.getElementById("tags");
     acTags = goog.ui.ac
-        .createSimpleAutoComplete(["toto", "titi"], document.getElementById("search-bar"), true, true).setAutoHilite(false);
-    if (acTags) {
-        return 0;
-    }
+        .createSimpleAutoComplete(["toto", "titi"], anchor, false).setAutoHilite(false);
 }
 
 Ac.RefreshTags=function() {

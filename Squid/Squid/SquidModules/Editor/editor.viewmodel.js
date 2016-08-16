@@ -52,7 +52,7 @@ var EditorComponent = (function () {
         this.toolboxManager.SetLoadingText(true);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
         //TESTS autocomplete
-        //Ac.RefreshTags();
+        Ac.RefreshTags();
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -114,6 +114,6 @@ window.onload = function () {
     if (window.location.hash !== "") {
         alert("chargera le bloc");
     }
-    //setTimeout(Ac.SetTagsAutocomplete(),1000);
+    setTimeout(Ac.SetTagsAutocomplete(), 1000);
 };
 //# sourceMappingURL=editor.viewmodel.js.map
