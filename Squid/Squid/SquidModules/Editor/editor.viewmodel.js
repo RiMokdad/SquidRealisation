@@ -16,7 +16,7 @@ var server_request_1 = require("../Request/server_request");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new Decoder_1.Decoder();
-        this.loading = this.OnLoad();
+        //loading = this.OnLoad();
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
         this.toolboxManager = new toolboxManager_1.ToolboxManager();

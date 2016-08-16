@@ -13,7 +13,7 @@ import {Messages} from "./../Util/Messages";
 export class EditorComponent {
 
     decoder = new Decoder();
-    loading = this.OnLoad();
+    //loading = this.OnLoad();
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
