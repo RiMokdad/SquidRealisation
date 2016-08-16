@@ -3731,6 +3731,7 @@
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Request\server_request.ts" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\EventHandler.ts" />
     <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
     <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />

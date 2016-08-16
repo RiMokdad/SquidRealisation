@@ -88,23 +88,27 @@ export class EditorComponent {
         return null;      
     }
 
-    public OnLoad() {
-        if (window.location.hash !== "") {
-            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
-        }
-    }
-
     /* Url based methods */
     private GetBaseUrl(): string {
         return "index.html";
     }
 
     private GetBlockIdInUrl(): number {
-        return parseInt(window.location.href.split("#")[1]);
+        return parseInt(window.location.hash.substring(1));
     }
 
     private SetUrl() {
         window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
+    }
+
+    public OnLoad() {
+        var id = this.GetBlockIdInUrl();
+        if (id !== null) {
+            this.RestoreBlock(id);
+        }
+        else {
+            Workspace.InitializeWorkspace();
+        }
     }
 
 }
