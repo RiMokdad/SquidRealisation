@@ -67,19 +67,23 @@ export class Workspace {
     static GenerateFrench(): string {
         return Workspace.singleton.GenerateFrench();
     }
+
     /**
-     * Returns an object BlockInfos that contains the main informations needed in the toolbox.
+     * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
+     * @param decoder
      */
-    GetBlockInfos(): BlockInfos {
-        const blocks = this.workspace.getTopBlocks();
-        const id = blocks[0].id;
-        const name = blocks[0].getProcedureDef()[0];
-        const parametersArray = blocks[0].arguments_;
-        return new BlockInfos(id, name, parametersArray, null, null, true);
+    CompleteDecoder(decoder: Decoder) {
+        if (this.IsADecoder()) {
+            decoder.Name = Workspace.GetName();
+            decoder.Code = Workspace.GenerateCSharp();
+            decoder.FrenchSpec = Workspace.GenerateFrench();
+            decoder.Xml = Workspace.GetStringXML();
+            decoder.Editable = true;
+        }  
     }
 
-    static GetBlockInfos(): BlockInfos {
-        return Workspace.singleton.GetBlockInfos();
+    static CompleteDecoder(decoder: Decoder) {
+        Workspace.singleton.CompleteDecoder(decoder);
     }
 
     GetName(): string {
@@ -140,12 +144,17 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    RestoreBlock(decoder: Decoder) {
-        //TODO 
+    RestoreBlocks(xml: string); 
+    RestoreBlocks(decoder: Decoder);
+    RestoreBlocks(blocks?: any) {
+        const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
+        Blockly.Xml.domToWorkspace(Xml, this.workspace);
     }
 
-    static RestoreBlock(decoder: Decoder) {
-        this.RestoreBlock(decoder);
+    static RestoreBlocks(decoder: Decoder);
+    static RestoreBlocks(xml: string);
+    static RestoreBlocks(blocks?: any) {
+        Workspace.singleton.RestoreBlocks(blocks);
     }
 
     /**************************** Toolbox **********************************/

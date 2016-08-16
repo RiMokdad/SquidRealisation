@@ -13,12 +13,20 @@ import {Messages} from "./../Util/Messages";
 export class EditorComponent {
 
     decoder = new Decoder();
+    loading = this.OnLoad();
 
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
     toolboxManager = new ToolboxManager();
 
     private initialized_ = false;
+
+    //Init() {
+    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
+    //    if (window.location.hash !== "") {
+    //        alert("chargera le bloc");
+    //    }
+    //}
 
     Clear() {
         Workspace.Clear();
@@ -32,9 +40,13 @@ export class EditorComponent {
 
     Supress() {
         //TODO insert code to supress a decoder onto the server 
-        //Verify existance 
-        //Ask the list of direct depencies for function calls
-        //Supress the block if the user really wants it
+
+        Requests.FindUsages(this.decoder.Id);
+        const deletion = () => {
+            this.decoder = new Decoder();
+            alert("Décodeur supprimé");
+        };
+        Requests.DeleteDecoder(this.decoder, deletion);
     }
 
     Refresh() {
@@ -44,7 +56,7 @@ export class EditorComponent {
     }
 
     SearchTag() {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     }
 
@@ -53,15 +65,11 @@ export class EditorComponent {
     }
 
     private SaveDecoderToServer() {
-        //TODO insert code for saving decodeur onto the web
-        console.log("Saving");
         if (Workspace.IsADecoder()) {
-            this.decoder.Name = Workspace.GetName();
-            this.decoder.Code = Workspace.GenerateCSharp();
-            this.decoder.FrenchSpec = Workspace.GenerateFrench();
-            this.decoder.Xml = Workspace.GetStringXML();
-            this.decoder.Editable = true;
+            Workspace.CompleteDecoder(this.decoder);
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             Requests.SaveDecoder(this.decoder);
+            this.SetUrl();
         } else {
             alert("Un des problèmes suivants se pose:" +
                 "\n - Vous avez plus d'un bloc" +
@@ -69,14 +77,21 @@ export class EditorComponent {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     }
-    /* the view has to put it in the workspace on the page loading*/
-    RestoreBlock(id: number): any {
-        var decoder = new Decoder(); 
-        Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable) {
-            return decoder;
-        }
+
+    public RestoreBlock(id: number) {
+        const callback = () => {
+            //console.log(this.decoder);
+            Workspace.RestoreBlocks(this.decoder);
+        };
+        console.log(this.decoder);
+        Requests.GetDecoderDef(id, this.decoder, callback);
         return null;      
+    }
+
+    public OnLoad() {
+        if (window.location.hash !== "") {
+            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
+        }
     }
 
     /* Url based methods */
@@ -89,8 +104,9 @@ export class EditorComponent {
     }
 
     private SetUrl() {
-        window.location.href = `index.html${this.decoder.Id ? `#${this.decoder.Id}` : ""}`;
+        window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
     }
+
 }
 
 /**
@@ -100,4 +116,8 @@ export class EditorComponent {
 window.onload = () => {
     var tbMan = new ToolboxManager();
     Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+    if (window.location.hash !== "") {
+        //alert("chargera le bloc");
+
+    }
 }

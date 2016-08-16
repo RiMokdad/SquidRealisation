@@ -22,7 +22,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Blockly\.gitignore" />
     <Content Include="Blockly\accessible\app.component.js" />
     <Content Include="Blockly\accessible\clipboard.service.js" />
     <Content Include="Blockly\accessible\field.component.js" />
@@ -237,6 +236,7 @@
     <Content Include="Blockly_override\blocks\custom.js" />
     <Content Include="Blockly_override\blocks\custom_if.js" />
     <Content Include="Blockly_override\blocks\procedures.js" />
+    <Content Include="Blockly_override\core\block_svg.js" />
     <Content Include="Blockly_override\core\field_textinput.js" />
     <Content Include="Blockly\generators\dart.js" />
     <Content Include="Blockly\generators\dart\colour.js" />
@@ -2943,6 +2943,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
+    <Content Include="SquidModules\Request\server_request.js" />
     <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
@@ -3881,6 +3882,7 @@
     <Content Include="closure-library\scripts\ci\run_all_tests.sh" />
     <Content Include="closure-library\scripts\ci\sauce_connect.sh" />
     <Content Include="packages.config" />
+    <Content Include="SquidModules\Request\server_request.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

@@ -55,7 +55,7 @@ export class BlockInfos {
     IsTagged(tags: string[]): boolean;
 
     IsTagged(tags: any): boolean {
-        const innerTags = tags.split(",");    
+        const innerTags = this.tags.split(",");    
         if (typeof (tags) == "string") {
             //Parameter is a single string
             for (let i = 0; i < innerTags.length; i++) {

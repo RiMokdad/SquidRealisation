@@ -16,11 +16,18 @@ var server_request_1 = require("../Request/server_request");
 var EditorComponent = (function () {
     function EditorComponent() {
         this.decoder = new Decoder_1.Decoder();
+        this.loading = this.OnLoad();
         this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.initialized_ = false;
     }
+    //Init() {
+    //    Workspace.Inject("blocklyDiv", false, this.toolboxManager.toolboxHTML);
+    //    if (window.location.hash !== "") {
+    //        alert("chargera le bloc");
+    //    }
+    //}
     EditorComponent.prototype.Clear = function () {
         Workspace_1.Workspace.Clear();
     };
@@ -30,9 +37,13 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Supress = function () {
         //TODO insert code to supress a decoder onto the server 
-        //Verify existance 
-        //Ask the list of direct depencies for function calls
-        //Supress the block if the user really wants it
+        var _this = this;
+        server_request_1.Requests.FindUsages(this.decoder.Id);
+        var deletion = function () {
+            _this.decoder = new Decoder_1.Decoder();
+            alert("Décodeur supprimé");
+        };
+        server_request_1.Requests.DeleteDecoder(this.decoder, deletion);
     };
     EditorComponent.prototype.Refresh = function () {
         //TODO insert code for toolbox management
@@ -40,22 +51,18 @@ var EditorComponent = (function () {
         server_request_1.Requests.GetCategories(this.toolboxManager.UpdateBlocksInfos.bind(this.toolboxManager));
     };
     EditorComponent.prototype.SearchTag = function () {
-        this.toolboxManager.UpdateResearch(this.tagsSearch.split(","));
+        this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.toolboxHTML);
     };
     EditorComponent.prototype.OpenTab = function () {
         window.open(this.GetBaseUrl());
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        //TODO insert code for saving decodeur onto the web
-        console.log("Saving");
         if (Workspace_1.Workspace.IsADecoder()) {
-            this.decoder.Name = Workspace_1.Workspace.GetName();
-            this.decoder.Code = Workspace_1.Workspace.GenerateCSharp();
-            this.decoder.FrenchSpec = Workspace_1.Workspace.GenerateFrench();
-            this.decoder.Xml = Workspace_1.Workspace.GetStringXML();
-            this.decoder.Editable = true;
+            Workspace_1.Workspace.CompleteDecoder(this.decoder);
+            this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
+            this.SetUrl();
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -66,12 +73,19 @@ var EditorComponent = (function () {
     };
     /* the view has to put it in the workspace on the page loading*/
     EditorComponent.prototype.RestoreBlock = function (id) {
-        var decoder = new Decoder_1.Decoder();
-        server_request_1.Requests.GetDecoderDef(id, decoder);
-        if (decoder.Editable) {
-            return decoder;
-        }
+        var _this = this;
+        var callback = function () {
+            //console.log(this.decoder);
+            Workspace_1.Workspace.RestoreBlocks(_this.decoder);
+        };
+        console.log(this.decoder);
+        server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
+    };
+    EditorComponent.prototype.OnLoad = function () {
+        if (window.location.hash !== "") {
+            this.RestoreBlock(parseInt(window.location.hash.substring(1)));
+        }
     };
     /* Url based methods */
     EditorComponent.prototype.GetBaseUrl = function () {
@@ -81,7 +95,7 @@ var EditorComponent = (function () {
         return parseInt(window.location.href.split("#")[1]);
     };
     EditorComponent.prototype.SetUrl = function () {
-        window.location.href = "index.html" + (this.decoder.Id ? "#" + this.decoder.Id : "");
+        window.location.hash = this.decoder.Id ? this.decoder.Id : "";
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -100,5 +114,7 @@ exports.EditorComponent = EditorComponent;
 window.onload = function () {
     var tbMan = new toolboxManager_1.ToolboxManager();
     Workspace_1.Workspace.Inject("blocklyDiv", false, tbMan.toolboxHTML);
+    if (window.location.hash !== "") {
+    }
 };
 //# sourceMappingURL=editor.viewmodel.js.map

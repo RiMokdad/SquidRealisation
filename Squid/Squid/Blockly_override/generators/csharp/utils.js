@@ -30,7 +30,7 @@ Blockly.CSharp.prepareBytesAndBits = function (args) {
         }
     }
 }
-
+/*
 Blockly.CSharp.addVariablePrefix = function (varName) {
     var prefixedName;
 
@@ -44,6 +44,7 @@ Blockly.CSharp.addVariablePrefix = function (varName) {
     }
     return prefixedName;
 }
+*/
 
 /**
  * 
@@ -51,7 +52,8 @@ Blockly.CSharp.addVariablePrefix = function (varName) {
  * @returns {String} the expression with the good prefixes and if needed '==' instead of '=' 
  */
 Blockly.CSharp.makeExpressionLegal = function (expression) {
-    return expression.replace(/[a-z]\w*/gi, function regexreplace(match) { return Blockly.CSharp.addVariablePrefix(match) }).replace(/=+/, "==");
+    // TODO add good variable prefix
+    return expression.replace(/[a-z]\w*/gi, function regexreplace(match) { return match }).replace(/=+/, "==");
 }
 
 Blockly.CSharp.addQuotesIfNeeded = function (varName) {

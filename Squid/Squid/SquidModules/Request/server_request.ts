@@ -1,4 +1,5 @@
 ﻿import { Decoder } from "../Util/Decoder";
+import {Messages} from "./../Util/Messages";
 
 declare var $: any;
 
@@ -19,7 +20,7 @@ export class Requests {
             success(res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
-                    alert(`Id saved: ${res.id}`);
+                    Messages.Alert(`Décodeur sauvegardé avec l'Id : ${res.id}`);
                 }
                 //alert(res.id);
             },
@@ -35,17 +36,16 @@ export class Requests {
      * 
      * @param id
      */
-    static GetDecoderDef(id: number, decoder : Decoder) {
+    static GetDecoderDef(id: number, decoder : Decoder, callback: any) {
         $.ajax({
             url: "/api/Decoders/decoderdef",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             //datatype: 'json',
             data: JSON.stringify(id),
-            success(decoder) {
-                console.log(decoder);
-                //TODO convert as a decoder
-                return decoder;
+            success(newDecoder) {
+                decoder.update(newDecoder); 
+                callback();
             },
             error(resp) {
                 console.log(resp.responseText);
@@ -65,9 +65,7 @@ export class Requests {
             contentType: "application/json; charset=utf-8",
             datatype: "json",
             success(mapstr) {
-                console.log(JSON.parse(mapstr));
-                //alert(map);
-                //var map = jsonToStrMap(mapstr);
+                //console.log(JSON.parse(mapstr));
                 callback(JSON.parse(mapstr));
             },
             error(resp) {
@@ -136,15 +134,15 @@ export class Requests {
 
     }
 
-    static DeleteDecoder(id: number) {
+    static DeleteDecoder(decoder: Decoder, callback: any) {
         $.ajax({
             url: "/api/Decoders/delete",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             //datatype: 'json',
-            data: JSON.stringify(id),
+            data: JSON.stringify(decoder.Id),
             success() {
-                alert("Décodeur supprimé");
+                callback();
             },
             error(resp) {
                 console.log(resp.responseText);

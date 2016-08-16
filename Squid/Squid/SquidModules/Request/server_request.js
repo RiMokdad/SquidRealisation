@@ -1,4 +1,5 @@
 "use strict";
+var Messages_1 = require("./../Util/Messages");
 var Requests = (function () {
     function Requests() {
     }
@@ -17,7 +18,7 @@ var Requests = (function () {
             success: function (res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
-                    alert("Id saved: " + res.id);
+                    Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
                 }
                 //alert(res.id);
             },
@@ -32,17 +33,16 @@ var Requests = (function () {
      *
      * @param id
      */
-    Requests.GetDecoderDef = function (id, decoder) {
+    Requests.GetDecoderDef = function (id, decoder, callback) {
         $.ajax({
             url: "/api/Decoders/decoderdef",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             //datatype: 'json',
             data: JSON.stringify(id),
-            success: function (decoder) {
-                console.log(decoder);
-                //TODO convert as a decoder
-                return decoder;
+            success: function (newDecoder) {
+                decoder.update(newDecoder);
+                callback();
             },
             error: function (resp) {
                 console.log(resp.responseText);
@@ -61,9 +61,7 @@ var Requests = (function () {
             contentType: "application/json; charset=utf-8",
             datatype: "json",
             success: function (mapstr) {
-                console.log(JSON.parse(mapstr));
-                //alert(map);
-                //var map = jsonToStrMap(mapstr);
+                //console.log(JSON.parse(mapstr));
                 callback(JSON.parse(mapstr));
             },
             error: function (resp) {
@@ -100,15 +98,15 @@ var Requests = (function () {
             }
         });
     };
-    Requests.DeleteDecoder = function (id) {
+    Requests.DeleteDecoder = function (decoder, callback) {
         $.ajax({
             url: "/api/Decoders/delete",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             //datatype: 'json',
-            data: JSON.stringify(id),
+            data: JSON.stringify(decoder.Id),
             success: function () {
-                alert("Décodeur supprimé");
+                callback();
             },
             error: function (resp) {
                 console.log(resp.responseText);
