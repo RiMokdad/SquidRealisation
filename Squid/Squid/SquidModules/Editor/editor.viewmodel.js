@@ -70,6 +70,8 @@ var EditorComponent = (function () {
      */
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert local save
@@ -87,6 +89,7 @@ var EditorComponent = (function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
+        this.Clear();
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
@@ -131,11 +134,9 @@ var EditorComponent = (function () {
     EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function () {
-            //console.log(this.decoder);
             _this.decoder.Id = id;
             _this.workspace.RestoreBlocks(_this.decoder);
         };
-        console.log(this.decoder);
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
     };

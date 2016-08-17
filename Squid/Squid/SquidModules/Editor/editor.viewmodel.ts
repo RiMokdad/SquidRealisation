@@ -82,6 +82,8 @@ export class EditorComponent {
      */
     Clear() {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     }
 
     Save() {
@@ -103,7 +105,7 @@ export class EditorComponent {
         };
 
         Requests.FindUsages(this.decoder.Id, deletion);
-      
+        this.Clear();
     }
 
     Refresh() {       
@@ -151,11 +153,9 @@ export class EditorComponent {
 
     RestoreBlock(id: number) {
         const callback = () => {
-            //console.log(this.decoder);
             this.decoder.Id = id;
             this.workspace.RestoreBlocks(this.decoder);
         };
-        console.log(this.decoder);
         Requests.GetDecoderDef(id, this.decoder, callback);
         return null;      
     }
