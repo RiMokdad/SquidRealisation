@@ -56,13 +56,18 @@ var Requests = (function () {
      */
     Requests.GetCategories = function (succes, fail) {
         $.ajax({
-            url: "/api/Decoders/categories",
+            url: "/api/Decoders/blocksinfos",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            success: function (mapstr) {
-                //console.log(JSON.parse(mapstr));
-                succes(JSON.parse(mapstr));
+            success: function (res) {
+                console.log(res);
+                if (Array.isArray(res)) {
+                    succes(res);
+                }
+                else {
+                    succes(JSON.parse(res));
+                }
             },
             error: function (resp) {
                 fail();

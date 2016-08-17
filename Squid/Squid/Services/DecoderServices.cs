@@ -144,9 +144,37 @@ namespace Squid.Services
                 var fromServer =
                     db.Decoders.Select(d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable }).ToList();
                 var categoryInfos =
-                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable))
+                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable))
                         .ToDictionary(d => d.Key, d => d.ToList());
                 return categoryInfos;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    db?.Dispose();
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public IEnumerable<BlockInfos> GetAllBlockInfos()
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var fromServer =
+                    db.Decoders.ToList().Select(d => new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable));
+                return fromServer;
+
             }
             catch (Exception e)
             {
@@ -242,6 +270,8 @@ namespace Squid.Services
 
         public string name;
 
+        public string category;
+
         public string parameters;
 
         public string tags;
@@ -250,10 +280,11 @@ namespace Squid.Services
 
         public bool editable;
 
-        public BlockInfos(int id, string name, string parameters, string tags, string version, bool editable)
+        public BlockInfos(int id, string name, string category, string parameters, string tags, string version, bool editable)
         {
             this.id = id;
             this.name = name;
+            this.category = category;
             this.parameters = parameters;
             this.tags = tags;
             this.version = version;

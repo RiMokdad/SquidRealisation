@@ -107,12 +107,10 @@ export class EditorComponent {
     }
 
     Refresh() {       
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const success = (map) => {
+        const success = (list) => {
             // Update toolbox
-            this.toolboxManager.UpdateBlocksInfos(map);
+            this.toolboxManager.UpdateBlocksInfos(list, true);
             this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
             this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
@@ -120,14 +118,12 @@ export class EditorComponent {
             this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
             this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
+
         const fail = () => {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
         Requests.GetCategories(success, fail);
-        
-
-        //TESTS DELETE       
     }
 
     SearchTag() {
@@ -153,7 +149,7 @@ export class EditorComponent {
         }
     }
 
-    public RestoreBlock(id: number) {
+    RestoreBlock(id: number) {
         const callback = () => {
             //console.log(this.decoder);
             this.decoder.Id = id;

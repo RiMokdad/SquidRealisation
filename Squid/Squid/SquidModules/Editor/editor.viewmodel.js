@@ -90,12 +90,10 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        var success = function (map) {
+        var success = function (list) {
             // Update toolbox
-            _this.toolboxManager.UpdateBlocksInfos(map);
+            _this.toolboxManager.UpdateBlocksInfos(list, true);
             _this.workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
             _this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
@@ -108,7 +106,6 @@ var EditorComponent = (function () {
         };
         this.refreshState = RefreshState.PENDING;
         server_request_1.Requests.GetCategories(success, fail);
-        //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
