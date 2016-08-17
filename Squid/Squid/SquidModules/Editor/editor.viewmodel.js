@@ -70,6 +70,8 @@ var EditorComponent = (function () {
      */
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert local save
@@ -87,16 +89,15 @@ var EditorComponent = (function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
+        this.Clear();
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         var success = function (list) {
             // Update toolbox
             _this.toolboxManager.UpdateBlocksInfos(list, true);
-            Workspace_1.Workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
+            _this.workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
             _this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
@@ -107,8 +108,7 @@ var EditorComponent = (function () {
             _this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        server_request_1.Requests.GetBlocksInfos(success, fail);
-        //TESTS DELETE       
+        server_request_1.Requests.GetCategories(success, fail);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
@@ -141,19 +141,13 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     };
-    EditorComponent.prototype.RestoreBlock = function (param1) {
+    EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function () {
-            if (typeof (param1) == "number") {
-                _this.decoder.Id = param1;
-            }
-            else if (typeof (param1) == "string") {
-                _this.decoder.Name = param1;
-            }
-            Workspace_1.Workspace.RestoreBlocks(_this.decoder);
+            _this.decoder.Id = id;
+            _this.workspace.RestoreBlocks(_this.decoder);
         };
-        //console.log(this.decoder);
-        server_request_1.Requests.GetDecoderDef(param1, this.decoder, callback);
+        server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
     };
     /* Url based methods */

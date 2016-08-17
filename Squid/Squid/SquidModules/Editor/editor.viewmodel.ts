@@ -82,6 +82,8 @@ export class EditorComponent {
      */
     Clear() {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     }
 
     Save() {
@@ -103,17 +105,15 @@ export class EditorComponent {
         };
 
         Requests.FindUsages(this.decoder.Id, deletion);
-      
+        this.Clear();
     }
 
     Refresh() {       
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const success = (list) => {
             // Update toolbox
             this.toolboxManager.UpdateBlocksInfos(list, true);
-            Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+            this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
             this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
@@ -166,24 +166,13 @@ export class EditorComponent {
         }
     }
 
-
-    RestoreBlock();
-    RestoreBlock(name: string);
-    RestoreBlock(id: number);
-    public RestoreBlock(param1?: any) {
+    RestoreBlock(id: number) {
         const callback = () => {
-            if (typeof (param1) == "number") {
-                this.decoder.Id = param1;
-            }
-            else if (typeof (param1) == "string") {
-                this.decoder.Name = param1;           
-            }
-            Workspace.RestoreBlocks(this.decoder); 
+            this.decoder.Id = id;
+            this.workspace.RestoreBlocks(this.decoder);
         };
-
-        //console.log(this.decoder);
-        Requests.GetDecoderDef(param1, this.decoder, callback);
-        return null;           
+        Requests.GetDecoderDef(id, this.decoder, callback);
+        return null;      
     }
 
     /* Url based methods */
