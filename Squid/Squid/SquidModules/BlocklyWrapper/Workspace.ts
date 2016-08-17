@@ -10,6 +10,7 @@ export class Workspace {
 
     private id: number;
     private workspace: any;
+    private decoder: Decoder;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         if (Workspace.singleton) {
@@ -76,28 +77,46 @@ export class Workspace {
     //}
 
     Initialize() {
-        const procedureXML = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="procedures_defnoreturn" id="0" x="312" y="112"><field name="NAME">faire quelque chose</field><comment pinned="false" h="80" w="160">Décrire cette fonction…</comment></block></xml>';
-        const dom = Blockly.Xml.textToDom(procedureXML);
-        //console.log(dom);
-        Blockly.Xml.domToWorkspace(dom, this.workspace);
+        
+        const proc = document.createElement("block");
+        proc.setAttribute("type", "procedures_defnoreturn");
+        //const metrics = this.workspace.getMetrics();
+        //proc.setAttribute("x", `${metrics.viewWidth / 2}`);
+        //proc.setAttribute("y", `${metrics.viewHeight / 2}`);
+        const name = document.createElement("field");
+        name.setAttribute("name", "NAME");
+        name.innerHTML = this.decoder.Name || "Decoder";
+        proc.appendChild(name);
+
+        const bloc = Blockly.Xml.domToBlock(proc, this.workspace);
+        bloc.setDeletable(false);
     }
 
     static Initialize() {
         Workspace.singleton.Initialize();
     }
 
+    BindDecoder(decoder: Decoder) {
+        this.decoder = decoder;
+    }
+
+    static BindDecoder(decoder: Decoder) { Workspace.singleton.BindDecoder(decoder); }
+
     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
      * @param decoder
      */
-    CompleteDecoder(decoder: Decoder) {
+    CompleteDecoder(paramDecoder?: Decoder) {
+        const decoder = paramDecoder || this.decoder;
+        if(decoder == null){ throw "You should bind a decoder to this"};
         if (this.IsADecoder()) {
-            decoder.Name = Workspace.GetName();
-            decoder.Code = Workspace.GenerateCSharp();
-            decoder.FrenchSpec = Workspace.GenerateFrench();
-            decoder.Xml = Workspace.GetStringXML();
-            decoder.Editable = true;
-        }  
+                decoder.Name = this.GetName();
+                decoder.Code = this.GenerateCSharp();
+                decoder.FrenchSpec = this.GenerateFrench();
+                decoder.Xml = this.GetStringXML();
+                decoder.Editable = true;
+        }
+
     }
 
     static CompleteDecoder(decoder: Decoder) {
@@ -167,6 +186,7 @@ export class Workspace {
     RestoreBlocks(blocks?: any) {
         const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
+        this.workspace.getTopBlocks()[0].setDeletable(false);
     }
 
     static RestoreBlocks(decoder: Decoder);

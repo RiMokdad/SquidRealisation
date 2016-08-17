@@ -15,33 +15,34 @@ declare var Ac:any;
 }) 
 export class EditorComponent {
 
-    decoder = new Decoder();
-    eventHandler = EventHandler.SetEditorComponent(this);
-
-    tagsSearch = "";
-    placeholderTags = "tags1, tags2,...";
+    decoder: Decoder;
+    tagsSearch: string;
+    placeholderTags: string;
     toolboxManager: ToolboxManager;
-    acTags;
-    acCategory;
 
-    
+    //autocomplete object
+    ac;
 
-    private initialized_ = false;
+
 
     constructor() {
-        console.log("I'm constructed");
+        EventHandler.SetEditorComponent(this);
+        this.toolboxManager = new ToolboxManager();
+        this.decoder = new Decoder();
+        this.placeholderTags = "tags1, tags2,...";
+        this.tagsSearch = "";
     }
 
     OnLoad() {
-        this.toolboxManager = new ToolboxManager();
         Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-
+        Workspace.BindDecoder(this.decoder);
         const id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
         } else {
             Workspace.Initialize();
         }
+        this.ac = new Ac();
         this.Refresh();
     }
 
@@ -57,40 +58,36 @@ export class EditorComponent {
 
     Supress() {
         //TODO insert code to supress a decoder onto the server 
-
-        Requests.FindUsages(this.decoder.Id);
-        const deletion = () => {
+        const deleteConfirmed = () => {
             this.decoder = new Decoder();
-            alert("Décodeur supprimé");
+            Workspace.BindDecoder(this.decoder);
+            Messages.Alert("Décodeur supprimé");
         };
-        Requests.DeleteDecoder(this.decoder, deletion);
+
+        const deletion = () => {
+            Requests.DeleteDecoder(this.decoder, deleteConfirmed);
+        };
+
+        Requests.FindUsages(this.decoder.Id, deletion);
+      
     }
 
-    Refresh() {
+    Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const callback = (map) => {
             this.toolboxManager.UpdateBlocksInfos(map);
-            if (!this.acTags) {
-                Ac.SetTagsAutocomplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-                this.acTags = true;
-            } else {
-                Ac.RefreshTags(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-            }
-            if (!this.acCategory) {
-                Ac.SetCategoryAutocomplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-                this.acCategory = true;
-            } else {
-                Ac.RefreshCategories(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-            }
+            //create or update autocompletion
+            this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+            this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+            this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS autocomplete
-        
-              
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+
+        //TESTS DELETE       
     }
 
     SearchTag() {
@@ -98,8 +95,8 @@ export class EditorComponent {
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
-    OpenTab() {
-        window.open(this.GetBaseUrl());
+    OpenTab(id?: number) {
+        window.open(this.GetBaseUrl() + (id?`#${id}`:""));
     }
 
     private SaveDecoderToServer() {
@@ -137,7 +134,7 @@ export class EditorComponent {
     }
 
     private SetUrl() {
-        window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
+        window.location.hash = this.decoder.Id ? `${this.decoder.Id}` : "";
     }
     
 
