@@ -4,10 +4,17 @@ import { Decoder } from "./../Util/Decoder";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
-import {Messages} from "./../Util/Messages";
-import {EventHandler} from "./../Util/EventHandler";
+import { ServerNotifications } from "../SignalR/signalr_methods";
+import { Messages } from "./../Util/Messages";
+import { EventHandler } from "./../Util/EventHandler";
 
-declare var Ac:any;
+declare var Ac: any;
+
+export enum RefreshState {
+    UP_TO_DATE,
+    PENDING,
+    OUT_DATED
+}
 
 @Component({
     selector: "editor",
@@ -16,38 +23,65 @@ declare var Ac:any;
 export class EditorComponent {
 
     decoder: Decoder;
+    workspace: Workspace;
     tagsSearch: string;
     placeholderTags: string;
     toolboxManager: ToolboxManager;
+    refreshState: RefreshState;
+    serverNotifications: ServerNotifications;
 
     //autocomplete object
     ac;
 
-
-
     constructor() {
         EventHandler.SetEditorComponent(this);
+        this.serverNotifications = new ServerNotifications();
         this.toolboxManager = new ToolboxManager();
         this.decoder = new Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
+        this.refreshState = RefreshState.OUT_DATED;
+        
     }
 
+    /**
+     * Loaded after the whole page has been loaded
+     */
     OnLoad() {
-        Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        Workspace.BindDecoder(this.decoder);
+        this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        this.workspace.BindDecoder(this.decoder);
         const id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
         } else {
-            Workspace.Initialize();
+            this.workspace.Initialize();
         }
         this.ac = new Ac();
-        this.Refresh();
+        this.pollRefresh();
     }
 
+    private pollRefresh() {
+        let time = 1000;
+        switch (this.refreshState) {
+        case RefreshState.OUT_DATED:
+            this.Refresh();
+            break;
+        case RefreshState.PENDING:
+            time = 4000;
+            break;
+        case RefreshState.UP_TO_DATE:
+        default:
+            break;
+        }
+        const func = () => { this.pollRefresh(); };
+        window.setTimeout(func, time);
+    }
+
+    /**
+     * Clear
+     */
     Clear() {
-        Workspace.Clear();
+        this.workspace.Clear();
     }
 
     Save() {
@@ -60,7 +94,7 @@ export class EditorComponent {
         //TODO insert code to supress a decoder onto the server 
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
-            Workspace.BindDecoder(this.decoder);
+            this.workspace.BindDecoder(this.decoder);
             Messages.Alert("Décodeur supprimé");
         };
 
@@ -75,24 +109,30 @@ export class EditorComponent {
     Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const callback = (map) => {
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        const success = (map) => {
+            // Update toolbox
             this.toolboxManager.UpdateBlocksInfos(map);
+            this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+            this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
             this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
             this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
-
-        Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+        const fail = () => {
+            this.refreshState = RefreshState.OUT_DATED;
+        };
+        this.refreshState = RefreshState.PENDING;
+        Requests.GetCategories(success, fail);
+        
 
         //TESTS DELETE       
     }
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
     OpenTab();
@@ -113,8 +153,8 @@ export class EditorComponent {
     }
 
     private SaveDecoderToServer() {
-        if (Workspace.IsADecoder()) {
-            Workspace.CompleteDecoder(this.decoder);
+        if (this.workspace.IsADecoder()) {
+            this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             Requests.SaveDecoder(this.decoder);
             this.SetUrl();

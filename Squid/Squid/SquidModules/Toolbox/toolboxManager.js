@@ -1,6 +1,5 @@
 "use strict";
 var BlockInfos_1 = require("../Util/BlockInfos");
-var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var BLOCKS = [
     [
         { name: "Briques de base", colour: 250 },
@@ -84,7 +83,6 @@ var ToolboxManager = (function () {
             this.GenerateBlocksInCatFromList(this.BlocksInformations);
         }
         this.UpdateCategories();
-        Workspace_1.Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     };
     ToolboxManager.prototype.GenerateBlocksListFromMap = function (map) {
         this.BlocksInCat = new Array();

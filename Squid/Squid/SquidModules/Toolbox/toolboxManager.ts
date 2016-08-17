@@ -1,5 +1,4 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
-import { Workspace } from "./../BlocklyWrapper/Workspace";
 declare var Ac: any;
 const BLOCKS: any[] = [
     [
@@ -104,7 +103,6 @@ export class ToolboxManager {
         }
 
         this.UpdateCategories();
-        Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
 
     private GenerateBlocksListFromMap(map: Object) {
