@@ -113,9 +113,6 @@ var Workspace = (function () {
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
     };
-    Workspace.UpdateToolbox = function (toolboxTree) {
-        Workspace.singleton.UpdateToolbox(toolboxTree);
-    };
     Workspace.CustomContextMenu = function (callback) {
         Blockly.blocks.Procedures.customContextMenu = function (options) {
             var option;

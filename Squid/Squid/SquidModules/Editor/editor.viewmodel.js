@@ -108,7 +108,8 @@ var EditorComponent = (function () {
             _this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        server_request_1.Requests.GetCategories(success, fail);
+        server_request_1.Requests.GetBlocksInfos(success, fail);
+        //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);

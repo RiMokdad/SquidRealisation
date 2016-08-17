@@ -57,7 +57,7 @@ var Requests = (function () {
      *
      * @param callback
      */
-    Requests.GetCategories = function (succes, fail) {
+    Requests.GetBlocksInfos = function (success, fail) {
         $.ajax({
             url: "/api/Decoders/blocksinfos",
             type: "POST",
@@ -66,10 +66,10 @@ var Requests = (function () {
             success: function (res) {
                 console.log(res);
                 if (Array.isArray(res)) {
-                    succes(res);
+                    success(res);
                 }
                 else {
-                    succes(JSON.parse(res));
+                    success(JSON.parse(res));
                 }
             },
             error: function (resp) {

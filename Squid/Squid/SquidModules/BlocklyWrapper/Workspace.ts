@@ -147,10 +147,6 @@ export class Workspace {
         this.workspace.updateToolbox(toolboxTree);
     }
 
-    static UpdateToolbox(toolboxTree: HTMLElement) {
-        Workspace.singleton.UpdateToolbox(toolboxTree);
-    }
-
     static CustomContextMenu(callback: any) {
         Blockly.blocks.Procedures.customContextMenu = (options: any) => {
             var option: any;
