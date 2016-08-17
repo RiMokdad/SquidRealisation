@@ -186,6 +186,7 @@ export class Workspace {
     RestoreBlocks(blocks?: any) {
         const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
+        this.workspace.getTopBlocks()[0].setDeletable(false);
     }
 
     static RestoreBlocks(decoder: Decoder);

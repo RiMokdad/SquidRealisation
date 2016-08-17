@@ -143,6 +143,7 @@ var Workspace = (function () {
     Workspace.prototype.RestoreBlocks = function (blocks) {
         var Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
+        this.workspace.getTopBlocks()[0].setDeletable(false);
     };
     Workspace.RestoreBlocks = function (blocks) {
         Workspace.singleton.RestoreBlocks(blocks);
