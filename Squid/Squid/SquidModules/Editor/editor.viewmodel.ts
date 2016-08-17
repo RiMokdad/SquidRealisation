@@ -19,8 +19,11 @@ export class EditorComponent {
     tagsSearch: string;
     placeholderTags: string;
     toolboxManager: ToolboxManager;
-    acTags;
-    acCategory;
+
+    //autocomplete object
+    ac;
+
+
 
     constructor() {
         EventHandler.SetEditorComponent(this);
@@ -39,6 +42,7 @@ export class EditorComponent {
         } else {
             Workspace.Initialize();
         }
+        this.ac = new Ac();
         this.Refresh();
     }
 
@@ -54,41 +58,36 @@ export class EditorComponent {
 
     Supress() {
         //TODO insert code to supress a decoder onto the server 
-
-        Requests.FindUsages(this.decoder.Id);
-        const deletion = () => {
+        const deleteConfirmed = () => {
             this.decoder = new Decoder();
             Workspace.BindDecoder(this.decoder);
-            alert("Décodeur supprimé");
+            Messages.Alert("Décodeur supprimé");
         };
-        Requests.DeleteDecoder(this.decoder, deletion);
+
+        const deletion = () => {
+            Requests.DeleteDecoder(this.decoder, deleteConfirmed);
+        };
+
+        Requests.FindUsages(this.decoder.Id, deletion);
+      
     }
 
-    Refresh() {
+    Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const callback = (map) => {
             this.toolboxManager.UpdateBlocksInfos(map);
-            if (!this.acTags) {
-                Ac.SetTagsAutocomplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-                this.acTags = true;
-            } else {
-                Ac.RefreshTags(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-            }
-            if (!this.acCategory) {
-                Ac.SetCategoryAutocomplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-                this.acCategory = true;
-            } else {
-                Ac.RefreshCategories(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-            }
+            //create or update autocompletion
+            this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+            this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+            this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS autocomplete
-        
-              
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+
+        //TESTS DELETE       
     }
 
     SearchTag() {

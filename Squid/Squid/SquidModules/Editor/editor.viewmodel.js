@@ -13,6 +13,7 @@ var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
+var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
 var EditorComponent = (function () {
     function EditorComponent() {
@@ -32,6 +33,7 @@ var EditorComponent = (function () {
         else {
             Workspace_1.Workspace.Initialize();
         }
+        this.ac = new Ac();
         this.Refresh();
     };
     EditorComponent.prototype.Clear = function () {
@@ -42,15 +44,17 @@ var EditorComponent = (function () {
         this.SaveDecoderToServer();
     };
     EditorComponent.prototype.Supress = function () {
-        //TODO insert code to supress a decoder onto the server 
         var _this = this;
-        server_request_1.Requests.FindUsages(this.decoder.Id);
-        var deletion = function () {
+        //TODO insert code to supress a decoder onto the server 
+        var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
             Workspace_1.Workspace.BindDecoder(_this.decoder);
-            alert("Décodeur supprimé");
+            Messages_1.Messages.Alert("Décodeur supprimé");
         };
-        server_request_1.Requests.DeleteDecoder(this.decoder, deletion);
+        var deletion = function () {
+            server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
+        };
+        server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
@@ -59,24 +63,14 @@ var EditorComponent = (function () {
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         var callback = function (map) {
             _this.toolboxManager.UpdateBlocksInfos(map);
-            if (!_this.acTags) {
-                Ac.SetTagsAutocomplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-                _this.acTags = true;
-            }
-            else {
-                Ac.RefreshTags(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-            }
-            if (!_this.acCategory) {
-                Ac.SetCategoryAutocomplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-                _this.acCategory = true;
-            }
-            else {
-                Ac.RefreshCategories(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-            }
+            //create or update autocompletion
+            _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
+            _this.ac.SetCategoryAutoComplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
+            _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
         server_request_1.Requests.GetCategories(callback);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS autocomplete
+        //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
