@@ -11,5 +11,6 @@ export class EventHandler {
 
     static OnLoad() {
         EventHandler.editor.OnLoad();
+        //customcontextmenu
     }
 }

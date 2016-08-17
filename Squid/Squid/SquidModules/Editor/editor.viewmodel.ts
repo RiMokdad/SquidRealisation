@@ -95,8 +95,21 @@ export class EditorComponent {
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
-    OpenTab(id?: number) {
-        window.open(this.GetBaseUrl() + (id?`#${id}`:""));
+    OpenTab();
+    OpenTab(name: string);
+    OpenTab(id: number);
+    OpenTab(param1?: any) {
+        if (param1) {
+            if (typeof (param1) == "string") {
+                this.RestoreBlock(param1);
+            }
+            else if (typeof (param1) == "number") {
+                window.open(this.GetBaseUrl() + "#" + param1);
+            }
+        }
+        else {
+            window.open(this.GetBaseUrl());
+        }
     }
 
     private SaveDecoderToServer() {
@@ -113,15 +126,24 @@ export class EditorComponent {
         }
     }
 
-    public RestoreBlock(id: number) {
+
+    RestoreBlock();
+    RestoreBlock(name: string);
+    RestoreBlock(id: number);
+    public RestoreBlock(param1?: any) {
         const callback = () => {
-            //console.log(this.decoder);
-            this.decoder.Id = id;
-            Workspace.RestoreBlocks(this.decoder);
+            if (typeof (param1) == "number") {
+                this.decoder.Id = param1;
+            }
+            else if (typeof (param1) == "string") {
+                this.decoder.Name = param1;           
+            }
+            Workspace.RestoreBlocks(this.decoder); 
         };
-        console.log(this.decoder);
-        Requests.GetDecoderDef(id, this.decoder, callback);
-        return null;      
+
+        //console.log(this.decoder);
+        Requests.GetDecoderDef(param1, this.decoder, callback);
+        return null;           
     }
 
     /* Url based methods */
