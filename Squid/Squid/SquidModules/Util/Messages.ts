@@ -1,4 +1,5 @@
 ﻿declare var bootbox: any;
+declare var Example: any;
 
 export class Messages {
 
@@ -27,18 +28,21 @@ export class Messages {
                     className: "btn-success",
                     callback: function () {
                         deleteMethod();
-                        //Messages.Alert("Décodeur supprimé");
                     }
                 },
 
                 cancel: {
                     label: "Annuler",
-                    className: "btn-primary"
-                    /*callback: function () {
-                        //window.show("Suppression annulée");
-                    }*/
+                    className: "btn-primary",
+                    callback: function () {
+                        Messages.Notify("Suppression annulée");
+                    }
                 }
             }
         });
+    }
+
+    static Notify(text: string) {
+        Example.show(text);
     }
 }

@@ -17,13 +17,13 @@ namespace Squid.Models
             this.Editable = true;
         }
 
-        public Decoder(string name, string version, string category, string tags, string xml, string code, string frenchSpec)
+        public Decoder(string name, string version, string category, string tags, string blocklyDef, string code, string frenchSpec)
         {
             this.Name = name;
             this.Version = version;
             this.Category = category;
             this.Tags = tags;
-            this.Xml = xml;
+            this.BlocklyDef = blocklyDef;
             this.Code = code;
             this.FrenchSpec = frenchSpec;
             this.Editable = true;
@@ -35,7 +35,7 @@ namespace Squid.Models
 
         public string Name { get; set; }
 
-        public string Xml { get; set; }
+        public string BlocklyDef { get; set; }
 
         public string Code { get; set; }
 
@@ -53,7 +53,7 @@ namespace Squid.Models
 
         public void UpdateFieldsFromXml()
         {
-            using (XmlReader reader = XmlReader.Create(new StringReader(this.Xml)))
+            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
             {
                 reader.ReadToFollowing("block");
                 reader.ReadStartElement();

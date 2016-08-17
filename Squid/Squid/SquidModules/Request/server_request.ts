@@ -9,18 +9,20 @@ export class Requests {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    static SaveDecoder(decoder: Decoder){
+    static SaveDecoder(decoder: Decoder) {
+        //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            //data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
             data: JSON.stringify(decoder),
             success(res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages.Alert(`Décodeur sauvegardé avec l'Id : ${res.id}`);
+                } else {
+                    Messages.Notify("Décodeur sauvegardé");
                 }
                 //alert(res.id);
             },
@@ -58,15 +60,19 @@ export class Requests {
      * 
      * @param callback
      */
-    static GetCategories(succes: any, fail: any) {
+    static GetBlocksInfos(callback: any, fail: any) {
         $.ajax({
-            url: "/api/Decoders/categories",
+            url: "/api/Decoders/blocksinfos",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            success(mapstr) {
-                //console.log(JSON.parse(mapstr));
-                succes(JSON.parse(mapstr));
+            success(res) {
+                console.log(res);
+                if (Array.isArray(res)) {
+                    succes(res);
+                } else {
+                    succes(JSON.parse(res)); 
+                }            
             },
             error(resp) {
                 fail();

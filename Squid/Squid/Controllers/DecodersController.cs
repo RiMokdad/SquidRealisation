@@ -62,7 +62,7 @@ namespace Squid.Controllers
                 }
                 var services = new DecoderServices();
                 var decoder = services.GetDecoder(id);
-                return Json(new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.Xml });
+                return Json(new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.BlocklyDef });
 
             }
             catch (Exception e)
@@ -72,9 +72,9 @@ namespace Squid.Controllers
         }
 
 
-        [Route("api/Decoders/categories")]
+        [Route("api/Decoders/blocksinfos")]
         [HttpPost]
-        public IHttpActionResult GetCategories()
+        public IHttpActionResult GetAllBlockInfos()
         {
             try
             {
@@ -84,8 +84,10 @@ namespace Squid.Controllers
                     //return Json(new { error = "modèle non valide" });
                 }
                 var services = new DecoderServices();
-                var map = services.GetCategoryInfos();
-                return Json(new JavaScriptSerializer().Serialize(map));
+                //var map = services.GetCategoryInfos();
+                //return Json(new JavaScriptSerializer().Serialize(map));
+                var list = services.GetAllBlockInfos();
+                return Json(list.ToArray());
 
             }
             catch (Exception e)

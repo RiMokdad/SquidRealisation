@@ -26,15 +26,20 @@ var Messages = (function () {
                     className: "btn-success",
                     callback: function () {
                         deleteMethod();
-                        //Messages.Alert("Décodeur supprimé");
                     }
                 },
                 cancel: {
                     label: "Annuler",
-                    className: "btn-primary"
+                    className: "btn-primary",
+                    callback: function () {
+                        Messages.Notify("Suppression annulée");
+                    }
                 }
             }
         });
+    };
+    Messages.Notify = function (text) {
+        Example.show(text);
     };
     return Messages;
 }());

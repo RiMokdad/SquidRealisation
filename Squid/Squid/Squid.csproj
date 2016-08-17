@@ -2909,6 +2909,7 @@
     <Content Include="closure-library\third_party\closure\goog\svgpan\svgpan.js" />
     <Content Include="closure_override\inputhandler_override.js" />
     <Content Include="Content\bootbox\bootbox.min.js" />
+    <Content Include="Content\bootbox\example.js" />
     <Content Include="Content\css\app.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />

@@ -25,6 +25,7 @@ Blockly/
 Blockly/blocks
 closure-library/
 Editor/*.js
+SquidModules/Toolbox/*.js
 *.js.map
 SquidModules/Editor/*.js
 

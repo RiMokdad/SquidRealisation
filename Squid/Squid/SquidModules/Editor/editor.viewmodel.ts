@@ -95,7 +95,7 @@ export class EditorComponent {
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
-            Messages.Alert("Décodeur supprimé");
+            Messages.Notify("Décodeur supprimé");
         };
 
         const deletion = () => {
@@ -109,11 +109,11 @@ export class EditorComponent {
     Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const success = (map) => {
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        const success = (list) => {
             // Update toolbox
-            this.toolboxManager.UpdateBlocksInfos(map);
-            this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+            this.toolboxManager.UpdateBlocksInfos(list, true);
+            Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
             this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
@@ -124,7 +124,7 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetCategories(success, fail);
+        Requests.GetBlocksInfos(callback, fail);
         
 
         //TESTS DELETE       
