@@ -114,8 +114,18 @@ var EditorComponent = (function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
-    EditorComponent.prototype.OpenTab = function (id) {
-        window.open(this.GetBaseUrl() + (id ? "#" + id : ""));
+    EditorComponent.prototype.OpenTab = function (param1) {
+        if (param1) {
+            if (typeof (param1) == "string") {
+                this.RestoreBlock(param1);
+            }
+            else if (typeof (param1) == "number") {
+                window.open(this.GetBaseUrl() + "#" + param1);
+            }
+        }
+        else {
+            window.open(this.GetBaseUrl());
+        }
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
         if (this.workspace.IsADecoder()) {
@@ -131,15 +141,19 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     };
-    EditorComponent.prototype.RestoreBlock = function (id) {
+    EditorComponent.prototype.RestoreBlock = function (param1) {
         var _this = this;
         var callback = function () {
-            //console.log(this.decoder);
-            _this.decoder.Id = id;
-            _this.workspace.RestoreBlocks(_this.decoder);
+            if (typeof (param1) == "number") {
+                _this.decoder.Id = param1;
+            }
+            else if (typeof (param1) == "string") {
+                _this.decoder.Name = param1;
+            }
+            Workspace_1.Workspace.RestoreBlocks(_this.decoder);
         };
-        console.log(this.decoder);
-        server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
+        //console.log(this.decoder);
+        server_request_1.Requests.GetDecoderDef(param1, this.decoder, callback);
         return null;
     };
     /* Url based methods */
