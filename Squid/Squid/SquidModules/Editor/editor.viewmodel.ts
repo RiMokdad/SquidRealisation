@@ -22,19 +22,17 @@ export class EditorComponent {
     acTags;
     acCategory;
 
-    
-
     constructor() {
         EventHandler.SetEditorComponent(this);
+        this.toolboxManager = new ToolboxManager();
         this.decoder = new Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
     }
 
     OnLoad() {
-        this.toolboxManager = new ToolboxManager();
         Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-
+        Workspace.BindDecoder(this.decoder);
         const id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
@@ -60,6 +58,7 @@ export class EditorComponent {
         Requests.FindUsages(this.decoder.Id);
         const deletion = () => {
             this.decoder = new Decoder();
+            Workspace.BindDecoder(this.decoder);
             alert("Décodeur supprimé");
         };
         Requests.DeleteDecoder(this.decoder, deletion);
@@ -97,8 +96,8 @@ export class EditorComponent {
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
-    OpenTab() {
-        window.open(this.GetBaseUrl());
+    OpenTab(id?: number) {
+        window.open(this.GetBaseUrl() + (id?`#${id}`:""));
     }
 
     private SaveDecoderToServer() {
@@ -136,7 +135,7 @@ export class EditorComponent {
     }
 
     private SetUrl() {
-        window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
+        window.location.hash = this.decoder.Id ? `${this.decoder.Id}` : "";
     }
     
 
