@@ -24,20 +24,20 @@ var EditorComponent = (function () {
         this.tagsSearch = "";
     }
     EditorComponent.prototype.OnLoad = function () {
-        Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        Workspace_1.Workspace.BindDecoder(this.decoder);
+        this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        this.workspace.BindDecoder(this.decoder);
         var id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
         }
         else {
-            Workspace_1.Workspace.Initialize();
+            this.workspace.Initialize();
         }
         this.ac = new Ac();
         this.Refresh();
     };
     EditorComponent.prototype.Clear = function () {
-        Workspace_1.Workspace.Clear();
+        this.workspace.Clear();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert local save
@@ -48,7 +48,7 @@ var EditorComponent = (function () {
         //TODO insert code to supress a decoder onto the server 
         var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
-            Workspace_1.Workspace.BindDecoder(_this.decoder);
+            _this.workspace.BindDecoder(_this.decoder);
             Messages_1.Messages.Alert("Décodeur supprimé");
         };
         var deletion = function () {
@@ -60,7 +60,7 @@ var EditorComponent = (function () {
         var _this = this;
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         var callback = function (map) {
             _this.toolboxManager.UpdateBlocksInfos(map);
             //create or update autocompletion
@@ -69,19 +69,19 @@ var EditorComponent = (function () {
             _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
         server_request_1.Requests.GetCategories(callback);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
         //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
     EditorComponent.prototype.OpenTab = function (id) {
         window.open(this.GetBaseUrl() + (id ? "#" + id : ""));
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        if (Workspace_1.Workspace.IsADecoder()) {
-            Workspace_1.Workspace.CompleteDecoder(this.decoder);
+        if (this.workspace.IsADecoder()) {
+            this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
             this.SetUrl();
@@ -98,7 +98,7 @@ var EditorComponent = (function () {
         var callback = function () {
             //console.log(this.decoder);
             _this.decoder.Id = id;
-            Workspace_1.Workspace.RestoreBlocks(_this.decoder);
+            _this.workspace.RestoreBlocks(_this.decoder);
         };
         console.log(this.decoder);
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);

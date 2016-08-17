@@ -16,14 +16,13 @@ declare var Ac:any;
 export class EditorComponent {
 
     decoder: Decoder;
+    workspace: Workspace;
     tagsSearch: string;
     placeholderTags: string;
     toolboxManager: ToolboxManager;
 
     //autocomplete object
     ac;
-
-
 
     constructor() {
         EventHandler.SetEditorComponent(this);
@@ -34,20 +33,20 @@ export class EditorComponent {
     }
 
     OnLoad() {
-        Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        Workspace.BindDecoder(this.decoder);
+        this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        this.workspace.BindDecoder(this.decoder);
         const id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
         } else {
-            Workspace.Initialize();
+            this.workspace.Initialize();
         }
         this.ac = new Ac();
         this.Refresh();
     }
 
     Clear() {
-        Workspace.Clear();
+        this.workspace.Clear();
     }
 
     Save() {
@@ -60,7 +59,7 @@ export class EditorComponent {
         //TODO insert code to supress a decoder onto the server 
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
-            Workspace.BindDecoder(this.decoder);
+            this.workspace.BindDecoder(this.decoder);
             Messages.Alert("Décodeur supprimé");
         };
 
@@ -75,7 +74,7 @@ export class EditorComponent {
     Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const callback = (map) => {
             this.toolboxManager.UpdateBlocksInfos(map);
             //create or update autocompletion
@@ -85,14 +84,14 @@ export class EditorComponent {
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
 
         //TESTS DELETE       
     }
 
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
     OpenTab(id?: number) {
@@ -100,8 +99,8 @@ export class EditorComponent {
     }
 
     private SaveDecoderToServer() {
-        if (Workspace.IsADecoder()) {
-            Workspace.CompleteDecoder(this.decoder);
+        if (this.workspace.IsADecoder()) {
+            this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             Requests.SaveDecoder(this.decoder);
             this.SetUrl();
@@ -117,7 +116,7 @@ export class EditorComponent {
         const callback = () => {
             //console.log(this.decoder);
             this.decoder.Id = id;
-            Workspace.RestoreBlocks(this.decoder);
+            this.workspace.RestoreBlocks(this.decoder);
         };
         console.log(this.decoder);
         Requests.GetDecoderDef(id, this.decoder, callback);
