@@ -33,6 +33,7 @@ var EditorComponent = (function () {
         else {
             Workspace_1.Workspace.Initialize();
         }
+        this.ac = new Ac();
         this.Refresh();
     };
     EditorComponent.prototype.Clear = function () {
@@ -59,24 +60,13 @@ var EditorComponent = (function () {
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         var callback = function (map) {
             _this.toolboxManager.UpdateBlocksInfos(map);
-            if (!_this.acTags) {
-                Ac.SetTagsAutocomplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-                _this.acTags = true;
-            }
-            else {
-                Ac.RefreshTags(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
-            }
-            if (!_this.acCategory) {
-                Ac.SetCategoryAutocomplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-                _this.acCategory = true;
-            }
-            else {
-                Ac.RefreshCategories(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
-            }
+            //create or update autocompletion
+            _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
+            _this.ac.SetCategoryAutoComplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
+            _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
         server_request_1.Requests.GetCategories(callback);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS autocomplete
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);

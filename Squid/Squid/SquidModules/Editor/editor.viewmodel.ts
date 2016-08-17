@@ -21,8 +21,9 @@ export class EditorComponent {
     tagsSearch = "";
     placeholderTags = "tags1, tags2,...";
     toolboxManager: ToolboxManager;
-    acTags;
-    acCategory;
+
+    //autocomplete object
+    ac;
 
     
 
@@ -42,6 +43,7 @@ export class EditorComponent {
         } else {
             Workspace.Initialize();
         }
+        this.ac = new Ac();
         this.Refresh();
     }
 
@@ -66,31 +68,20 @@ export class EditorComponent {
         Requests.DeleteDecoder(this.decoder, deletion);
     }
 
-    Refresh() {
+    Refresh() {       
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const callback = (map) => {
             this.toolboxManager.UpdateBlocksInfos(map);
-            if (!this.acTags) {
-                Ac.SetTagsAutocomplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-                this.acTags = true;
-            } else {
-                Ac.RefreshTags(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
-            }
-            if (!this.acCategory) {
-                Ac.SetCategoryAutocomplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-                this.acCategory = true;
-            } else {
-                Ac.RefreshCategories(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
-            }
+            //create or update autocompletion
+            this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+            this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
+            this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS autocomplete
-        
-              
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());  
     }
 
     SearchTag() {
