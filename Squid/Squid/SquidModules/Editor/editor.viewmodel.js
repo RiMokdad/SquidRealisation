@@ -13,6 +13,7 @@ var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
+var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
 var EditorComponent = (function () {
     function EditorComponent() {
@@ -44,14 +45,16 @@ var EditorComponent = (function () {
         this.SaveDecoderToServer();
     };
     EditorComponent.prototype.Supress = function () {
-        //TODO insert code to supress a decoder onto the server 
         var _this = this;
-        server_request_1.Requests.FindUsages(this.decoder.Id);
-        var deletion = function () {
+        //TODO insert code to supress a decoder onto the server 
+        var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
-            alert("Décodeur supprimé");
+            Messages_1.Messages.Alert("Décodeur supprimé");
         };
-        server_request_1.Requests.DeleteDecoder(this.decoder, deletion);
+        var deletion = function () {
+            server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
+        };
+        server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
@@ -67,6 +70,7 @@ var EditorComponent = (function () {
         };
         server_request_1.Requests.GetCategories(callback);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);

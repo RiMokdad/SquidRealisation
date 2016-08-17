@@ -59,13 +59,17 @@ export class EditorComponent {
 
     Supress() {
         //TODO insert code to supress a decoder onto the server 
-
-        Requests.FindUsages(this.decoder.Id);
-        const deletion = () => {
+        const deleteConfirmed = () => {
             this.decoder = new Decoder();
-            alert("Décodeur supprimé");
+            Messages.Alert("Décodeur supprimé");
         };
-        Requests.DeleteDecoder(this.decoder, deletion);
+
+        const deletion = () => {
+            Requests.DeleteDecoder(this.decoder, deleteConfirmed);
+        };
+
+        Requests.FindUsages(this.decoder.Id, deletion);
+      
     }
 
     Refresh() {       
@@ -81,7 +85,9 @@ export class EditorComponent {
         };
 
         Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());  
+        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+
+        //TESTS DELETE       
     }
 
     SearchTag() {

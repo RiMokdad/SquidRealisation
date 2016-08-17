@@ -70,27 +70,15 @@ var Requests = (function () {
             }
         });
     };
-    Requests.FindUsages = function (id) {
+    Requests.FindUsages = function (id, deleteMethod) {
         $.ajax({
             url: "/api/Decoders/findusages",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             //datatype: 'json',
             data: JSON.stringify(id),
-            success: function (res) {
-                if (res.error) {
-                    //an error occured
-                    alert(res.error);
-                }
-                else {
-                    if (res.length > 0) {
-                    }
-                    else {
-                        var retVal = confirm("La fonction à supprimer n'est utilisé nulle part.");
-                        if (retVal) {
-                        }
-                    }
-                }
+            success: function (list) {
+                Messages_1.Messages.ConfirmDelete(deleteMethod, list);
             },
             error: function (resp) {
                 console.log(resp.responseText);
