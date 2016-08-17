@@ -61,16 +61,15 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        var callback = function (map) {
-            _this.toolboxManager.UpdateBlocksInfos(map);
+        var callback = function (list) {
+            _this.toolboxManager.UpdateBlocksInfos(list, true);
+            Workspace_1.Workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
             //create or update autocompletion
             _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
             _this.ac.SetCategoryAutoComplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
             _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
-        server_request_1.Requests.GetCategories(callback);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //TESTS DELETE       
+        server_request_1.Requests.GetBlocksInfos(callback);
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);

@@ -58,15 +58,19 @@ export class Requests {
      * 
      * @param callback
      */
-    static GetCategories(callback: any) {
+    static GetBlocksInfos(callback: any) {
         $.ajax({
-            url: "/api/Decoders/categories",
+            url: "/api/Decoders/blocksinfos",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            success(mapstr) {
-                //console.log(JSON.parse(mapstr));
-                callback(JSON.parse(mapstr));
+            success(res) {
+                console.log(res);
+                if (Array.isArray(res)) {
+                    callback(res);
+                } else {
+                    callback(JSON.parse(res)); 
+                }            
             },
             error(resp) {
                 console.log(resp.responseText);

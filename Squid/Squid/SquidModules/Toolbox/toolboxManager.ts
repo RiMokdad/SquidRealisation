@@ -104,7 +104,6 @@ export class ToolboxManager {
         }
 
         this.UpdateCategories();
-        Workspace.GetInstance().UpdateToolbox(this.toolboxHTML);
     } 
 
     private GenerateBlocksListFromMap(map: Object) {

@@ -76,18 +76,16 @@ export class EditorComponent {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const callback = (map) => {
-            this.toolboxManager.UpdateBlocksInfos(map);
+        const callback = (list) => {
+            this.toolboxManager.UpdateBlocksInfos(list, true);
+            Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
             //create or update autocompletion
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
             this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
             this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
 
-        Requests.GetCategories(callback);
-        Workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
-
-        //TESTS DELETE       
+        Requests.GetBlocksInfos(callback);      
     }
 
     SearchTag() {

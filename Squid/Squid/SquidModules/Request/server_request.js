@@ -54,15 +54,20 @@ var Requests = (function () {
      *
      * @param callback
      */
-    Requests.GetCategories = function (callback) {
+    Requests.GetBlocksInfos = function (callback) {
         $.ajax({
-            url: "/api/Decoders/categories",
+            url: "/api/Decoders/blocksinfos",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            success: function (mapstr) {
-                //console.log(JSON.parse(mapstr));
-                callback(JSON.parse(mapstr));
+            success: function (res) {
+                console.log(res);
+                if (Array.isArray(res)) {
+                    callback(res);
+                }
+                else {
+                    callback(JSON.parse(res));
+                }
             },
             error: function (resp) {
                 console.log(resp.responseText);
