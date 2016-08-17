@@ -250,3 +250,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Squid/Squid/npm-debug.log.1467819396
+/Squid/Squid/toastr
