@@ -2944,7 +2944,6 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
-    <Content Include="SquidModules\SignalR\signalr_methods.js" />
     <Content Include="SquidModules\Util\autocomplete.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
     <Content Include="systemjs.config.js" />
@@ -2959,6 +2958,7 @@
     <TypeScriptCompile Include="SquidModules\main.ts" />
     <Content Include="SquidModules\main.view.html" />
     <TypeScriptCompile Include="SquidModules\Request\server_request.ts" />
+    <TypeScriptCompile Include="SquidModules\SignalR\signalr_methods.ts" />
     <TypeScriptCompile Include="SquidModules\Toolbox\toolboxManager.ts" />
     <TypeScriptCompile Include="SquidModules\Util\EventHandler.ts" />
     <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />

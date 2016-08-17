@@ -57,7 +57,7 @@ var Requests = (function () {
      *
      * @param callback
      */
-    Requests.GetBlocksInfos = function (callback) {
+    Requests.GetBlocksInfos = function (success, fail) {
         $.ajax({
             url: "/api/Decoders/blocksinfos",
             type: "POST",
@@ -66,13 +66,14 @@ var Requests = (function () {
             success: function (res) {
                 console.log(res);
                 if (Array.isArray(res)) {
-                    callback(res);
+                    success(res);
                 }
                 else {
-                    callback(JSON.parse(res));
+                    success(JSON.parse(res));
                 }
             },
             error: function (resp) {
+                fail();
                 console.log(resp.responseText);
                 Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
             }

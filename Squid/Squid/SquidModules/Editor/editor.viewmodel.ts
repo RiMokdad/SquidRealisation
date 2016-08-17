@@ -124,7 +124,7 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetBlocksInfos(callback, fail);
+        Requests.GetBlocksInfos(success, fail);
         
 
         //TESTS DELETE       

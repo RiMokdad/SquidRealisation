@@ -13,31 +13,63 @@ var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
+var signalr_methods_1 = require("../SignalR/signalr_methods");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
+(function (RefreshState) {
+    RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
+    RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
+    RefreshState[RefreshState["OUT_DATED"] = 2] = "OUT_DATED";
+})(exports.RefreshState || (exports.RefreshState = {}));
+var RefreshState = exports.RefreshState;
 var EditorComponent = (function () {
     function EditorComponent() {
         EventHandler_1.EventHandler.SetEditorComponent(this);
+        this.serverNotifications = new signalr_methods_1.ServerNotifications();
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.decoder = new Decoder_1.Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
+        this.refreshState = RefreshState.OUT_DATED;
     }
+    /**
+     * Loaded after the whole page has been loaded
+     */
     EditorComponent.prototype.OnLoad = function () {
-        Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        Workspace_1.Workspace.BindDecoder(this.decoder);
+        this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        this.workspace.BindDecoder(this.decoder);
         var id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
         }
         else {
-            Workspace_1.Workspace.Initialize();
+            this.workspace.Initialize();
         }
         this.ac = new Ac();
-        this.Refresh();
+        this.pollRefresh();
     };
+    EditorComponent.prototype.pollRefresh = function () {
+        var _this = this;
+        var time = 1000;
+        switch (this.refreshState) {
+            case RefreshState.OUT_DATED:
+                this.Refresh();
+                break;
+            case RefreshState.PENDING:
+                time = 4000;
+                break;
+            case RefreshState.UP_TO_DATE:
+            default:
+                break;
+        }
+        var func = function () { _this.pollRefresh(); };
+        window.setTimeout(func, time);
+    };
+    /**
+     * Clear
+     */
     EditorComponent.prototype.Clear = function () {
-        Workspace_1.Workspace.Clear();
+        this.workspace.Clear();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert local save
@@ -48,7 +80,7 @@ var EditorComponent = (function () {
         //TODO insert code to supress a decoder onto the server 
         var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
-            Workspace_1.Workspace.BindDecoder(_this.decoder);
+            _this.workspace.BindDecoder(_this.decoder);
             Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
@@ -61,26 +93,43 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        var callback = function (list) {
+        var success = function (list) {
+            // Update toolbox
             _this.toolboxManager.UpdateBlocksInfos(list, true);
             Workspace_1.Workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
+            _this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
             _this.ac.SetCategoryAutoComplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
             _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
-        server_request_1.Requests.GetBlocksInfos(callback);
+        var fail = function () {
+            _this.refreshState = RefreshState.OUT_DATED;
+        };
+        this.refreshState = RefreshState.PENDING;
+        server_request_1.Requests.GetBlocksInfos(success, fail);
+        //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
-        Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
-    EditorComponent.prototype.OpenTab = function (id) {
-        window.open(this.GetBaseUrl() + (id ? "#" + id : ""));
+    EditorComponent.prototype.OpenTab = function (param1) {
+        if (param1) {
+            if (typeof (param1) == "string") {
+                this.RestoreBlock(param1);
+            }
+            else if (typeof (param1) == "number") {
+                window.open(this.GetBaseUrl() + "#" + param1);
+            }
+        }
+        else {
+            window.open(this.GetBaseUrl());
+        }
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
-        if (Workspace_1.Workspace.IsADecoder()) {
-            Workspace_1.Workspace.CompleteDecoder(this.decoder);
+        if (this.workspace.IsADecoder()) {
+            this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
             this.SetUrl();
@@ -92,15 +141,19 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     };
-    EditorComponent.prototype.RestoreBlock = function (id) {
+    EditorComponent.prototype.RestoreBlock = function (param1) {
         var _this = this;
         var callback = function () {
-            //console.log(this.decoder);
-            _this.decoder.Id = id;
+            if (typeof (param1) == "number") {
+                _this.decoder.Id = param1;
+            }
+            else if (typeof (param1) == "string") {
+                _this.decoder.Name = param1;
+            }
             Workspace_1.Workspace.RestoreBlocks(_this.decoder);
         };
-        console.log(this.decoder);
-        server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
+        //console.log(this.decoder);
+        server_request_1.Requests.GetDecoderDef(param1, this.decoder, callback);
         return null;
     };
     /* Url based methods */
