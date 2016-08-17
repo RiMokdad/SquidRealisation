@@ -62,7 +62,7 @@ namespace Squid.Controllers
                 }
                 var services = new DecoderServices();
                 var decoder = services.GetDecoder(id);
-                return Json(new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.Xml });
+                return Json(new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.BlocklyDef });
 
             }
             catch (Exception e)

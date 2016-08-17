@@ -89,7 +89,7 @@ var Workspace = (function () {
             decoder.Name = this.GetName();
             decoder.Code = this.GenerateCSharp();
             decoder.FrenchSpec = this.GenerateFrench();
-            decoder.Xml = this.GetStringXML();
+            decoder.BlocklyDef = this.GetStringXML();
             decoder.Editable = true;
         }
     };
@@ -141,7 +141,7 @@ var Workspace = (function () {
         // TODO if we implement a local storage
     };
     Workspace.prototype.RestoreBlocks = function (blocks) {
-        var Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
+        var Xml = Blockly.Xml.textToDom(blocks.BlocklyDef || blocks);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
         this.workspace.getTopBlocks()[0].setDeletable(false);
     };

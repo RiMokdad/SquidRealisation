@@ -32,6 +32,7 @@
 
     <!-- enhanced alert and confirm box-->
     <script src="Content/bootbox/bootbox.min.js"></script>
+    <script src="Content/bootbox/example.js"></script>
     <script src="SquidModules/Util/Messages.ts"></script>
 
     <!--Reference the SignalR library. -->
@@ -57,6 +58,9 @@
 
 </head>
 <body>
+    <div class="bb-alert alert alert-info" style="display:none;">
+        <span>The examples populate this alert with dummy content</span>
+    </div>
 
 <decoder >
     <div class="loading">
@@ -77,34 +81,42 @@
     </div>
 </decoder>
 
-    <!-- 3. Load Blockly -->
-    <script src="Blockly/blockly_uncompressed.js"></script>
+<!-- 3. Load Blockly -->
+<script src="Blockly/blockly_uncompressed.js"></script>
 <script src="Blockly_override/core/field_textinput.js"></script>
-    <script src="Blockly_override/core/block_svg.js"></script>
-    <!-- Messages -->
-    <script src="Blockly/msg/js/fr.js"></script>
-    <!-- Blocks -->
-    <script src="Blockly/blocks/procedures.js"></script>
-    <script src="Blockly_override/blocks/procedures.js"></script>
-    <script src="Blockly_override/blocks/custom.js"></script>
-    <script src="Blockly_override/blocks/custom_if.js"></script>
-    
+<script src="Blockly_override/core/block_svg.js"></script>
+<!-- Messages -->
+<script src="Blockly/msg/js/fr.js"></script>
+<!-- Blocks -->
+<script src="Blockly/blocks/procedures.js"></script>
+<script src="Blockly_override/blocks/procedures.js"></script>
+<script src="Blockly_override/blocks/custom.js"></script>
+<script src="Blockly_override/blocks/custom_if.js"></script>
 
-    <!--Csharp generator-->
-    <script src="Blockly_override/generators/csharp.js"></script>
-    <script src="Blockly_override/generators/csharp/procedures.js"></script>
-    <script src="Blockly_override/generators/csharp/base_blocks.js"></script>
-    <script src="Blockly_override/generators/csharp/decoding_blocks.js"></script>
-    <script src="Blockly_override/generators/csharp/utils.js"></script>
 
-    <!-- French generator -->
-    <script src="Blockly_override/generators/french.js"></script>
-    <script src="Blockly_override/generators/french/decoding_blocks.js"></script>
-    <script src="Blockly_override/generators/french/base_blocks.js"></script>
-    <script src="Blockly_override/generators/french/procedures.js"></script>
+<!--Csharp generator-->
+<script src="Blockly_override/generators/csharp.js"></script>
+<script src="Blockly_override/generators/csharp/procedures.js"></script>
+<script src="Blockly_override/generators/csharp/base_blocks.js"></script>
+<script src="Blockly_override/generators/csharp/decoding_blocks.js"></script>
+<script src="Blockly_override/generators/csharp/utils.js"></script>
 
-    <!-- 4. On load -->
-    <script>console.log("Load end")</script>
+<!-- French generator -->
+<script src="Blockly_override/generators/french.js"></script>
+<script src="Blockly_override/generators/french/decoding_blocks.js"></script>
+<script src="Blockly_override/generators/french/base_blocks.js"></script>
+<script src="Blockly_override/generators/french/procedures.js"></script>
+
+    <script>
+        $(function () {
+            Example.init({
+                "selector": ".bb-alert"
+            });
+        });
+    </script>
+
+<!-- 4. On load -->
+<script>console.log("Load end")</script>
 
 </body>
 </html>
