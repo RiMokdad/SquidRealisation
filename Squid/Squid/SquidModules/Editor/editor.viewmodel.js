@@ -83,7 +83,7 @@ var EditorComponent = (function () {
         var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
             _this.workspace.BindDecoder(_this.decoder);
-            Messages_1.Messages.Alert("Décodeur supprimé");
+            Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);

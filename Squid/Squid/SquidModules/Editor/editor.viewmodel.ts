@@ -97,7 +97,7 @@ export class EditorComponent {
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
-            Messages.Alert("Décodeur supprimé");
+            Messages.Notify("Décodeur supprimé");
         };
 
         const deletion = () => {

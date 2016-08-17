@@ -203,7 +203,7 @@ namespace Squid.Services
                 if (decoder != null)
                 {
                     var proceduresThatUseIt =
-                                db.Decoders.Where(d => d.Xml.Contains("<mutation name=\"" + decoder.Name + "\">")).Select(d => d.Name).ToList();
+                                db.Decoders.Where(d => d.BlocklyDef.Contains("<mutation name=\"" + decoder.Name + "\">")).Select(d => d.Name).ToList();
                     return proceduresThatUseIt;
                 }
                 else

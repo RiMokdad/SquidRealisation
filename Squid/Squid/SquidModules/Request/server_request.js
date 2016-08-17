@@ -8,17 +8,20 @@ var Requests = (function () {
      * @param decoder
      */
     Requests.SaveDecoder = function (decoder) {
+        //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            //data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
             data: JSON.stringify(decoder),
             success: function (res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
+                }
+                else {
+                    Messages_1.Messages.Notify("Décodeur sauvegardé");
                 }
                 //alert(res.id);
             },

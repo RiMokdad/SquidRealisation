@@ -1,6 +1,6 @@
 "use strict";
 var Decoder = (function () {
-    function Decoder(Name, Tags, Category, Version, Id, Xml, Code, FrenchSpec, Editable) {
+    function Decoder(Name, Tags, Category, Version, Id, BlockyDef, Code, FrenchSpec, Editable) {
         if (Name instanceof Decoder) {
             this.update(Name);
         }
@@ -10,7 +10,7 @@ var Decoder = (function () {
             this.Version = Version || "0.0";
             this.Category = Category || "";
             this.Tags = Tags || "";
-            this.Xml = Xml || "";
+            this.BlocklyDef = BlockyDef || "";
             this.Code = Code || "";
             this.FrenchSpec = FrenchSpec || "";
             this.Editable = Editable || true;
@@ -28,7 +28,7 @@ var Decoder = (function () {
         this.Version = decoder.Version || this.Version;
         this.Category = decoder.Category || this.Category;
         this.Tags = decoder.Tags || this.Tags;
-        this.Xml = decoder.Xml || this.Xml;
+        this.BlocklyDef = decoder.BlocklyDef || this.BlocklyDef;
         this.Code = decoder.Code || this.Code;
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
         this.Editable = decoder.Editable || this.Editable;

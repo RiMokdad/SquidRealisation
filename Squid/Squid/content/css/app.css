@@ -543,3 +543,15 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     background-color: #f6d781;
     color: #200000;
 }
+
+/*---------------- Small notifications on the right side------------*/
+.bb-alert
+{
+    position: fixed;
+    bottom: 25%;
+    right: 0;
+    margin-bottom: 0;
+    font-size: 1.2em;
+    padding: 1em 1.3em;
+    z-index: 2000;
+}
