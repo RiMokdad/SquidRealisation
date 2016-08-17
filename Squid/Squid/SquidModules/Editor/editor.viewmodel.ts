@@ -133,8 +133,21 @@ export class EditorComponent {
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
-    OpenTab(id?: number) {
-        window.open(this.GetBaseUrl() + (id?`#${id}`:""));
+    OpenTab();
+    OpenTab(name: string);
+    OpenTab(id: number);
+    OpenTab(param1?: any) {
+        if (param1) {
+            if (typeof (param1) == "string") {
+                this.RestoreBlock(param1);
+            }
+            else if (typeof (param1) == "number") {
+                window.open(this.GetBaseUrl() + "#" + param1);
+            }
+        }
+        else {
+            window.open(this.GetBaseUrl());
+        }
     }
 
     private SaveDecoderToServer() {

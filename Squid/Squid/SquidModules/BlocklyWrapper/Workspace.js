@@ -113,6 +113,20 @@ var Workspace = (function () {
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
     };
+    Workspace.UpdateToolbox = function (toolboxTree) {
+        Workspace.singleton.UpdateToolbox(toolboxTree);
+    };
+    Workspace.CustomContextMenu = function (callback) {
+        Blockly.blocks.Procedures.customContextMenu = function (options) {
+            var option;
+            option.enabled = true;
+            option.text = Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
+            option.callback = function () {
+                callback();
+            };
+            options.push(option);
+        };
+    };
     return Workspace;
 }());
 exports.Workspace = Workspace;

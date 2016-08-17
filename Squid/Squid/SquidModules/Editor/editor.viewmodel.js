@@ -114,8 +114,18 @@ var EditorComponent = (function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
-    EditorComponent.prototype.OpenTab = function (id) {
-        window.open(this.GetBaseUrl() + (id ? "#" + id : ""));
+    EditorComponent.prototype.OpenTab = function (param1) {
+        if (param1) {
+            if (typeof (param1) == "string") {
+                this.RestoreBlock(param1);
+            }
+            else if (typeof (param1) == "number") {
+                window.open(this.GetBaseUrl() + "#" + param1);
+            }
+        }
+        else {
+            window.open(this.GetBaseUrl());
+        }
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
         if (this.workspace.IsADecoder()) {

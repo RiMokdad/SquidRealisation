@@ -146,4 +146,20 @@ export class Workspace {
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
     }
+
+    static UpdateToolbox(toolboxTree: HTMLElement) {
+        Workspace.singleton.UpdateToolbox(toolboxTree);
+    }
+
+    static CustomContextMenu(callback: any) {
+        Blockly.blocks.Procedures.customContextMenu = (options: any) => {
+            var option: any;
+            option.enabled = true;
+            option.text = Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
+            option.callback = function () {
+                callback();
+            };
+            options.push(option);
+        };
+    }
 }
