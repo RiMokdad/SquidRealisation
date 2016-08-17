@@ -154,9 +154,9 @@ export class ToolboxManager {
     UpdateCategories() {
         this.EmptyDecoders_();
         //add
-        const proc = document.createElement("block");
-        proc.setAttribute("type", "procedures_defnoreturn");
-        this.decoders.appendChild(proc);
+        //const proc = document.createElement("block");
+        //proc.setAttribute("type", "procedures_defnoreturn");
+        //this.decoders.appendChild(proc);
 
         for (let i = 0; i < this.BlocksInCat.length; i++) {
             const catName = this.BlocksInCat[i].category;

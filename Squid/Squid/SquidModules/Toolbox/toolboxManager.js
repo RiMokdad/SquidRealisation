@@ -129,9 +129,9 @@ var ToolboxManager = (function () {
     ToolboxManager.prototype.UpdateCategories = function () {
         this.EmptyDecoders_();
         //add
-        var proc = document.createElement("block");
-        proc.setAttribute("type", "procedures_defnoreturn");
-        this.decoders.appendChild(proc);
+        //const proc = document.createElement("block");
+        //proc.setAttribute("type", "procedures_defnoreturn");
+        //this.decoders.appendChild(proc);
         for (var i = 0; i < this.BlocksInCat.length; i++) {
             var catName = this.BlocksInCat[i].category;
             var blocks = this.BlocksInCat[i].blocks;

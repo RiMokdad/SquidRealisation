@@ -17,16 +17,15 @@ var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
 var EditorComponent = (function () {
     function EditorComponent() {
+        EventHandler_1.EventHandler.SetEditorComponent(this);
+        this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.decoder = new Decoder_1.Decoder();
-        this.eventHandler = EventHandler_1.EventHandler.SetEditorComponent(this);
-        this.tagsSearch = "";
         this.placeholderTags = "tags1, tags2,...";
-        this.initialized_ = false;
-        console.log("I'm constructed");
+        this.tagsSearch = "";
     }
     EditorComponent.prototype.OnLoad = function () {
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
         Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        Workspace_1.Workspace.BindDecoder(this.decoder);
         var id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
@@ -76,8 +75,8 @@ var EditorComponent = (function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         Workspace_1.Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     };
-    EditorComponent.prototype.OpenTab = function () {
-        window.open(this.GetBaseUrl());
+    EditorComponent.prototype.OpenTab = function (id) {
+        window.open(this.GetBaseUrl() + (id ? "#" + id : ""));
     };
     EditorComponent.prototype.SaveDecoderToServer = function () {
         if (Workspace_1.Workspace.IsADecoder()) {
@@ -112,7 +111,7 @@ var EditorComponent = (function () {
         return parseInt(window.location.hash.substring(1)) || null;
     };
     EditorComponent.prototype.SetUrl = function () {
-        window.location.hash = this.decoder.Id ? this.decoder.Id : "";
+        window.location.hash = this.decoder.Id ? "" + this.decoder.Id : "";
     };
     EditorComponent = __decorate([
         core_1.Component({

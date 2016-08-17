@@ -15,28 +15,27 @@ declare var Ac:any;
 }) 
 export class EditorComponent {
 
-    decoder = new Decoder();
-    eventHandler = EventHandler.SetEditorComponent(this);
-
-    tagsSearch = "";
-    placeholderTags = "tags1, tags2,...";
+    decoder: Decoder;
+    tagsSearch: string;
+    placeholderTags: string;
     toolboxManager: ToolboxManager;
 
     //autocomplete object
     ac;
 
-    
 
-    private initialized_ = false;
 
     constructor() {
-        console.log("I'm constructed");
+        EventHandler.SetEditorComponent(this);
+        this.toolboxManager = new ToolboxManager();
+        this.decoder = new Decoder();
+        this.placeholderTags = "tags1, tags2,...";
+        this.tagsSearch = "";
     }
 
     OnLoad() {
-        this.toolboxManager = new ToolboxManager();
         Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-
+        Workspace.BindDecoder(this.decoder);
         const id = this.GetBlockIdInUrl();
         if (id != null) {
             this.RestoreBlock(id);
@@ -61,6 +60,7 @@ export class EditorComponent {
         //TODO insert code to supress a decoder onto the server 
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
+            Workspace.BindDecoder(this.decoder);
             Messages.Alert("Décodeur supprimé");
         };
 
@@ -95,8 +95,8 @@ export class EditorComponent {
         Workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
-    OpenTab() {
-        window.open(this.GetBaseUrl());
+    OpenTab(id?: number) {
+        window.open(this.GetBaseUrl() + (id?`#${id}`:""));
     }
 
     private SaveDecoderToServer() {
@@ -134,7 +134,7 @@ export class EditorComponent {
     }
 
     private SetUrl() {
-        window.location.hash = this.decoder.Id ? ((this.decoder.Id as any) as string) : "";
+        window.location.hash = this.decoder.Id ? `${this.decoder.Id}` : "";
     }
     
 
