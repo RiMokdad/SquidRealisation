@@ -48,6 +48,7 @@ var EditorComponent = (function () {
         //TODO insert code to supress a decoder onto the server 
         var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
+            Workspace_1.Workspace.BindDecoder(_this.decoder);
             Messages_1.Messages.Alert("Décodeur supprimé");
         };
         var deletion = function () {

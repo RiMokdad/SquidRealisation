@@ -25,7 +25,7 @@ var Requests = (function () {
             error: function (resp) {
                 //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
-                alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
             }
         });
     };
@@ -46,7 +46,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
             }
         });
     };
@@ -66,7 +66,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
             }
         });
     };
@@ -82,7 +82,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur");
             }
         });
     };
@@ -98,7 +98,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
             }
         });
     };
