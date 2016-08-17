@@ -4,10 +4,17 @@ import { Decoder } from "./../Util/Decoder";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
-import {Messages} from "./../Util/Messages";
-import {EventHandler} from "./../Util/EventHandler";
+import { ServerNotifications } from "../SignalR/signalr_methods";
+import { Messages } from "./../Util/Messages";
+import { EventHandler } from "./../Util/EventHandler";
 
-declare var Ac:any;
+declare var Ac: any;
+
+export enum RefreshState {
+    UP_TO_DATE,
+    PENDING,
+    OUT_DATED
+}
 
 @Component({
     selector: "editor",
@@ -20,18 +27,26 @@ export class EditorComponent {
     tagsSearch: string;
     placeholderTags: string;
     toolboxManager: ToolboxManager;
+    refreshState: RefreshState;
+    serverNotifications: ServerNotifications;
 
     //autocomplete object
     ac;
 
     constructor() {
         EventHandler.SetEditorComponent(this);
+        this.serverNotifications = new ServerNotifications();
         this.toolboxManager = new ToolboxManager();
         this.decoder = new Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
+        this.refreshState = RefreshState.OUT_DATED;
+        
     }
 
+    /**
+     * Loaded after the whole page has been loaded
+     */
     OnLoad() {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
@@ -42,9 +57,29 @@ export class EditorComponent {
             this.workspace.Initialize();
         }
         this.ac = new Ac();
-        this.Refresh();
+        this.pollRefresh();
     }
 
+    private pollRefresh() {
+        let time = 1000;
+        switch (this.refreshState) {
+        case RefreshState.OUT_DATED:
+            this.Refresh();
+            break;
+        case RefreshState.PENDING:
+            time = 4000;
+            break;
+        case RefreshState.UP_TO_DATE:
+        default:
+            break;
+        }
+        const func = () => { this.pollRefresh(); };
+        window.setTimeout(func, time);
+    }
+
+    /**
+     * Clear
+     */
     Clear() {
         this.workspace.Clear();
     }
@@ -75,16 +110,22 @@ export class EditorComponent {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const callback = (map) => {
+        const success = (map) => {
+            // Update toolbox
             this.toolboxManager.UpdateBlocksInfos(map);
+            this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+            this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
             this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
             this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
         };
-
-        Requests.GetCategories(callback);
-        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox()); 
+        const fail = () => {
+            this.refreshState = RefreshState.OUT_DATED;
+        };
+        this.refreshState = RefreshState.PENDING;
+        Requests.GetCategories(success, fail);
+        
 
         //TESTS DELETE       
     }

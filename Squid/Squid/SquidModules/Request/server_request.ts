@@ -58,7 +58,7 @@ export class Requests {
      * 
      * @param callback
      */
-    static GetCategories(callback: any) {
+    static GetCategories(succes: any, fail: any) {
         $.ajax({
             url: "/api/Decoders/categories",
             type: "POST",
@@ -66,9 +66,10 @@ export class Requests {
             datatype: "json",
             success(mapstr) {
                 //console.log(JSON.parse(mapstr));
-                callback(JSON.parse(mapstr));
+                succes(JSON.parse(mapstr));
             },
             error(resp) {
+                fail();
                 console.log(resp.responseText);
                 Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
             }

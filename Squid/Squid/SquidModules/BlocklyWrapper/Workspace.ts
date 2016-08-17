@@ -6,16 +6,11 @@ declare var Blockly: any;
 
 export class Workspace {
 
-    private static singleton: Workspace;
-
     private id: number;
     private workspace: any;
     private decoder: Decoder;
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
-        if (Workspace.singleton) {
-            return Workspace.singleton;
-        }
         document.getElementById(anchor).innerHTML = "";
         const workspace = Blockly.inject(anchor, {
             toolbox: toolbox,
@@ -33,10 +28,6 @@ export class Workspace {
         return new Workspace(workspace);
     }
 
-    static GetInstance(): Workspace {
-        return Workspace.singleton;
-    }
-
     /**
      * /!\ DO NOT USE IT
      * @param cur_workspace
@@ -44,7 +35,6 @@ export class Workspace {
     constructor(cur_workspace: any) {
         this.id = null;
         this.workspace = cur_workspace || new Blockly.Workspace();
-        Workspace.singleton = this;
     }
 
     /**
@@ -54,19 +44,11 @@ export class Workspace {
         return Blockly.CSharp.workspaceToCode(this.workspace);
     }
 
-    static GenerateCSharp(): string {
-        return Workspace.singleton.GenerateCSharp();
-    }
-
     /**
      * Generate the French corresponding to the datas in the workspace
      */
     GenerateFrench(): string {
         return Blockly.French.workspaceToCode(this.workspace);
-    }
-
-    static GenerateFrench(): string {
-        return Workspace.singleton.GenerateFrench();
     }
 
     //CreateProcedure(): any {
@@ -92,17 +74,11 @@ export class Workspace {
         bloc.setDeletable(false);
     }
 
-    static Initialize() {
-        Workspace.singleton.Initialize();
-    }
-
     BindDecoder(decoder: Decoder) {
         this.decoder = decoder;
     }
 
-    static BindDecoder(decoder: Decoder) { Workspace.singleton.BindDecoder(decoder); }
-
-    /**
+     /**
      * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
      * @param decoder
      */
@@ -119,63 +95,39 @@ export class Workspace {
 
     }
 
-    static CompleteDecoder(decoder: Decoder) {
-        Workspace.singleton.CompleteDecoder(decoder);
-    }
-
     GetName(): string {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     }
      
-    static GetName(): string {
-        return Workspace.singleton.GetName();
-    }
     /**
      * Checks if the workspace contains only one element and that element is a decoder.
+     * @return true if the workspace is storable as a decoder.
      */
     IsADecoder(): boolean {
         const blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getProcedureDef);
     }
 
-    static IsADecoder(): boolean {
-        return Workspace.singleton.IsADecoder();
-    }
-
-
     Clear() {
         this.workspace.clear();
     }
 
-    static Clear() {
-        Workspace.singleton.Clear();
-    }
+    /* =================== About XML ================= */
 
     GetXML(): Element {
         return Blockly.Xml.workspaceToDom(this.workspace);
-    }
-
-    static GetXML(): Element {
-        return Workspace.singleton.GetXML();
     }
 
     GetStringXML(): string {
         return Blockly.Xml.domToText(this.GetXML());
     }
 
-    static GetStringXML(): string {
-        return Workspace.singleton.GetStringXML();
-    }
 
     GetPrettyStringXML(): string {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     }
 
-    static GetPrettyStringXML(): string {
-        return Workspace.singleton.GetPrettyStringXML();
-    }
-
-    /************************ Workspace and storage **************************************************/
+    /* ============= Workspace and storage ============== */
 
     SaveLocal(location: any) {
         // TODO if we implement a local storage
@@ -189,19 +141,9 @@ export class Workspace {
         this.workspace.getTopBlocks()[0].setDeletable(false);
     }
 
-    static RestoreBlocks(decoder: Decoder);
-    static RestoreBlocks(xml: string);
-    static RestoreBlocks(blocks?: any) {
-        Workspace.singleton.RestoreBlocks(blocks);
-    }
-
-    /**************************** Toolbox **********************************/
+    /* ================== Toolbox ==================== */
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
-    }
-
-    static UpdateToolbox(toolboxTree: HTMLElement) {
-        Workspace.singleton.UpdateToolbox(toolboxTree);
     }
 }

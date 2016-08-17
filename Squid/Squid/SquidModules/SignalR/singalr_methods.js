@@ -1,10 +1,8 @@
 "use strict";
-var EventHandler_1 = require("../Util/EventHandler");
 var ServerNotifications = (function () {
     function ServerNotifications() {
         this.myHubProxy = $.connection.myHub;
         this.myHubProxy.client.notifyRefresh = function () {
-            EventHandler_1.EventHandler.NotifyRefresh();
             console.log("new version of the toolbox available");
         };
         $.connection.hub.disconnected(function () {
@@ -22,4 +20,4 @@ var ServerNotifications = (function () {
 }());
 exports.ServerNotifications = ServerNotifications;
 ;
-//# sourceMappingURL=signalr_methods.js.map
+//# sourceMappingURL=singalr_methods.js.map

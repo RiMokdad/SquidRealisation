@@ -1,5 +1,5 @@
 ﻿import { Component } from "@angular/core";
-import { EditorComponent} from "./../Editor/editor.viewmodel";
+import { EditorComponent, RefreshState } from "./../Editor/editor.viewmodel";
 
 export class EventHandler {
 
@@ -11,5 +11,9 @@ export class EventHandler {
 
     static OnLoad() {
         EventHandler.editor.OnLoad();
+    }
+
+    static NotifyRefresh() {
+        EventHandler.editor.refreshState = RefreshState.OUT_DATED;
     }
 }

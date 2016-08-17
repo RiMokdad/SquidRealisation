@@ -54,7 +54,7 @@ var Requests = (function () {
      *
      * @param callback
      */
-    Requests.GetCategories = function (callback) {
+    Requests.GetCategories = function (succes, fail) {
         $.ajax({
             url: "/api/Decoders/categories",
             type: "POST",
@@ -62,9 +62,10 @@ var Requests = (function () {
             datatype: "json",
             success: function (mapstr) {
                 //console.log(JSON.parse(mapstr));
-                callback(JSON.parse(mapstr));
+                succes(JSON.parse(mapstr));
             },
             error: function (resp) {
+                fail();
                 console.log(resp.responseText);
                 Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
             }

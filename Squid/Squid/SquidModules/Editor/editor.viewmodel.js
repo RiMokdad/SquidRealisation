@@ -13,16 +13,28 @@ var Decoder_1 = require("./../Util/Decoder");
 var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
+var signalr_methods_1 = require("../SignalR/signalr_methods");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
+(function (RefreshState) {
+    RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
+    RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
+    RefreshState[RefreshState["OUT_DATED"] = 2] = "OUT_DATED";
+})(exports.RefreshState || (exports.RefreshState = {}));
+var RefreshState = exports.RefreshState;
 var EditorComponent = (function () {
     function EditorComponent() {
         EventHandler_1.EventHandler.SetEditorComponent(this);
+        this.serverNotifications = new signalr_methods_1.ServerNotifications();
         this.toolboxManager = new toolboxManager_1.ToolboxManager();
         this.decoder = new Decoder_1.Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
+        this.refreshState = RefreshState.OUT_DATED;
     }
+    /**
+     * Loaded after the whole page has been loaded
+     */
     EditorComponent.prototype.OnLoad = function () {
         this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
@@ -34,8 +46,28 @@ var EditorComponent = (function () {
             this.workspace.Initialize();
         }
         this.ac = new Ac();
-        this.Refresh();
+        this.pollRefresh();
     };
+    EditorComponent.prototype.pollRefresh = function () {
+        var _this = this;
+        var time = 1000;
+        switch (this.refreshState) {
+            case RefreshState.OUT_DATED:
+                this.Refresh();
+                break;
+            case RefreshState.PENDING:
+                time = 4000;
+                break;
+            case RefreshState.UP_TO_DATE:
+            default:
+                break;
+        }
+        var func = function () { _this.pollRefresh(); };
+        window.setTimeout(func, time);
+    };
+    /**
+     * Clear
+     */
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
     };
@@ -61,15 +93,21 @@ var EditorComponent = (function () {
         //TODO insert code for toolbox management
         //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        var callback = function (map) {
+        var success = function (map) {
+            // Update toolbox
             _this.toolboxManager.UpdateBlocksInfos(map);
+            _this.workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
+            _this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
             _this.ac.SetTagsAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
             _this.ac.SetCategoryAutoComplete(_this.toolboxManager.GetCategoryList.bind(_this.toolboxManager));
             _this.ac.SetSearchBarAutoComplete(_this.toolboxManager.GetTagsList.bind(_this.toolboxManager));
         };
-        server_request_1.Requests.GetCategories(callback);
-        this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        var fail = function () {
+            _this.refreshState = RefreshState.OUT_DATED;
+        };
+        this.refreshState = RefreshState.PENDING;
+        server_request_1.Requests.GetCategories(success, fail);
         //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {
