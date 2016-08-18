@@ -8,17 +8,20 @@ var Requests = (function () {
      * @param decoder
      */
     Requests.SaveDecoder = function (decoder) {
+        //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            //data: JSON.stringify({Id:TabId, Xml:xml, Code:code}),
             data: JSON.stringify(decoder),
             success: function (res) {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
+                }
+                else {
+                    Messages_1.Messages.Notify("Décodeur sauvegardé");
                 }
                 //alert(res.id);
             },
@@ -54,15 +57,20 @@ var Requests = (function () {
      *
      * @param callback
      */
-    Requests.GetCategories = function (succes, fail) {
+    Requests.GetBlocksInfos = function (success, fail) {
         $.ajax({
-            url: "/api/Decoders/categories",
+            url: "/api/Decoders/blocksinfos",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             datatype: "json",
-            success: function (mapstr) {
-                //console.log(JSON.parse(mapstr));
-                succes(JSON.parse(mapstr));
+            success: function (res) {
+                console.log(res);
+                if (Array.isArray(res)) {
+                    success(res);
+                }
+                else {
+                    success(JSON.parse(res));
+                }
             },
             error: function (resp) {
                 fail();

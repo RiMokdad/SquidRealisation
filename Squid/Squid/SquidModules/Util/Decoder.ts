@@ -11,16 +11,16 @@ export class Decoder {
     Version: string;
     Category: string;
     Tags: string;
-    Xml: string;
+    BlocklyDef: string;
     Code: string;
     FrenchSpec: string;
     Editable: boolean;
 
     constructor();
     constructor(decoder: Decoder);
-    constructor(Name: string, Tags: string, Category: string, Version: string, Id: number, Xml: string, Code: string, FrenchSpec: string, Editable: boolean);
+    constructor(Name: string, Tags: string, Category: string, Version: string, Id: number, BlocklyDef: string, Code: string, FrenchSpec: string, Editable: boolean);
 
-    constructor(Name?: any, Tags?: string, Category?: string, Version?: string, Id?: number, Xml?: string, Code?: string, FrenchSpec?: string, Editable?: boolean) {
+    constructor(Name?: any, Tags?: string, Category?: string, Version?: string, Id?: number, BlockyDef?: string, Code?: string, FrenchSpec?: string, Editable?: boolean) {
         if (Name instanceof Decoder) {
             this.update(Name);
         } else {
@@ -29,7 +29,7 @@ export class Decoder {
             this.Version = Version || "0.0";
             this.Category = Category || "";
             this.Tags = Tags || "";
-            this.Xml = Xml || "";
+            this.BlocklyDef = BlockyDef || "";
             this.Code = Code || "";
             this.FrenchSpec = FrenchSpec || "";
             this.Editable = Editable || true;
@@ -50,7 +50,7 @@ export class Decoder {
         this.Version    = decoder.Version || this.Version;
         this.Category   = decoder.Category || this.Category;
         this.Tags       = decoder.Tags || this.Tags;
-        this.Xml        = decoder.Xml || this.Xml;
+        this.BlocklyDef = decoder.BlocklyDef || this.BlocklyDef;
         this.Code       = decoder.Code || this.Code;
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
         this.Editable   = decoder.Editable || this.Editable;

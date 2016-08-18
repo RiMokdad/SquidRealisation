@@ -70,6 +70,8 @@ var EditorComponent = (function () {
      */
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     };
     EditorComponent.prototype.Save = function () {
         //TODO insert local save
@@ -81,21 +83,20 @@ var EditorComponent = (function () {
         var deleteConfirmed = function () {
             _this.decoder = new Decoder_1.Decoder();
             _this.workspace.BindDecoder(_this.decoder);
-            Messages_1.Messages.Alert("Décodeur supprimé");
+            Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
+        this.Clear();
     };
     EditorComponent.prototype.Refresh = function () {
         var _this = this;
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        var success = function (map) {
+        var success = function (list) {
             // Update toolbox
-            _this.toolboxManager.UpdateBlocksInfos(map);
+            _this.toolboxManager.UpdateBlocksInfos(list, true);
             _this.workspace.UpdateToolbox(_this.toolboxManager.GetToolbox());
             _this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
@@ -107,7 +108,7 @@ var EditorComponent = (function () {
             _this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        server_request_1.Requests.GetCategories(success, fail);
+        server_request_1.Requests.GetBlocksInfos(success, fail);
         //TESTS DELETE       
     };
     EditorComponent.prototype.SearchTag = function () {

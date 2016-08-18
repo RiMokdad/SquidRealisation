@@ -82,6 +82,8 @@ export class EditorComponent {
      */
     Clear() {
         this.workspace.Clear();
+        this.workspace.Initialize();
+        this.SetUrl();
     }
 
     Save() {
@@ -95,7 +97,7 @@ export class EditorComponent {
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
-            Messages.Alert("Décodeur supprimé");
+            Messages.Notify("Décodeur supprimé");
         };
 
         const deletion = () => {
@@ -103,16 +105,14 @@ export class EditorComponent {
         };
 
         Requests.FindUsages(this.decoder.Id, deletion);
-      
+        this.Clear();
     }
 
     Refresh() {       
-        //TODO insert code for toolbox management
-        //TODO Call to server for updating blocks informations
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
-        const success = (map) => {
+        const success = (list) => {
             // Update toolbox
-            this.toolboxManager.UpdateBlocksInfos(map);
+            this.toolboxManager.UpdateBlocksInfos(list, true);
             this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
             this.refreshState = RefreshState.UP_TO_DATE;
             //create or update autocompletion
@@ -124,7 +124,7 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetCategories(success, fail);
+        Requests.GetBlocksInfos(success, fail);
         
 
         //TESTS DELETE       
@@ -167,11 +167,7 @@ export class EditorComponent {
         }
     }
 
-
-    RestoreBlock();
-    RestoreBlock(name: string);
-    RestoreBlock(id: number);
-    public RestoreBlock(param1?: any) {
+    RestoreBlock(id: number) {
         const callback = () => {
             if (typeof (param1) == "number") {
                 this.decoder.Id = param1;

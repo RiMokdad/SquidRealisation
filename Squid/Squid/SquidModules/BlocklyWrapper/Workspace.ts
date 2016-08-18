@@ -89,7 +89,7 @@ export class Workspace {
                 decoder.Name = this.GetName();
                 decoder.Code = this.GenerateCSharp();
                 decoder.FrenchSpec = this.GenerateFrench();
-                decoder.Xml = this.GetStringXML();
+                decoder.BlocklyDef = this.GetStringXML();
                 decoder.Editable = true;
         }
 
@@ -136,7 +136,7 @@ export class Workspace {
     RestoreBlocks(xml: string); 
     RestoreBlocks(decoder: Decoder);
     RestoreBlocks(blocks?: any) {
-        const Xml = Blockly.Xml.textToDom(blocks.Xml || blocks);
+        const Xml = Blockly.Xml.textToDom(blocks.BlocklyDef || blocks);
         Blockly.Xml.domToWorkspace(Xml, this.workspace);
         this.workspace.getTopBlocks()[0].setDeletable(false);
     }
