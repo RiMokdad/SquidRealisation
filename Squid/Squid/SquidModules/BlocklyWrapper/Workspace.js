@@ -114,13 +114,11 @@ var Workspace = (function () {
         this.workspace.updateToolbox(toolboxTree);
     };
     Workspace.prototype.AddCustomContextMenu = function (callback) {
-        Blockly.Blocks['procedures_callnoreturn'].customContextMenu = function (options) {
+        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {
             var option = { enabled: true };
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
-            // I HAVE TO KNOW MY NAME
-            //console.log("this : " + this.toString());
-            var blockName = this.toString();
+            var blockName = this.getFieldValue("NAME");
             option.callback = function () {
                 callback(blockName);
             };

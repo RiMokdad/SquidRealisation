@@ -8,7 +8,8 @@ var EventHandler = (function () {
     };
     EventHandler.OnLoad = function () {
         EventHandler.editor.OnLoad();
-        EventHandler.editor.workspace.AddCustomContextMenu(EventHandler.editor.OpenTab);
+        var callback = function (param) { EventHandler.editor.OpenTab(param); };
+        EventHandler.editor.workspace.AddCustomContextMenu(callback);
     };
     EventHandler.NotifyRefresh = function () {
         EventHandler.editor.refreshState = editor_viewmodel_1.RefreshState.OUT_DATED;

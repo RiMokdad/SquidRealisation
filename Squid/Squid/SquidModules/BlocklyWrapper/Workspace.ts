@@ -148,14 +148,13 @@ export class Workspace {
     }
 
     AddCustomContextMenu(callback: any) {
-        Blockly.Blocks['procedures_callnoreturn'].customContextMenu = function (options: any) {
-            var option = { enabled: true} as any;
+        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options: any) {
+            const option = { enabled: true} as any;
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
-            // I HAVE TO KNOW MY NAME
-            //console.log("this : " + this.toString());
-            var blockName = this.toString();
-            option.callback = function () {
+
+            var blockName = this.getFieldValue("NAME");
+            option.callback = () => {
                 callback(blockName);
             };
             options.push(option);
