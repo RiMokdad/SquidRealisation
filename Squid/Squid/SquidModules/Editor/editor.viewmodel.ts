@@ -166,8 +166,10 @@ export class EditorComponent {
                 "\n - Vous n'avez rien à sauvegarder");
         }
     }
-
-    RestoreBlock(id: number) {
+    RestoreBlock();
+    RestoreBlock(param1: string);
+    RestoreBlock(param1: number);
+    RestoreBlock(param1?: any) {
         const callback = () => {
             if (typeof (param1) == "number") {
                 this.decoder.Id = param1;
