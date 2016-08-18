@@ -210,6 +210,8 @@ export class EditorComponent {
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+        //test
+        Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
     }
 
     /**
@@ -226,6 +228,11 @@ export class EditorComponent {
       
         Requests.GetDecoderDef(id, this.decoder, callback);
         this.SetUrl();
+        //test variables
+        const updatevar = (variables) => {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        Requests.ReloadVariables(updatevar);
         
         return null;
     }

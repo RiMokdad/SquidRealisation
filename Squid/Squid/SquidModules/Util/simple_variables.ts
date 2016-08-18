@@ -10,6 +10,10 @@ module SimpleVariables {
         delete variables[key];
     }
 
+    export function UpdateVariables(newVariables) {
+        variables = newVariables;
+    }
+
     export function GetNames() {
         let names: Array<string> = [];
         const keys = Object.keys(variables);
@@ -17,5 +21,10 @@ module SimpleVariables {
             names.push(variables[keys[i]]);
         }
         return Utils.RemoveDuplicates(names);
+    }
+
+    //deep copy, not reference
+    export function GetVariablesAsJson(): string{
+        return JSON.stringify(variables);
     }
 }

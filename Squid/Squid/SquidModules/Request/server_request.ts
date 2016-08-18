@@ -117,6 +117,52 @@ export class Requests {
             }
         });
     }
+
+    // TEST SIMPLE VARIABLES
+
+    static SaveVariables(map: string) {
+        console.log(map);
+
+        $.ajax({
+            url: '/api/variables/save',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            data: map,
+            //traditional: true,
+            success(res) {
+                //alert("Success " + res);
+                console.log(res);
+            },
+            error(error) {
+                alert("Wwoops something went wrong !" + error);
+            }
+        });
+    }
+
+    /**
+     * Retrieve the simples variables from the server
+     * and update the client accordingly
+     */
+    static ReloadVariables(callback:any) {
+        $.ajax({
+            url: '/api/variables/reload',
+            type: 'POST',
+            //contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            //traditional: true,
+            success(res) {
+                //alert("Success " + res);
+                var variables = JSON.parse(res);
+                console.log(variables);
+                callback(variables);
+            },
+            error(error) {
+                alert("Wwoops something went wrong !" + error);
+            }
+        });
+    }
+
 }
 
 // Supposed to be usefull for variables :

@@ -172,6 +172,8 @@ var EditorComponent = (function () {
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+        //test
+        server_request_1.Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
     };
     /**
      * Restore the block with the given id
@@ -187,6 +189,11 @@ var EditorComponent = (function () {
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         this.SetUrl();
+        //test variables
+        var updatevar = function (variables) {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        server_request_1.Requests.ReloadVariables(updatevar);
         return null;
     };
     /* ============ URL OPERATIONS ============== */
