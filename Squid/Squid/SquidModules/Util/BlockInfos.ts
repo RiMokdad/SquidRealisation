@@ -34,17 +34,17 @@ export class BlockInfos {
         this.editable = (editable !== false);
     }
 
-    CreateFlyout(): HTMLElement {
-        var elem = document.createElement("block");
+    public CreateFlyout(): HTMLElement {
+        const elem = document.createElement("block");
         elem.setAttribute("type", "procedures_callnoreturn");
         elem.setAttribute("id", (this.id as any) as string);
         elem.setAttribute("gap", "16");
-        var mutation = document.createElement("mutation");
+        const mutation = document.createElement("mutation");
         mutation.setAttribute("name", this.name);
-        if (this.parameters!==""){
-            var params = this.parameters.split(',');
-            for (var i = 0; i < params.length; i++) {
-                var arg = document.createElement("arg");
+        if (this.parameters!=="") {
+            const params = this.parameters.split(',');
+            for (let i = 0; i < params.length; i++) {
+                const arg = document.createElement("arg");
                 arg.setAttribute("name", params[i]);
                 mutation.appendChild(arg);
             }
@@ -78,7 +78,7 @@ export class BlockInfos {
         return false;
     }
 
-    public static ObjectToBlockInfos(object: any):BlockInfos {
+    static ObjectToBlockInfos(object: any):BlockInfos {
         return new BlockInfos(
             object.name,
             object.parameters,

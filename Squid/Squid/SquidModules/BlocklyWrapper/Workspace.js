@@ -113,16 +113,16 @@ var Workspace = (function () {
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
     };
-    Workspace.UpdateToolbox = function (toolboxTree) {
-        Workspace.singleton.UpdateToolbox(toolboxTree);
-    };
-    Workspace.CustomContextMenu = function (callback) {
-        Blockly.blocks.Procedures.customContextMenu = function (options) {
-            var option;
+    Workspace.prototype.AddCustomContextMenu = function (callback) {
+        Blockly.Blocks['procedures_callnoreturn'].customContextMenu = function (options) {
+            var option = { enabled: true };
             option.enabled = true;
-            option.text = Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
+            option.text = "Ouvrir la définition du décodeur";
+            // I HAVE TO KNOW MY NAME
+            //console.log("this : " + this.toString());
+            var blockName = this.toString();
             option.callback = function () {
-                callback();
+                callback(blockName);
             };
             options.push(option);
         };

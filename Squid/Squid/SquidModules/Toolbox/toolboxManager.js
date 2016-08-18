@@ -73,45 +73,46 @@ var ToolboxManager = (function () {
     };
     ToolboxManager.prototype.UpdateBlocksInfos = function (list, flatList) {
         this.BlocksInformations = new Array();
+        this.BlocksInCat = new Array();
         if (!flatList) {
-            this.GenerateBlocksListFromMap(list);
+            this.PopulateFromMap(list);
         }
         else {
-            this.GenerateBlocksListFromList(this.BlocksInformations);
+            this.PopulateFromList(list);
         }
         this.UpdateCategories();
     };
-    ToolboxManager.prototype.GenerateBlocksListFromMap = function (map) {
-        this.BlocksInCat = new Array();
+    ToolboxManager.prototype.PopulateFromMap = function (map) {
         for (var category in map) {
             var cat = new BlocksCat(category);
             for (var i = 0; i < map[category].length; i++) {
-                cat.blocks.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(map[category][i])); //BlocksInCat
+                var bloc = BlockInfos_1.BlockInfos.ObjectToBlockInfos(map[category][i]);
+                cat.blocks.push(bloc); //BlocksInCat
                 this.BlocksInformations.push(map[category][i]); //BlocksInformations
             }
             this.BlocksInCat.push(cat);
         }
     };
-    ToolboxManager.prototype.GenerateBlocksListFromList = function (list) {
+    ToolboxManager.prototype.PopulateFromList = function (list) {
         //BlocksInformations
         for (var i = 0; i < list.length; i++) {
             this.BlocksInformations.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(list[i]));
         }
         //BlocksInCat
-        this.BlocksInCat = new Array();
         //For each block we place it in the good category
         for (var i = 0; i < list.length; i++) {
             var newCat = true;
+            var block = BlockInfos_1.BlockInfos.ObjectToBlockInfos(list[i]);
             for (var j = 0; j < this.BlocksInCat.length; j++) {
-                if (this.BlocksInCat[j].category == list[i].category) {
+                if (this.BlocksInCat[j].category == block.category) {
                     newCat = false;
-                    this.BlocksInCat[j].blocks.push(list[i]);
+                    this.BlocksInCat[j].blocks.push(block);
                     break;
                 }
             }
             if (newCat) {
-                var cat = new BlocksCat(list[i].category);
-                cat.blocks.push(list[i]);
+                var cat = new BlocksCat(block.category);
+                cat.blocks.push(block);
                 this.BlocksInCat.push(cat);
             }
         }
@@ -146,7 +147,7 @@ var ToolboxManager = (function () {
             }
             else {
                 for (var j = 0; j < blocks.length; j++) {
-                    this.decoders.appendChild(blocks[j].CreateFlyout());
+                    this.decoders.appendChild((blocks[j]).CreateFlyout());
                 }
             }
         }

@@ -131,12 +131,11 @@ export class EditorComponent {
 
             Messages.Update();
         };
-
         const fail = () => {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetCategories(success, fail);
+        Requests.GetBlocksInfos(success, fail);     
     }
 
     /**

@@ -11,7 +11,7 @@ export class EventHandler {
 
     static OnLoad() {
         EventHandler.editor.OnLoad();
-        //customcontextmenu
+        EventHandler.editor.workspace.AddCustomContextMenu(EventHandler.editor.OpenTab);
     }
 
     static NotifyRefresh() {

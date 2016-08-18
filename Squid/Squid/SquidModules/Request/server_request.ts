@@ -60,7 +60,7 @@ export class Requests {
      * 
      * @param callback
      */
-    static GetCategories(succes: any, fail: any) {
+    static GetBlocksInfos(success: any, fail: any) {
         $.ajax({
             url: "/api/Decoders/blocksinfos",
             type: "POST",
@@ -69,9 +69,9 @@ export class Requests {
             success(res) {
                 //console.log(res);
                 if (Array.isArray(res)) {
-                    succes(res);
+                    success(res);
                 } else {
-                    succes(JSON.parse(res)); 
+                    success(JSON.parse(res)); 
                 }            
             },
             error(resp) {

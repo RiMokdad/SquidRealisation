@@ -116,7 +116,7 @@ var EditorComponent = (function () {
             _this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        server_request_1.Requests.GetCategories(success, fail);
+        server_request_1.Requests.GetBlocksInfos(success, fail);
     };
     /**
      * Update the toolbox with results of the research. You can search multiple tags

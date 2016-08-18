@@ -92,49 +92,50 @@ export class ToolboxManager {
 
     UpdateBlocksInfos(list?: any, flatList?: boolean) {
         this.BlocksInformations = new Array<BlockInfos>();
+        this.BlocksInCat = new Array<BlocksCat>();
 
         if (!flatList) {
-            this.GenerateBlocksListFromMap(list);      
+            this.PopulateFromMap(list);
         } else {
-            this.GenerateBlocksListFromList(this.BlocksInformations);
+            this.PopulateFromList(list);
         }
 
         this.UpdateCategories();
     } 
 
-    private GenerateBlocksListFromMap(map: Object) {
-        this.BlocksInCat = new Array<BlocksCat>();
+    private PopulateFromMap(map: Object) {       
         for (let category in map) {
             const cat = new BlocksCat(category);
             for (let i = 0; i < map[category].length; i++) {
-                cat.blocks.push(BlockInfos.ObjectToBlockInfos(map[category][i]));//BlocksInCat
+                const bloc = BlockInfos.ObjectToBlockInfos(map[category][i]);
+                cat.blocks.push(bloc);//BlocksInCat
                 this.BlocksInformations.push(map[category][i]);//BlocksInformations
             }
             this.BlocksInCat.push(cat);
         }
     }
 
-    private GenerateBlocksListFromList(list: Array<BlockInfos>) {
+    private PopulateFromList(list: Array<Object>) {
         //BlocksInformations
         for (let i = 0; i < list.length; i++) {
             this.BlocksInformations.push(BlockInfos.ObjectToBlockInfos(list[i]));
 
         }
         //BlocksInCat
-        this.BlocksInCat = new Array<BlocksCat>();
         //For each block we place it in the good category
         for (let i = 0; i < list.length; i++) { 
             let newCat = true;
-            for (let j = 0; j < this.BlocksInCat.length; j++) {
-                if (this.BlocksInCat[j].category == list[i].category) {
+            const block = BlockInfos.ObjectToBlockInfos(list[i]);
+            for (let j = 0; j < this.BlocksInCat.length; j++) {           
+                if (this.BlocksInCat[j].category == block.category) {
                     newCat = false;
-                    this.BlocksInCat[j].blocks.push(list[i]);
+                    this.BlocksInCat[j].blocks.push(block);
                     break;
                 }
             }
             if (newCat) {
-                const cat = new BlocksCat(list[i].category);
-                cat.blocks.push(list[i]);
+                const cat = new BlocksCat(block.category);
+                cat.blocks.push(block);
                 this.BlocksInCat.push(cat);
             }
         }
@@ -175,7 +176,7 @@ export class ToolboxManager {
                 }
             } else {
                 for (let j = 0; j < blocks.length; j++) {
-                    this.decoders.appendChild(blocks[j].CreateFlyout());
+                    this.decoders.appendChild((blocks[j]).CreateFlyout());
                 }
             }
         }
