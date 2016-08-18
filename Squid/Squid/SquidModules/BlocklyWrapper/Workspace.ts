@@ -147,17 +147,16 @@ export class Workspace {
         this.workspace.updateToolbox(toolboxTree);
     }
 
-    static UpdateToolbox(toolboxTree: HTMLElement) {
-        Workspace.singleton.UpdateToolbox(toolboxTree);
-    }
-
-    static CustomContextMenu(callback: any) {
-        Blockly.blocks.Procedures.customContextMenu = (options: any) => {
-            var option: any;
+    AddCustomContextMenu(callback: any) {
+        Blockly.Blocks['procedures_callnoreturn'].customContextMenu = function (options: any) {
+            var option = { enabled: true} as any;
             option.enabled = true;
-            option.text = Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
+            option.text = "Ouvrir la définition du décodeur";
+            // I HAVE TO KNOW MY NAME
+            //console.log("this : " + this.toString());
+            var blockName = this.toString();
             option.callback = function () {
-                callback();
+                callback(blockName);
             };
             options.push(option);
         };

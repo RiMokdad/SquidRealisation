@@ -144,11 +144,12 @@ export class EditorComponent {
                 this.RestoreBlock(param1);
             }
             else if (typeof (param1) == "number") {
-                window.open(this.GetBaseUrl() + "#" + param1);
+                window.open(EditorComponent.GetBaseUrl() + "#" + param1);
             }
         }
         else {
-            window.open(this.GetBaseUrl());
+            var url = EditorComponent.GetBaseUrl();
+            window.open(url);
         }
     }
 
@@ -178,7 +179,7 @@ export class EditorComponent {
             else if (typeof (param1) == "string") {
                 this.decoder.Name = param1;           
             }
-            Workspace.RestoreBlocks(this.decoder); 
+            this.workspace.RestoreBlocks(this.decoder); 
         };
 
         //console.log(this.decoder);
@@ -187,7 +188,7 @@ export class EditorComponent {
     }
 
     /* Url based methods */
-    private GetBaseUrl(): string {
+    private static GetBaseUrl(): string {
         return "index.html";
     }
 
