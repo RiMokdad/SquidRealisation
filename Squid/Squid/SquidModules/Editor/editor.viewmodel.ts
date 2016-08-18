@@ -101,8 +101,10 @@ export class EditorComponent {
      */
     Supress() {
         const deleteConfirmed = () => {
+            this.Clear();
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
+            this.SetUrl();
             Messages.Notify("Décodeur supprimé");
         };
 
@@ -110,8 +112,7 @@ export class EditorComponent {
             Requests.DeleteDecoder(this.decoder, deleteConfirmed);
         };
 
-        Requests.FindUsages(this.decoder.Id, deletion);
-        this.Clear();
+        Requests.FindUsages(this.decoder.Id, deletion);       
     }
 
     /**
@@ -195,10 +196,13 @@ export class EditorComponent {
      * Saves the decoder to the server
      */
     private SaveDecoderToServer() {
+        const updateurl = () => {
+            this.SetUrl();
+        };
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            Requests.SaveDecoder(this.decoder);
+            Requests.SaveDecoder(this.decoder, updateurl);
             this.SetUrl();
         } else {
             alert("Un des problèmes suivants se pose:" +

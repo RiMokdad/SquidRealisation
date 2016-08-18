@@ -85,15 +85,16 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Supress = function () {
         var _this = this;
         var deleteConfirmed = function () {
+            _this.Clear();
             _this.decoder = new Decoder_1.Decoder();
             _this.workspace.BindDecoder(_this.decoder);
+            _this.SetUrl();
             Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
-        this.Clear();
     };
     /**
      * Refresh the toolbox, called automatically but may be forced by the user
@@ -155,10 +156,14 @@ var EditorComponent = (function () {
      * Saves the decoder to the server
      */
     EditorComponent.prototype.SaveDecoderToServer = function () {
+        var _this = this;
+        var updateurl = function () {
+            _this.SetUrl();
+        };
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            server_request_1.Requests.SaveDecoder(this.decoder);
+            server_request_1.Requests.SaveDecoder(this.decoder, updateurl);
             this.SetUrl();
         }
         else {

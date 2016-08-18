@@ -7,7 +7,7 @@ var Requests = (function () {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    Requests.SaveDecoder = function (decoder) {
+    Requests.SaveDecoder = function (decoder, callback) {
         //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
@@ -19,6 +19,7 @@ var Requests = (function () {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
+                    callback();
                 }
                 else {
                     Messages_1.Messages.Notify("Décodeur sauvegardé");

@@ -9,7 +9,7 @@ export class Requests {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    static SaveDecoder(decoder: Decoder) {
+    static SaveDecoder(decoder: Decoder, callback:any) {
         //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
@@ -21,6 +21,7 @@ export class Requests {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages.Alert(`Décodeur sauvegardé avec l'Id : ${res.id}`);
+                    callback();
                 } else {
                     Messages.Notify("Décodeur sauvegardé");
                 }
