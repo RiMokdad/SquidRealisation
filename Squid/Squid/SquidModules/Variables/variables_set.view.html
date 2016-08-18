@@ -1,0 +1,59 @@
+﻿<div class="variables-set">
+    <h1>{{name}}</h1>
+    <div class="toolbar-workspace">
+        <div class="toolbar-group">
+            <input id="config-title"
+                   class="set-title"
+                   [(ngModel)]="set.Name"/>
+        </div>
+        <div class="toolbar-items">
+            <div class="toolbar-group">
+                <button class="item-workspace save"
+                        title="Sauvegarde les variables"></button>
+                <div class="dropdown inline-block">
+                    <button class="restore
+                                item-workspace 
+                                dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown">
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let setd of sets" 
+                            (click)="set = setd">
+                            {{setd.Name}}
+                        </li>
+                        <li (click)="NewSet()">
+                            Nouveau set
+                        </li>
+                    </ul>
+                </div>
+                <button class="item-workspace clear"
+                        title="Efface les fonctions enregistrées"
+                        (click)="set.Clear()"></button>
+                <button class="item-workspace add"
+                        title="Ajouter une variable"
+                        (click)="set.Create()">
+                </button>
+            </div>
+        </div>
+        <table id="config-table">
+            <tr ng-repeat="variable in set.List(false)">
+                <td>
+                    <input type="text"
+                           class="variable-name"
+                           [(ngModel)]="variable[0]">
+                </td>
+                <td>
+                    <input type="text"
+                           class="variable-value"
+                           [(ngModel)]="variable[1]">
+                </td>
+                <td>
+                    <button class="delete-button delete"
+                            (click)="set.Delete(variable[0])">
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

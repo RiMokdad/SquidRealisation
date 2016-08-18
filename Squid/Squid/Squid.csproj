@@ -2946,6 +2946,7 @@
     <Content Include="SquidModules\Editor\editor.view.html" />
     <Content Include="SquidModules\Util\autocomplete.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
+    <Content Include="SquidModules\Variables\variables_set.view.html" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />
     <Content Include="web.config" />
@@ -2964,6 +2965,8 @@
     <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
     <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />
+    <TypeScriptCompile Include="SquidModules\Variables\variables_set.ts" />
+    <TypeScriptCompile Include="SquidModules\Variables\variables_set.viewmodel.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
