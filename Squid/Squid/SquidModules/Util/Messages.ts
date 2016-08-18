@@ -10,7 +10,7 @@ export class Messages {
     static ConfirmDelete(deleteMethod, listFuncs) {
         let confMsg:string;
         if (listFuncs.length > 0) {
-            let msgBody = listFuncs.join('<br>- ');
+            const msgBody = listFuncs.join('<br>- ');
             confMsg =
                 "Les fonctions suivantes utlisent la fonction à supprimer (ou une de même nom) :<br>- " +
                 msgBody +
@@ -26,7 +26,7 @@ export class Messages {
                 ok: {
                     label: "Supprimer",
                     className: "btn-success",
-                    callback: function () {
+                    callback() {
                         deleteMethod();
                     }
                 },
@@ -34,12 +34,16 @@ export class Messages {
                 cancel: {
                     label: "Annuler",
                     className: "btn-primary",
-                    callback: function () {
+                    callback() {
                         Messages.Notify("Suppression annulée");
                     }
                 }
             }
         });
+    }
+
+    static Update() {
+        Example.show("Mise à jour des décodeurs");
     }
 
     static Notify(text: string) {

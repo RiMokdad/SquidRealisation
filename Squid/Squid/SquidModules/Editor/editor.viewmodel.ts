@@ -19,7 +19,7 @@ export enum RefreshState {
 @Component({
     selector: "editor",
     templateUrl: "SquidModules/Editor/editor.view.html"
-}) 
+})
 export class EditorComponent {
 
     decoder: Decoder;
@@ -41,7 +41,7 @@ export class EditorComponent {
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
-        
+
     }
 
     /**
@@ -50,14 +50,24 @@ export class EditorComponent {
     OnLoad() {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
-        const id = this.GetBlockIdInUrl();
-        if (id != null) {
-            this.RestoreBlock(id);
+        this.decoder.Id = this.GetBlockIdInUrl();
+
+        if (this.decoder.Id) {
+            this.LoadModeBloc();
         } else {
-            this.workspace.Initialize();
+            this.LoadModeFromScratch();
         }
+
         this.ac = new Ac();
         this.pollRefresh();
+    }
+
+    private LoadModeBloc() {
+        this.RestoreBlock(this.decoder.Id);
+    }
+
+    private LoadModeFromScratch() {
+        this.workspace.Initialize();
     }
 
     private pollRefresh() {
@@ -86,14 +96,10 @@ export class EditorComponent {
         this.SetUrl();
     }
 
-    Save() {
-        //TODO insert local save
-        this.SaveDecoderToServer();
-        
-    }
-
+    /**
+     * Supress on the server the decoder currently in the editor if it has already been saved once.
+     */
     Supress() {
-        //TODO insert code to supress a decoder onto the server 
         const deleteConfirmed = () => {
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
@@ -108,7 +114,10 @@ export class EditorComponent {
         this.Clear();
     }
 
-    Refresh() {       
+    /**
+     * Refresh the toolbox, called automatically but may be forced by the user
+     */
+    Refresh() {
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox(true));
         const success = (list) => {
             // Update toolbox
@@ -119,6 +128,8 @@ export class EditorComponent {
             this.ac.SetTagsAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
             this.ac.SetCategoryAutoComplete(this.toolboxManager.GetCategoryList.bind(this.toolboxManager));
             this.ac.SetSearchBarAutoComplete(this.toolboxManager.GetTagsList.bind(this.toolboxManager));
+
+            Messages.Update();
         };
 
         const fail = () => {
@@ -128,28 +139,62 @@ export class EditorComponent {
         Requests.GetCategories(success, fail);
     }
 
+    /**
+     * Update the toolbox with results of the research. You can search multiple tags
+     */
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
     }
 
+
+    /**
+     * Open a new tab in the from sratch mode
+     */
     OpenTab();
+    /**
+     * Open a new tab with the bloc named after the string given in parameter in the editor
+     * @param name
+     */
     OpenTab(name: string);
+    /**
+     * Open a new tab with the bloc with the given id in the editor
+     * @param id
+     */
     OpenTab(id: number);
     OpenTab(param1?: any) {
         if (param1) {
+            let decoder = null;
             if (typeof (param1) == "string") {
-                this.RestoreBlock(param1);
+                decoder = this.toolboxManager.GetDecoderByName(param1);
+            } else if (typeof (param1) == "number") {
+                decoder = this.toolboxManager.GetDecoderById(param1);
             }
-            else if (typeof (param1) == "number") {
-                window.open(this.GetBaseUrl() + "#" + param1);
+
+            if (decoder) {
+                window.open(EditorComponent.CreateIdUrl(decoder.id));
+                return;
+            } else {
+                Messages.Alert("Impossible de charger ce décodeur");
             }
         }
-        else {
-            window.open(this.GetBaseUrl());
-        }
+
+        window.open(EditorComponent.GetBaseUrl());
     }
 
+
+    /**
+     * Binding for save
+     */
+    Save() {
+        //TODO insert local save
+        this.SaveDecoderToServer();
+
+    }
+
+    /**
+     * Saves the decoder to the server
+     */
     private SaveDecoderToServer() {
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
@@ -164,35 +209,60 @@ export class EditorComponent {
         }
     }
 
+    /**
+     * Restore the block with the given id
+     * @param id
+     */
     RestoreBlock(id: number) {
-        const callback = () => {
-            this.decoder.Id = id;
-            this.workspace.RestoreBlocks(this.decoder);
+        const callback = (decoder) => {
+            decoder.Id = id;
+            this.workspace.RestoreBlocks(decoder);
+            Messages.Alert(`Le bloc ${decoder.Name} a été rechargé.`);
+            this.workspace.CompleteDecoder(decoder);
         };
+      
         Requests.GetDecoderDef(id, this.decoder, callback);
-        return null;      
+        this.SetUrl();
+        
+        return null;
     }
 
-    /* Url based methods */
-    private GetBaseUrl(): string {
+    /* ============ URL OPERATIONS ============== */
+
+    /**
+     * Gives the base url of this page.
+     */
+    static GetBaseUrl(): string {
         return "index.html";
     }
 
+    /**
+     * Create the good url for loading a decoder with the given id 
+     * @param id
+     */
+    static CreateIdUrl(id: number): string {
+        return EditorComponent.GetBaseUrl() + "#" + id;
+    }
+    /**
+     * Get the id after the hash in the url
+     * @return return the id as a number, or null if there is no id
+     */
     private GetBlockIdInUrl(): number {
         return parseInt(window.location.hash.substring(1)) || null;
     }
 
+    /**
+     * Set the hash of this page to the decoder id
+     */
     private SetUrl() {
         window.location.hash = this.decoder.Id ? `${this.decoder.Id}` : "";
     }
-    
-
 }
 
 /**
- * Things to do on with the workspace on load of the window
+ * Things to do with the workspace on load of the window
  * @returns {} 
  */
 window.onload = () => {
     EventHandler.OnLoad();
-}
+};

@@ -45,7 +45,7 @@ var Requests = (function () {
             data: JSON.stringify(id),
             success: function (newDecoder) {
                 decoder.update(newDecoder);
-                callback();
+                callback(decoder);
             },
             error: function (resp) {
                 console.log(resp.responseText);
@@ -64,7 +64,7 @@ var Requests = (function () {
             contentType: "application/json; charset=utf-8",
             datatype: "json",
             success: function (res) {
-                console.log(res);
+                //console.log(res);
                 if (Array.isArray(res)) {
                     succes(res);
                 }

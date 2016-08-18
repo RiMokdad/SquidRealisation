@@ -38,6 +38,9 @@ var Messages = (function () {
             }
         });
     };
+    Messages.Update = function () {
+        Example.show("Mise à jour des décodeurs");
+    };
     Messages.Notify = function (text) {
         Example.show(text);
     };

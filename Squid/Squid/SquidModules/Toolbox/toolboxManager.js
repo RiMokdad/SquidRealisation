@@ -77,10 +77,7 @@ var ToolboxManager = (function () {
             this.GenerateBlocksListFromMap(list);
         }
         else {
-            for (var i = 0; i < list.length; i++) {
-                this.BlocksInformations.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(list[i]));
-            }
-            this.GenerateBlocksInCatFromList(this.BlocksInformations);
+            this.GenerateBlocksListFromList(this.BlocksInformations);
         }
         this.UpdateCategories();
     };
@@ -95,7 +92,12 @@ var ToolboxManager = (function () {
             this.BlocksInCat.push(cat);
         }
     };
-    ToolboxManager.prototype.GenerateBlocksInCatFromList = function (list) {
+    ToolboxManager.prototype.GenerateBlocksListFromList = function (list) {
+        //BlocksInformations
+        for (var i = 0; i < list.length; i++) {
+            this.BlocksInformations.push(BlockInfos_1.BlockInfos.ObjectToBlockInfos(list[i]));
+        }
+        //BlocksInCat
         this.BlocksInCat = new Array();
         //For each block we place it in the good category
         for (var i = 0; i < list.length; i++) {
@@ -190,6 +192,22 @@ var ToolboxManager = (function () {
             catList.push(this.BlocksInCat[i].category);
         }
         return catList;
+    };
+    ToolboxManager.prototype.GetDecoderByName = function (name) {
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            if (this.BlocksInformations[i].name == name) {
+                return this.BlocksInformations[i];
+            }
+        }
+        return null;
+    };
+    ToolboxManager.prototype.GetDecoderById = function (id) {
+        for (var i = 0; i < this.BlocksInformations.length; i++) {
+            if (this.BlocksInformations[i].id == id) {
+                return this.BlocksInformations[i];
+            }
+        }
+        return null;
     };
     return ToolboxManager;
 }());

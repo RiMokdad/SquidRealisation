@@ -47,7 +47,7 @@ export class Requests {
             data: JSON.stringify(id),
             success(newDecoder) {
                 decoder.update(newDecoder); 
-                callback();
+                callback(decoder);
             },
             error(resp) {
                 console.log(resp.responseText);
@@ -67,7 +67,7 @@ export class Requests {
             contentType: "application/json; charset=utf-8",
             datatype: "json",
             success(res) {
-                console.log(res);
+                //console.log(res);
                 if (Array.isArray(res)) {
                     succes(res);
                 } else {

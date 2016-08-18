@@ -1,5 +1,6 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 declare var Ac: any;
+
 const BLOCKS: any[] = [
     [
         { name: "Briques de base", colour: 250 },
@@ -95,11 +96,7 @@ export class ToolboxManager {
         if (!flatList) {
             this.GenerateBlocksListFromMap(list);      
         } else {
-            for (let i = 0; i < list.length; i++) {
-                this.BlocksInformations.push(BlockInfos.ObjectToBlockInfos(list[i]));
-
-            }
-            this.GenerateBlocksInCatFromList(this.BlocksInformations);
+            this.GenerateBlocksListFromList(this.BlocksInformations);
         }
 
         this.UpdateCategories();
@@ -117,7 +114,13 @@ export class ToolboxManager {
         }
     }
 
-    private GenerateBlocksInCatFromList(list: Array<BlockInfos>) {
+    private GenerateBlocksListFromList(list: Array<BlockInfos>) {
+        //BlocksInformations
+        for (let i = 0; i < list.length; i++) {
+            this.BlocksInformations.push(BlockInfos.ObjectToBlockInfos(list[i]));
+
+        }
+        //BlocksInCat
         this.BlocksInCat = new Array<BlocksCat>();
         //For each block we place it in the good category
         for (let i = 0; i < list.length; i++) { 
@@ -226,5 +229,23 @@ export class ToolboxManager {
             catList.push(this.BlocksInCat[i].category);
         }
         return catList;
+    }
+
+    GetDecoderByName(name: string): BlockInfos {
+        for (let i = 0; i < this.BlocksInformations.length; i++) {
+            if (this.BlocksInformations[i].name == name) {
+                return this.BlocksInformations[i];
+            }
+        }
+        return null;
+    }
+
+    GetDecoderById(id: number): BlockInfos {
+        for (let i = 0; i < this.BlocksInformations.length; i++) {
+            if (this.BlocksInformations[i].id == id) {
+                return this.BlocksInformations[i];
+            }
+        }
+        return null;
     }
 }
