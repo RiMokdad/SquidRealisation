@@ -2964,6 +2964,8 @@
     <TypeScriptCompile Include="SquidModules\Util\Messages.ts" />
     <TypeScriptCompile Include="SquidModules\Util\BlockInfos.ts" />
     <TypeScriptCompile Include="SquidModules\Util\Decoder.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\simple_variables.ts" />
+    <TypeScriptCompile Include="SquidModules\Util\utils.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
