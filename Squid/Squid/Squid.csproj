@@ -2937,6 +2937,8 @@
     <Content Include="Content\icons\server2.png" />
     <Content Include="Content\icons\server3.png" />
     <Content Include="Content\icons\server4.png" />
+    <Content Include="Content\icons\variables.png" />
+    <Content Include="Content\icons\variables2.png" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />

@@ -444,6 +444,10 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .supressServer {
     background-image: url("../icons/ico-serv-supress.png");
 }
+
+.variables {
+    background-image: url("../icons/variables.png");
+}
 .toolbar-group button {
     margin: 0px;
     padding: 0px;

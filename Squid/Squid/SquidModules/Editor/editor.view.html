@@ -12,6 +12,14 @@
                     <button class="item-workspace supressServer"
                             title="Supprime définitivement le décodeur"
                             (click)="Supress()"></button>
+
+                    <button class="item-workspace add"
+                            title="Créer une nouvelle fonction"
+                            (click)="OpenTab()"></button>
+                    <button class="item-workspace variables"
+                            title="afficher/masquer les configurations"
+                            (click)="ToggleTest()"></button>
+
                 </div>
                 <!-- Adding the search bar for tags -->
                 <div class="toolbar-group">
@@ -31,14 +39,6 @@
                     <button class="item-workspace refresh"
                             title="Rafraichit les fonctions"
                             (click)="Refresh();"></button>
-                </div>
-                <div class="toolbar-group">
-                    <button class="item-workspace add"
-                            title="Créer une nouvelle fonction"
-                            (click)="OpenTab()"></button>
-                    <button class="item-workspace"
-                            title="afficher/masquer les configurations"
-                            (click)="ToggleTest()"></button>
                 </div>
             </div>
             <div class="col-sm-4">
