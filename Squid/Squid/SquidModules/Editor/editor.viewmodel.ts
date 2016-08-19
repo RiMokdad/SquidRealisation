@@ -143,7 +143,7 @@ export class EditorComponent {
         Requests.GetBlocksInfos(success, fail);  
 
         //test specs
-        Requests.FindDescendants(this.decoder);
+        //Requests.FindDescendants(this.decoder);
     }
 
     /**

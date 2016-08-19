@@ -33,6 +33,9 @@ namespace Squid.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
 
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(400)]
+        [Index("NameIndex", IsUnique = true)]
         public string Name { get; set; }
 
         public string BlocklyDef { get; set; }
