@@ -44,10 +44,13 @@
     
     <script>goog.require('goog.ui.ac');</script>
     
-    <script src="closure_override/inputhandler_override.js"></script>
+    
     <script src="SquidModules/Util/autocomplete.js"></script>
     <script src="SquidModules/Util/autocompletion.js"></script>
-    
+    <script src="SquidModules/Util/simple_variables.js"></script>
+
+    <script src="SquidModules/Util/utils.js"></script>
+
 
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
@@ -105,7 +108,9 @@
     <script src="Blockly_override/generators/french/base_blocks.js"></script>
     <script src="Blockly_override/generators/french/procedures.js"></script>
 
-    <script>
+    <script src="closure_override/inputhandler_override.js"></script>
+
+<script>
         $(function () {
             Example.init({
                 "selector": ".bb-alert"

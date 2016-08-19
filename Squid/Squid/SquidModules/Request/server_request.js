@@ -7,7 +7,7 @@ var Requests = (function () {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    Requests.SaveDecoder = function (decoder) {
+    Requests.SaveDecoder = function (decoder, callback) {
         //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
@@ -19,6 +19,7 @@ var Requests = (function () {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
+                    callback();
                 }
                 else {
                     Messages_1.Messages.Notify("Décodeur sauvegardé");
@@ -108,6 +109,61 @@ var Requests = (function () {
             error: function (resp) {
                 console.log(resp.responseText);
                 Messages_1.Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
+            }
+        });
+    };
+    Requests.FindDescendants = function (decoder) {
+        $.ajax({
+            url: "/api/Decoders/descendants",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            //datatype: 'json',
+            data: JSON.stringify(decoder.Id),
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (resp) {
+                console.log(resp.responseText);
+                Messages_1.Messages.Alert("Erreur lors de la récupération des spécifications\nAfficher la console pour voir les détails de l'erreur");
+            }
+        });
+    };
+    // TEST SIMPLE VARIABLES
+    Requests.SaveVariables = function (map) {
+        $.ajax({
+            url: '/api/variables/save',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            data: map,
+            //traditional: true,
+            success: function (res) {
+                //console.log(res);
+            },
+            error: function (error) {
+                alert("Wwoops something went wrong !" + error);
+            }
+        });
+    };
+    /**
+     * Retrieve the simples variables from the server
+     * and update the client accordingly
+     */
+    Requests.ReloadVariables = function (callback) {
+        $.ajax({
+            url: '/api/variables/reload',
+            type: 'POST',
+            //contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            //traditional: true,
+            success: function (res) {
+                //alert("Success " + res);
+                var variables = JSON.parse(res);
+                //console.log(variables);
+                callback(variables);
+            },
+            error: function (error) {
+                alert("Wwoops something went wrong !" + error);
             }
         });
     };

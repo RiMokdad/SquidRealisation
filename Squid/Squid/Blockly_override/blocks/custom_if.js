@@ -10,7 +10,7 @@
 
         this.appendDummyInput("IF0")
             .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF)
-            .appendField(new Blockly.FieldTextInput("expression", null, AutoComplete.GetVariables), "IF0");
+            .appendField(new Blockly.FieldTextInput("expression", null, SimpleVariables.GetNames), "IF0");
         //TEST this.appendValueInput('IF0')
         //TEST .setCheck('Boolean')
         //TEST   .appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);
@@ -180,7 +180,7 @@
             //TEST
             this.appendDummyInput('IF' + i)
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF)
-                .appendField(new Blockly.FieldTextInput("expression", null, AutoComplete.GetVariables), 'IF' + i);
+                .appendField(new Blockly.FieldTextInput("expression", null, SimpleVariables.GetNames), 'IF' + i);
             /*TEST this.appendValueInput('IF' + i)
                 .setCheck('Boolean')
                 .appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);*/

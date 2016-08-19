@@ -47,6 +47,10 @@ var EditorComponent = (function () {
             this.LoadModeFromScratch();
         }
         this.ac = new Ac();
+        var updatevar = function (variables) {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        server_request_1.Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     };
     EditorComponent.prototype.LoadModeBloc = function () {
@@ -86,15 +90,16 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Supress = function () {
         var _this = this;
         var deleteConfirmed = function () {
+            _this.Clear();
             _this.decoder = new Decoder_1.Decoder();
             _this.workspace.BindDecoder(_this.decoder);
+            Onglet_1.Onglet.SetUrl(_this.decoder);
             Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
-        this.Clear();
     };
     /**
      * Refresh the toolbox, called automatically but may be forced by the user
@@ -118,6 +123,8 @@ var EditorComponent = (function () {
         };
         this.refreshState = RefreshState.PENDING;
         server_request_1.Requests.GetBlocksInfos(success, fail);
+        //test specs
+        server_request_1.Requests.FindDescendants(this.decoder);
     };
     /**
      * Update the toolbox with results of the research. You can search multiple tags
@@ -157,11 +164,14 @@ var EditorComponent = (function () {
      * Saves the decoder to the server
      */
     EditorComponent.prototype.SaveDecoderToServer = function () {
+        var _this = this;
+        var updateurl = function () {
+            Onglet_1.Onglet.SetUrl(_this.decoder);
+        };
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            server_request_1.Requests.SaveDecoder(this.decoder);
-            Onglet_1.Onglet.SetUrl(this.decoder);
+            server_request_1.Requests.SaveDecoder(this.decoder, updateurl);
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -169,6 +179,8 @@ var EditorComponent = (function () {
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+        //test
+        server_request_1.Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
     };
     /**
      * Restore the block with the given id
@@ -181,9 +193,9 @@ var EditorComponent = (function () {
             _this.workspace.RestoreBlocks(decoder);
             Messages_1.Messages.Alert("Le bloc " + decoder.Name + " a \u00E9t\u00E9 recharg\u00E9.");
             _this.workspace.CompleteDecoder(decoder);
+            Onglet_1.Onglet.SetUrl(_this.decoder);
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
-        Onglet_1.Onglet.SetUrl(this.decoder);
         return null;
     };
     EditorComponent = __decorate([

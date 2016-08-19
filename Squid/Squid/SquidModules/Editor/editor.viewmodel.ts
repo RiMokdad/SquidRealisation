@@ -60,6 +60,10 @@ export class EditorComponent {
         }
 
         this.ac = new Ac();
+        const updatevar = (variables) => {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     }
 
@@ -102,8 +106,10 @@ export class EditorComponent {
      */
     Supress() {
         const deleteConfirmed = () => {
+            this.Clear();
             this.decoder = new Decoder();
             this.workspace.BindDecoder(this.decoder);
+            Onglet.SetUrl(this.decoder);
             Messages.Notify("Décodeur supprimé");
         };
 
@@ -111,8 +117,7 @@ export class EditorComponent {
             Requests.DeleteDecoder(this.decoder, deleteConfirmed);
         };
 
-        Requests.FindUsages(this.decoder.Id, deletion);
-        this.Clear();
+        Requests.FindUsages(this.decoder.Id, deletion);       
     }
 
     /**
@@ -136,7 +141,10 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetBlocksInfos(success, fail);     
+        Requests.GetBlocksInfos(success, fail);  
+
+        //test specs
+        Requests.FindDescendants(this.decoder);
     }
 
     /**
@@ -198,17 +206,23 @@ export class EditorComponent {
      * Saves the decoder to the server
      */
     private SaveDecoderToServer() {
+        const updateurl = () => {
+            Onglet.SetUrl(this.decoder);
+        };
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            Requests.SaveDecoder(this.decoder);
-            Onglet.SetUrl(this.decoder);
+
+            Requests.SaveDecoder(this.decoder, updateurl);
+
         } else {
             alert("Un des problèmes suivants se pose:" +
                 "\n - Vous avez plus d'un bloc" +
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+        //test
+        Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
     }
 
     /**
@@ -221,11 +235,12 @@ export class EditorComponent {
             this.workspace.RestoreBlocks(decoder);
             Messages.Alert(`Le bloc ${decoder.Name} a été rechargé.`);
             this.workspace.CompleteDecoder(decoder);
+            Onglet.SetUrl(this.decoder);
         };
       
         Requests.GetDecoderDef(id, this.decoder, callback);
-        Onglet.SetUrl(this.decoder);
         
+
         return null;
     }
 
