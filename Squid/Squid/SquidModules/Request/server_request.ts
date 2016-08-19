@@ -118,11 +118,26 @@ export class Requests {
         });
     }
 
+    static FindDescendants(decoder: Decoder) {
+        $.ajax({
+            url: "/api/Decoders/descendants",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            //datatype: 'json',
+            data: JSON.stringify(decoder.Id),
+            success(res) {
+                console.log(res);
+            },
+            error(resp) {
+                console.log(resp.responseText);
+                Messages.Alert("Erreur lors de la récupération des spécifications\nAfficher la console pour voir les détails de l'erreur");
+            }
+        });
+    }
+
     // TEST SIMPLE VARIABLES
 
     static SaveVariables(map: string) {
-        console.log(map);
-
         $.ajax({
             url: '/api/variables/save',
             type: 'POST',
@@ -131,8 +146,7 @@ export class Requests {
             data: map,
             //traditional: true,
             success(res) {
-                //alert("Success " + res);
-                console.log(res);
+                //console.log(res);
             },
             error(error) {
                 alert("Wwoops something went wrong !" + error);
@@ -154,7 +168,7 @@ export class Requests {
             success(res) {
                 //alert("Success " + res);
                 var variables = JSON.parse(res);
-                console.log(variables);
+                //console.log(variables);
                 callback(variables);
             },
             error(error) {

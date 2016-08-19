@@ -112,6 +112,22 @@ var Requests = (function () {
             }
         });
     };
+    Requests.FindDescendants = function (decoder) {
+        $.ajax({
+            url: "/api/Decoders/descendants",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            //datatype: 'json',
+            data: JSON.stringify(decoder.Id),
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (resp) {
+                console.log(resp.responseText);
+                Messages_1.Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
+            }
+        });
+    };
     // TEST SIMPLE VARIABLES
     Requests.SaveVariables = function (map) {
         console.log(map);

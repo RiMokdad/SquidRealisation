@@ -46,6 +46,10 @@ var EditorComponent = (function () {
             this.LoadModeFromScratch();
         }
         this.ac = new Ac();
+        var updatevar = function (variables) {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        server_request_1.Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     };
     EditorComponent.prototype.LoadModeBloc = function () {
@@ -118,6 +122,8 @@ var EditorComponent = (function () {
         };
         this.refreshState = RefreshState.PENDING;
         server_request_1.Requests.GetBlocksInfos(success, fail);
+        //test specs
+        server_request_1.Requests.FindDescendants(this.decoder);
     };
     /**
      * Update the toolbox with results of the research. You can search multiple tags
@@ -189,11 +195,6 @@ var EditorComponent = (function () {
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         this.SetUrl();
-        //test variables
-        var updatevar = function (variables) {
-            SimpleVariables.UpdateVariables(variables);
-        };
-        server_request_1.Requests.ReloadVariables(updatevar);
         return null;
     };
     /* ============ URL OPERATIONS ============== */

@@ -59,6 +59,10 @@ export class EditorComponent {
         }
 
         this.ac = new Ac();
+        const updatevar = (variables) => {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     }
 
@@ -136,7 +140,10 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetBlocksInfos(success, fail);     
+        Requests.GetBlocksInfos(success, fail);  
+
+        //test specs
+        Requests.FindDescendants(this.decoder);
     }
 
     /**
@@ -228,11 +235,7 @@ export class EditorComponent {
       
         Requests.GetDecoderDef(id, this.decoder, callback);
         this.SetUrl();
-        //test variables
-        const updatevar = (variables) => {
-            SimpleVariables.UpdateVariables(variables);
-        };
-        Requests.ReloadVariables(updatevar);
+
         
         return null;
     }

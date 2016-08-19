@@ -82,5 +82,26 @@ namespace Squid.Models
                 this.Tags = reader.ReadElementContentAsString();*/
             }
         }
+
+        public List<int> FindDescendants()
+        {
+            var descendants = new List<int>();
+            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
+            {
+                reader.ReadToFollowing("statement");
+                if (reader.EOF)
+                {
+                    return descendants;
+                }
+                while (reader.ReadToFollowing("block"))
+                {
+                    if (reader.GetAttribute("type") == "procedures_callnoreturn")
+                    {
+                        descendants.Add(Int32.Parse(reader.GetAttribute("id")));
+                    }
+                }
+            }
+            return descendants;
+        }
     }
 }

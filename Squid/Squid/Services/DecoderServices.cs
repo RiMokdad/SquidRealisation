@@ -262,6 +262,59 @@ namespace Squid.Services
             }
         }
 
+        public List<Decoder> FindDescendants(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                if (decoder != null)
+                {
+                    var ids = new List<int>();                   
+                    ids.AddRange(db.Decoders.Find(id).FindDescendants());
+                    for (int i = 0; i < ids.Count; i++)
+                    {
+                        var descendant = db.Decoders.Find(ids[i]);
+                        var idsToAdd = descendant.FindDescendants();
+                        foreach (var anId in idsToAdd)
+                        {
+                            if (!ids.Exists(x => x == anId))
+                            {
+                                ids.Add(anId);
+                            }
+                        }                       
+                    }
+
+                    var decoders = new List<Decoder>();
+                    foreach (var anId in ids)
+                    {
+                        decoders.Add(db.Decoders.Find(anId));
+                    }
+                    return decoders;
+                }
+                else
+                {
+                    throw new KeyNotFoundException();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                try
+                {
+                    db?.Dispose();
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+        }
+
     }
 
     public class BlockInfos
