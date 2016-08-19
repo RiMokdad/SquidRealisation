@@ -17,9 +17,7 @@ export class Decoder {
     Editable: boolean;
 
     constructor();
-
     constructor(decoder: Decoder);
-
     constructor(Name: string,
         Tags: string,
         Category: string,
@@ -29,7 +27,6 @@ export class Decoder {
         Code: string,
         FrenchSpec: string,
         Editable: boolean);
-
     constructor(Name?: any,
         Tags?: string,
         Category?: string,
@@ -66,7 +63,7 @@ export class Decoder {
      * Convert a decoder to a BlockInfos loosing parameters, code, and spec
      * @param decoder
      */
-    static toBlockInfos(decoder: Decoder) : BlockInfos {
+    static toBlockInfos(decoder: Decoder): BlockInfos {
         return new BlockInfos(decoder.Name,
             null,
             decoder.Tags,
@@ -74,6 +71,19 @@ export class Decoder {
             decoder.Version,
             decoder.Id,
             decoder.Editable);
+    }
+
+    static ObjectToDecoder(object: any): Decoder {
+        return new Decoder(object.Name,
+            object.Tags,
+            object.Category,
+            object.Version,
+            object.Id,
+            object.BlocklyDef,
+            object.Code,
+            object.FrenchSpec,
+            object.Editable
+        );
     }
 
     static copy(decoder: Decoder) {

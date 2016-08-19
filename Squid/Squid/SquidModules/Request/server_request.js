@@ -112,7 +112,11 @@ var Requests = (function () {
             }
         });
     };
-    Requests.FindDescendants = function (decoder) {
+    /**
+     * Get all descendant of a decoder in order to generate spec or code
+     * @param decoder
+     */
+    Requests.FindDescendants = function (decoder, callback) {
         $.ajax({
             url: "/api/Decoders/descendants",
             type: "POST",
@@ -120,11 +124,11 @@ var Requests = (function () {
             //datatype: 'json',
             data: JSON.stringify(decoder.Id),
             success: function (res) {
-                console.log(res);
+                callback(res);
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération des spécifications\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération des spécifications\n Afficher la console pour voir les détails de l'erreur");
             }
         });
     };

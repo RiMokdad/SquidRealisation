@@ -142,9 +142,7 @@ export class EditorComponent {
         };
         this.refreshState = RefreshState.PENDING;
         Requests.GetBlocksInfos(success, fail);  
-
-        //test specs
-        Requests.FindDescendants(this.decoder);
+    
     }
 
     /**
@@ -239,7 +237,6 @@ export class EditorComponent {
         };
       
         Requests.GetDecoderDef(id, this.decoder, callback);
-        
 
         return null;
     }

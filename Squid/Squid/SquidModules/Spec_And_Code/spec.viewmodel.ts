@@ -20,22 +20,21 @@ export class SpecComponent {
     decoderList: Array<Decoder>;
 
     constructor() {
-        this.decoder = null;      
+        this.decoder = null;
         this.decoderList = new Array<Decoder>();
         this.decoder_test();
+        
     }
 
     decoder_test() {
-        this.decoder = new Decoder("Test",
-            "tag",
-            "Cat",
-            "1.2",
-            8,
-            "<>",
-            "Some code",
-            "Some Spec,\n\twith indent",
-            false);
-        this.decoderList.push(this.decoder);
+        this.decoder = new Decoder();
+        this.decoder.Id = 17;
+
+        const func = () => {
+            this.DisplaySpec();    
+        };
+        Requests.GetDecoderDef(17, this.decoder, func);
+
     }
 
     OpenTab(decoder?: Decoder) {
@@ -47,6 +46,15 @@ export class SpecComponent {
         } else {
             Messages.Notify("Not editable");
         }
+    }
+
+    DisplaySpec() {
+        const callback = (res) => {
+            for (let i = 0; i < res.length; i++) {
+                this.decoderList.push(Decoder.ObjectToDecoder(res[i]));
+            }
+        };
+        Requests.FindDescendants(this.decoder, callback);
     }
 
     SetDecoder(decoder: Decoder) {

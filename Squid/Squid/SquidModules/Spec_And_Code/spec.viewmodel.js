@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var Decoder_1 = require("./../Util/Decoder");
 var Onglet_1 = require("./../Util/Onglet");
 var Messages_1 = require("./../Util/Messages");
+var server_request_1 = require("../Request/server_request");
 var SpecComponent = (function () {
     function SpecComponent() {
         this.decoder = null;
@@ -19,8 +20,13 @@ var SpecComponent = (function () {
         this.decoder_test();
     }
     SpecComponent.prototype.decoder_test = function () {
-        this.decoder = new Decoder_1.Decoder("Test", "tag", "Cat", "1.2", 8, "<>", "Some code", "Some Spec,\n\twith indent", false);
-        this.decoderList.push(this.decoder);
+        var _this = this;
+        this.decoder = new Decoder_1.Decoder();
+        this.decoder.Id = 17;
+        var func = function () {
+            _this.DisplaySpec();
+        };
+        server_request_1.Requests.GetDecoderDef(17, this.decoder, func);
     };
     SpecComponent.prototype.OpenTab = function (decoder) {
         if (decoder && decoder.Editable) {
@@ -32,6 +38,15 @@ var SpecComponent = (function () {
         else {
             Messages_1.Messages.Notify("Not editable");
         }
+    };
+    SpecComponent.prototype.DisplaySpec = function () {
+        var _this = this;
+        var callback = function (res) {
+            for (var i = 0; i < res.length; i++) {
+                _this.decoderList.push(Decoder_1.Decoder.ObjectToDecoder(res[i]));
+            }
+        };
+        server_request_1.Requests.FindDescendants(this.decoder, callback);
     };
     SpecComponent.prototype.SetDecoder = function (decoder) {
         this.decoder = decoder;

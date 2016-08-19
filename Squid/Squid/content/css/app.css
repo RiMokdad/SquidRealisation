@@ -173,12 +173,35 @@ span {
     padding: 20px;    
 }
 
-.generated-code pre {
+.bloc-spec {
+    margin: 0;
+    border-left: solid 4px #604040;
+    padding: 10px 0;
+    background: none;
+    font-family: open sans;
+    font-weight: 500;
+}
+
+.bloc-spec pre {
+    font-family: open sans;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 0;
     text-align: left;
     position: relative;
     border: 0;
     box-shadow: 0 0 1px 1px #604040;
-    overflow: scroll;
+}
+
+.bloc-spec:hover {
+    background-color: rgb(246, 219, 183);
+    cursor: crosshair;
+}
+
+.bloc-spec .infos span{
+    font-family: open sans;
+    font-weight: 500;
+    font-style: normal;
 }
 
 /*

@@ -123,8 +123,6 @@ var EditorComponent = (function () {
         };
         this.refreshState = RefreshState.PENDING;
         server_request_1.Requests.GetBlocksInfos(success, fail);
-        //test specs
-        server_request_1.Requests.FindDescendants(this.decoder);
     };
     /**
      * Update the toolbox with results of the research. You can search multiple tags

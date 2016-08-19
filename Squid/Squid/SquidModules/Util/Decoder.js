@@ -36,6 +36,9 @@ var Decoder = (function () {
     Decoder.toBlockInfos = function (decoder) {
         return new BlockInfos_1.BlockInfos(decoder.Name, null, decoder.Tags, decoder.Category, decoder.Version, decoder.Id, decoder.Editable);
     };
+    Decoder.ObjectToDecoder = function (object) {
+        return new Decoder(object.Name, object.Tags, object.Category, object.Version, object.Id, object.BlocklyDef, object.Code, object.FrenchSpec, object.Editable);
+    };
     Decoder.copy = function (decoder) {
         return new Decoder(decoder);
     };
