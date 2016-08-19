@@ -271,27 +271,40 @@ namespace Squid.Services
                 var decoder = db.Decoders.Find(id);
                 if (decoder != null)
                 {
-                    var ids = new List<int>();                   
-                    ids.AddRange(db.Decoders.Find(id).FindDescendants());
-                    for (int i = 0; i < ids.Count; i++)
+                    var names = new List<string>();
+                    var decoders = new List<Decoder>();
+                    //names.AddRange(decoder.FindDescendants());
+                    var firsts = decoder.FindDescendants();
+                    foreach (var name in firsts)
                     {
-                        var descendant = db.Decoders.Find(ids[i]);
-                        var idsToAdd = descendant.FindDescendants();
-                        foreach (var anId in idsToAdd)
+                        if (!names.Exists(x => x == name))
                         {
-                            if (!ids.Exists(x => x == anId))
-                            {
-                                ids.Add(anId);
-                            }
-                        }                       
+                            names.Add(name);
+                        }
                     }
 
-                    var decoders = new List<Decoder>();
-                    foreach (var anId in ids)
+                    for (int i = 0; i < names.Count; i++)
                     {
-                        decoders.Add(db.Decoders.Find(anId));
+                        var curName = names[i];
+                        var descendant = db.Decoders.Single(d => d.Name == curName);
+                        var namesToAdd = descendant.FindDescendants();
+                        foreach (var name in namesToAdd)
+                        {
+                            if (!names.Exists(x => x == name))
+                            {
+                                names.Add(name);
+                            }
+                        }
+                        decoders.Add(descendant);                                               
                     }
                     return decoders;
+
+                    /*var decoders = new List<Decoder>();
+                    foreach (var name in names)
+                    {
+                        decoders.Add(db.Decoders.Find(name));
+                    }
+                    return decoders;*/
                 }
                 else
                 {
