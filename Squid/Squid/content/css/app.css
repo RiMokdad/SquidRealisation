@@ -179,7 +179,13 @@ span {
     padding: 10px 0;
     background: none;
     font-family: open sans;
-    font-weight: 500;
+    font-weight: 500;transition: 0.1s;
+}
+
+.bloc-spec:hover {
+    background-color: rgb(246, 219, 183);
+    cursor: crosshair;
+    border-left: solid 4px #806060;
 }
 
 .bloc-spec pre {
@@ -191,12 +197,10 @@ span {
     position: relative;
     border: 0;
     box-shadow: 0 0 1px 1px #604040;
+    
 }
 
-.bloc-spec:hover {
-    background-color: rgb(246, 219, 183);
-    cursor: crosshair;
-}
+
 
 .bloc-spec .infos span{
     font-family: open sans;
