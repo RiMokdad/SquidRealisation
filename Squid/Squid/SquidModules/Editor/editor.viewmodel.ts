@@ -190,14 +190,14 @@ export class EditorComponent {
             $('#variables').show();
             $('#editor').removeClass('col-lg-12');
             $('#editor').addClass('col-lg-9');
-            this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
             this.hiddenVariables = false;
         }
         else {
             $('#variables').hide();
             $('#editor').removeClass('col-lg-9');
             $('#editor').addClass('col-lg-12');
-            this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
             this.hiddenVariables = true;
         }
     }
