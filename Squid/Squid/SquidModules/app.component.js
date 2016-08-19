@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var editor_viewmodel_1 = require("./Editor/editor.viewmodel");
+var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
     }
@@ -17,7 +18,7 @@ var DecoderComponent = (function () {
         core_1.Component({
             selector: "decoder",
             templateUrl: "SquidModules/main.view.html",
-            directives: [editor_viewmodel_1.EditorComponent]
+            directives: [editor_viewmodel_1.EditorComponent, spec_viewmodel_1.SpecComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], DecoderComponent);

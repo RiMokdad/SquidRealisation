@@ -7,6 +7,7 @@ import { Requests } from "../Request/server_request"
 import { ServerNotifications } from "../SignalR/signalr_methods";
 import { Messages } from "./../Util/Messages";
 import { EventHandler } from "./../Util/EventHandler";
+import { Onglet } from "./../Util/Onglet";
 
 declare var Ac: any;
 
@@ -50,7 +51,7 @@ export class EditorComponent {
     OnLoad() {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
-        this.decoder.Id = this.GetBlockIdInUrl();
+        this.decoder.Id = Onglet.GetBlockIdInUrl();
 
         if (this.decoder.Id) {
             this.LoadModeBloc();
@@ -93,7 +94,7 @@ export class EditorComponent {
     Clear() {
         this.workspace.Clear();
         this.workspace.Initialize();
-        this.SetUrl();
+        Onglet.SetUrl(this.decoder);
     }
 
     /**
@@ -162,23 +163,25 @@ export class EditorComponent {
      */
     OpenTab(id: number);
     OpenTab(param1?: any) {
+
         if (param1) {
-            let decoder = null;
-            if (typeof (param1) == "string") {
+            let decoder: BlockInfos;
+            switch(typeof(param1)) {
+            case "string":
                 decoder = this.toolboxManager.GetDecoderByName(param1);
-            } else if (typeof (param1) == "number") {
+                break;
+            case "number":
                 decoder = this.toolboxManager.GetDecoderById(param1);
-            }
-
-            if (decoder) {
-                window.open(EditorComponent.CreateIdUrl(decoder.id));
-                return;
-            } else {
+                break;
+            default:
                 Messages.Alert("Impossible de charger ce décodeur");
+                return;
             }
-        }
 
-        window.open(EditorComponent.GetBaseUrl());
+            Onglet.OpenTab(decoder);
+        } else {
+            Onglet.OpenTab();
+        }
     }
 
 
@@ -199,7 +202,7 @@ export class EditorComponent {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             Requests.SaveDecoder(this.decoder);
-            this.SetUrl();
+            Onglet.SetUrl(this.decoder);
         } else {
             alert("Un des problèmes suivants se pose:" +
                 "\n - Vous avez plus d'un bloc" +
@@ -221,41 +224,11 @@ export class EditorComponent {
         };
       
         Requests.GetDecoderDef(id, this.decoder, callback);
-        this.SetUrl();
+        Onglet.SetUrl(this.decoder);
         
         return null;
     }
 
-    /* ============ URL OPERATIONS ============== */
-
-    /**
-     * Gives the base url of this page.
-     */
-    static GetBaseUrl(): string {
-        return "index.html";
-    }
-
-    /**
-     * Create the good url for loading a decoder with the given id 
-     * @param id
-     */
-    static CreateIdUrl(id: number): string {
-        return EditorComponent.GetBaseUrl() + "#" + id;
-    }
-    /**
-     * Get the id after the hash in the url
-     * @return return the id as a number, or null if there is no id
-     */
-    private GetBlockIdInUrl(): number {
-        return parseInt(window.location.hash.substring(1)) || null;
-    }
-
-    /**
-     * Set the hash of this page to the decoder id
-     */
-    private SetUrl() {
-        window.location.hash = this.decoder.Id ? `${this.decoder.Id}` : "";
-    }
 }
 
 /**

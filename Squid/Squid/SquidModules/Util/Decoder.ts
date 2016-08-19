@@ -17,10 +17,28 @@ export class Decoder {
     Editable: boolean;
 
     constructor();
-    constructor(decoder: Decoder);
-    constructor(Name: string, Tags: string, Category: string, Version: string, Id: number, BlocklyDef: string, Code: string, FrenchSpec: string, Editable: boolean);
 
-    constructor(Name?: any, Tags?: string, Category?: string, Version?: string, Id?: number, BlockyDef?: string, Code?: string, FrenchSpec?: string, Editable?: boolean) {
+    constructor(decoder: Decoder);
+
+    constructor(Name: string,
+        Tags: string,
+        Category: string,
+        Version: string,
+        Id: number,
+        BlocklyDef: string,
+        Code: string,
+        FrenchSpec: string,
+        Editable: boolean);
+
+    constructor(Name?: any,
+        Tags?: string,
+        Category?: string,
+        Version?: string,
+        Id?: number,
+        BlockyDef?: string,
+        Code?: string,
+        FrenchSpec?: string,
+        Editable?: boolean) {
         if (Name instanceof Decoder) {
             this.update(Name);
         } else {
@@ -32,12 +50,30 @@ export class Decoder {
             this.BlocklyDef = BlockyDef || "";
             this.Code = Code || "";
             this.FrenchSpec = FrenchSpec || "";
-            this.Editable = Editable || true;
+            this.Editable = (Editable !== false); //thus me make true the default case
         }
     }
 
+    /**
+     * Convert a BlockInfo into a decoder loosing
+     * @param bi
+     */
     static fromBlockInfos(bi: BlockInfos) {
         return new Decoder(bi.name, bi.tags, bi.category, bi.version, bi.id, null, null, null, bi.editable);
+    }
+
+    /**
+     * Convert a decoder to a BlockInfos loosing parameters, code, and spec
+     * @param decoder
+     */
+    static toBlockInfos(decoder: Decoder) : BlockInfos {
+        return new BlockInfos(decoder.Name,
+            null,
+            decoder.Tags,
+            decoder.Category,
+            decoder.Version,
+            decoder.Id,
+            decoder.Editable);
     }
 
     static copy(decoder: Decoder) {
@@ -45,15 +81,15 @@ export class Decoder {
     }
 
     update(decoder: Decoder) {
-        this.Id         = decoder.Id || this.Id;
-        this.Name       = decoder.Name || this.Name;
-        this.Version    = decoder.Version || this.Version;
-        this.Category   = decoder.Category || this.Category;
-        this.Tags       = decoder.Tags || this.Tags;
+        this.Id = decoder.Id || this.Id;
+        this.Name = decoder.Name || this.Name;
+        this.Version = decoder.Version || this.Version;
+        this.Category = decoder.Category || this.Category;
+        this.Tags = decoder.Tags || this.Tags;
         this.BlocklyDef = decoder.BlocklyDef || this.BlocklyDef;
-        this.Code       = decoder.Code || this.Code;
+        this.Code = decoder.Code || this.Code;
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
-        this.Editable   = decoder.Editable || this.Editable;
+        this.Editable = decoder.Editable || this.Editable;
     }
 
 }

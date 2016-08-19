@@ -16,6 +16,7 @@ var server_request_1 = require("../Request/server_request");
 var signalr_methods_1 = require("../SignalR/signalr_methods");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
+var Onglet_1 = require("./../Util/Onglet");
 (function (RefreshState) {
     RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
     RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
@@ -38,7 +39,7 @@ var EditorComponent = (function () {
     EditorComponent.prototype.OnLoad = function () {
         this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
-        this.decoder.Id = this.GetBlockIdInUrl();
+        this.decoder.Id = Onglet_1.Onglet.GetBlockIdInUrl();
         if (this.decoder.Id) {
             this.LoadModeBloc();
         }
@@ -77,7 +78,7 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
         this.workspace.Initialize();
-        this.SetUrl();
+        Onglet_1.Onglet.SetUrl(this.decoder);
     };
     /**
      * Supress on the server the decoder currently in the editor if it has already been saved once.
@@ -127,22 +128,23 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.OpenTab = function (param1) {
         if (param1) {
-            var decoder = null;
-            if (typeof (param1) == "string") {
-                decoder = this.toolboxManager.GetDecoderByName(param1);
+            var decoder = void 0;
+            switch (typeof (param1)) {
+                case "string":
+                    decoder = this.toolboxManager.GetDecoderByName(param1);
+                    break;
+                case "number":
+                    decoder = this.toolboxManager.GetDecoderById(param1);
+                    break;
+                default:
+                    Messages_1.Messages.Alert("Impossible de charger ce décodeur");
+                    return;
             }
-            else if (typeof (param1) == "number") {
-                decoder = this.toolboxManager.GetDecoderById(param1);
-            }
-            if (decoder) {
-                window.open(EditorComponent.CreateIdUrl(decoder.id));
-                return;
-            }
-            else {
-                Messages_1.Messages.Alert("Impossible de charger ce décodeur");
-            }
+            Onglet_1.Onglet.OpenTab(decoder);
         }
-        window.open(EditorComponent.GetBaseUrl());
+        else {
+            Onglet_1.Onglet.OpenTab();
+        }
     };
     /**
      * Binding for save
@@ -159,7 +161,7 @@ var EditorComponent = (function () {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
             server_request_1.Requests.SaveDecoder(this.decoder);
-            this.SetUrl();
+            Onglet_1.Onglet.SetUrl(this.decoder);
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -181,35 +183,8 @@ var EditorComponent = (function () {
             _this.workspace.CompleteDecoder(decoder);
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
-        this.SetUrl();
+        Onglet_1.Onglet.SetUrl(this.decoder);
         return null;
-    };
-    /* ============ URL OPERATIONS ============== */
-    /**
-     * Gives the base url of this page.
-     */
-    EditorComponent.GetBaseUrl = function () {
-        return "index.html";
-    };
-    /**
-     * Create the good url for loading a decoder with the given id
-     * @param id
-     */
-    EditorComponent.CreateIdUrl = function (id) {
-        return EditorComponent.GetBaseUrl() + "#" + id;
-    };
-    /**
-     * Get the id after the hash in the url
-     * @return return the id as a number, or null if there is no id
-     */
-    EditorComponent.prototype.GetBlockIdInUrl = function () {
-        return parseInt(window.location.hash.substring(1)) || null;
-    };
-    /**
-     * Set the hash of this page to the decoder id
-     */
-    EditorComponent.prototype.SetUrl = function () {
-        window.location.hash = this.decoder.Id ? "" + this.decoder.Id : "";
     };
     EditorComponent = __decorate([
         core_1.Component({
