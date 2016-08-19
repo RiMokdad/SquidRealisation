@@ -31,6 +31,7 @@ var EditorComponent = (function () {
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
+        this.hiddenVariables = true;
     }
     /**
      * Loaded after the whole page has been loaded
@@ -143,6 +144,23 @@ var EditorComponent = (function () {
             }
         }
         window.open(EditorComponent.GetBaseUrl());
+    };
+    // not in the right file
+    EditorComponent.prototype.ToggleTest = function () {
+        if (this.hiddenVariables) {
+            $('#variables').show();
+            $('#editor').removeClass('col-lg-12');
+            $('#editor').addClass('col-lg-9');
+            this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            this.hiddenVariables = false;
+        }
+        else {
+            $('#variables').hide();
+            $('#editor').removeClass('col-lg-9');
+            $('#editor').addClass('col-lg-12');
+            this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            this.hiddenVariables = true;
+        }
     };
     /**
      * Binding for save

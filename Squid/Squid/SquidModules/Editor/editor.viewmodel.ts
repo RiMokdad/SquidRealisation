@@ -9,6 +9,7 @@ import { Messages } from "./../Util/Messages";
 import { EventHandler } from "./../Util/EventHandler";
 
 declare var Ac: any;
+declare var $: any;
 
 export enum RefreshState {
     UP_TO_DATE,
@@ -29,6 +30,7 @@ export class EditorComponent {
     toolboxManager: ToolboxManager;
     refreshState: RefreshState;
     serverNotifications: ServerNotifications;
+    hiddenVariables: boolean;
 
     //autocomplete object
     ac;
@@ -41,6 +43,7 @@ export class EditorComponent {
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
+        this.hiddenVariables = true;
 
     }
 
@@ -73,15 +76,15 @@ export class EditorComponent {
     private pollRefresh() {
         let time = 1000;
         switch (this.refreshState) {
-        case RefreshState.OUT_DATED:
-            this.Refresh();
-            break;
-        case RefreshState.PENDING:
-            time = 4000;
-            break;
-        case RefreshState.UP_TO_DATE:
-        default:
-            break;
+            case RefreshState.OUT_DATED:
+                this.Refresh();
+                break;
+            case RefreshState.PENDING:
+                time = 4000;
+                break;
+            case RefreshState.UP_TO_DATE:
+            default:
+                break;
         }
         const func = () => { this.pollRefresh(); };
         window.setTimeout(func, time);
@@ -135,7 +138,7 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetBlocksInfos(success, fail);     
+        Requests.GetBlocksInfos(success, fail);
     }
 
     /**
@@ -181,6 +184,23 @@ export class EditorComponent {
         window.open(EditorComponent.GetBaseUrl());
     }
 
+    // not in the right file
+    ToggleTest() {
+        if (this.hiddenVariables) {
+            $('#variables').show();
+            $('#editor').removeClass('col-lg-12');
+            $('#editor').addClass('col-lg-9');
+            this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            this.hiddenVariables = false;
+        }
+        else {
+            $('#variables').hide();
+            $('#editor').removeClass('col-lg-9');
+            $('#editor').addClass('col-lg-12');
+            this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+            this.hiddenVariables = true;
+        }
+    }
 
     /**
      * Binding for save
@@ -219,10 +239,10 @@ export class EditorComponent {
             Messages.Alert(`Le bloc ${decoder.Name} a été rechargé.`);
             this.workspace.CompleteDecoder(decoder);
         };
-      
+
         Requests.GetDecoderDef(id, this.decoder, callback);
         this.SetUrl();
-        
+
         return null;
     }
 
