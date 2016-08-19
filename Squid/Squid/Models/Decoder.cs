@@ -33,6 +33,9 @@ namespace Squid.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
 
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(400)]
+        [Index("NameIndex", IsUnique = true)]
         public string Name { get; set; }
 
         public string BlocklyDef { get; set; }
@@ -83,9 +86,9 @@ namespace Squid.Models
             }
         }
 
-        public List<int> FindDescendants()
+        public List<string> FindDescendants()
         {
-            var descendants = new List<int>();
+            var descendants = new List<string>();
             using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
             {
                 reader.ReadToFollowing("statement");
@@ -97,7 +100,8 @@ namespace Squid.Models
                 {
                     if (reader.GetAttribute("type") == "procedures_callnoreturn")
                     {
-                        descendants.Add(Int32.Parse(reader.GetAttribute("id")));
+                        reader.ReadToFollowing("mutation");
+                        descendants.Add(reader.GetAttribute("name"));
                     }
                 }
             }

@@ -30,7 +30,9 @@ export class Requests {
             error(resp) {
                 //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
+                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
+                    "\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     }
@@ -52,7 +54,7 @@ export class Requests {
             },
             error(resp) {
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     }
@@ -78,7 +80,7 @@ export class Requests {
             error(resp) {
                 fail();
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     }
@@ -95,7 +97,7 @@ export class Requests {
             },
             error(resp) {
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
 
@@ -113,7 +115,7 @@ export class Requests {
             },
             error(resp) {
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     }
@@ -134,7 +136,8 @@ export class Requests {
             },
             error(resp) {
                 console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la récupération des spécifications\n Afficher la console pour voir les détails de l'erreur");
+                Messages.Alert("Erreur lors de la récupération des spécifications\n" +
+                    " Afficher la console pour voir les détails de l'erreur.");
             }
         });
     }

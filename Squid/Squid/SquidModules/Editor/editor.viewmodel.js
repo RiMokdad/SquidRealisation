@@ -130,6 +130,8 @@ var EditorComponent = (function () {
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        //test spec 
+        //Requests.FindDescendants(this.decoder);
     };
     EditorComponent.prototype.OpenTab = function (param1) {
         if (param1) {

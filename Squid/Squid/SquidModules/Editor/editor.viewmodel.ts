@@ -142,7 +142,6 @@ export class EditorComponent {
         };
         this.refreshState = RefreshState.PENDING;
         Requests.GetBlocksInfos(success, fail);  
-    
     }
 
     /**
@@ -151,6 +150,10 @@ export class EditorComponent {
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+
+        //test spec 
+        //Requests.FindDescendants(this.decoder);
+        
     }
 
 

@@ -4,7 +4,8 @@ declare var Example: any;
 export class Messages {
 
     static Alert(message: any) {
-        bootbox.alert(message);
+        let formatedMessage = message.replace(/\n/g, "<br>");
+        bootbox.alert(formatedMessage);
     }
 
     static ConfirmDelete(deleteMethod, listFuncs) {

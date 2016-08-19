@@ -29,7 +29,9 @@ var Requests = (function () {
             error: function (resp) {
                 //TODO  move to the view. not the responsibility of the model.
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la sauvegarde,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
+                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
+                    "\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -50,7 +52,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -76,7 +78,7 @@ var Requests = (function () {
             error: function (resp) {
                 fail();
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -92,7 +94,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -108,7 +110,7 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la suppression\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -128,7 +130,8 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération des spécifications\n Afficher la console pour voir les détails de l'erreur");
+                Messages_1.Messages.Alert("Erreur lors de la récupération des spécifications\n" +
+                    " Afficher la console pour voir les détails de l'erreur.");
             }
         });
     };
