@@ -9,6 +9,7 @@ var VariablesSet = (function () {
         this.type = type;
         this.SetPrefix();
         this.Name = name || "New set";
+        this.variables = new Array();
     }
     VariablesSet.prototype.SetPrefix = function () {
         switch (this.type) {
@@ -37,13 +38,15 @@ var VariablesSet = (function () {
         return null;
     };
     VariablesSet.prototype.Create = function (name, value) {
-        var nameTest = name || "variable";
+        name = name || "variable";
+        var nameTest = name;
         var num = 1;
         //Avoid to have double names
         for (var i = 0; i < this.Count(); i++) {
             if (this.variables[i][0] == nameTest) {
                 nameTest = name + num++;
                 i = -1;
+                console.log(nameTest);
             }
         }
         this.variables.push([nameTest, value || null]);

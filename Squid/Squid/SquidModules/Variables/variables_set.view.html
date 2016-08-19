@@ -1,5 +1,5 @@
 ﻿<div class="variables-set">
-    <h1>{{name}}</h1>
+    <h1>Sets</h1>
     <div class="toolbar-workspace">
         <div class="toolbar-group">
             <input id="config-title"
@@ -37,7 +37,7 @@
             </div>
         </div>
         <table id="config-table">
-            <tr ng-repeat="variable in set.List(false)">
+            <tr *ngFor="let variable of set.List(false)">
                 <td>
                     <input type="text"
                            class="variable-name"

@@ -13,18 +13,19 @@ export class VariablesSet {
         this.type = type;
         this.SetPrefix();
         this.Name = name || "New set";
+        this.variables = new Array<[string, any]>();
     }
 
     private SetPrefix() {
         switch (this.type) {
-            case VariablesType.CONFIG:
-                this.prefix = "C_";
-                break;
-            case VariablesType.INVENTORY:
-                this.prefix = "I_";
-                break;
-            default :
-                this.prefix = "";
+        case VariablesType.CONFIG:
+            this.prefix = "C_";
+            break;
+        case VariablesType.INVENTORY:
+            this.prefix = "I_";
+            break;
+        default:
+            this.prefix = "";
         }
     }
 
@@ -47,19 +48,21 @@ export class VariablesSet {
     }
 
     Create(name?: string, value?: any) {
-        let nameTest = name || "variable";
-        var num = 1;
+        name = name || "variable";
+        let nameTest = name;
+        let num = 1;
         //Avoid to have double names
         for (let i = 0; i < this.Count(); i++) {
             if (this.variables[i][0] == nameTest) {
                 nameTest = name + num++;
                 i = -1;
+                console.log(nameTest);
             }
         }
         this.variables.push([nameTest, value || null]);
     }
 
-    Delete(name: string) : [string, any] {
+    Delete(name: string): [string, any] {
         for (let i = 0; i < this.Count(); i++) {
             if (this.variables[i][0] == name) {
                 return this.variables.splice(i, 1)[0];
@@ -68,7 +71,7 @@ export class VariablesSet {
         return null;
     }
 
-    Rename(oldname: string, newname: string) : boolean{
+    Rename(oldname: string, newname: string): boolean {
         const tuple = this.Delete(oldname)[1];
         if (tuple != null) {
             this.Create(newname, tuple[1]);

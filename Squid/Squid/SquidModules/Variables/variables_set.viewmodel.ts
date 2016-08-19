@@ -2,13 +2,13 @@
 import { VariablesSet, VariablesType } from "./variables_set";
 
 class VariablesSetComponent {
-    name: string;
-    sets: Array<VariablesSet>;
-    set: VariablesSet;
+    protected name: string;
+    protected sets: Array<VariablesSet>;
+    protected set: VariablesSet;
     type: VariablesType;
 
     constructor(name: string, type: VariablesType) {
-        this.name = name ;
+        this.name = name;
         this.sets = new Array<VariablesSet>();
         this.type = type;
         this.NewSet();
