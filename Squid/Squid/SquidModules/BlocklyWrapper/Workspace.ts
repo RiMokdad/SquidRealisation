@@ -1,6 +1,7 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Decoder } from "../Util/Decoder";
 import { Requests } from "../Request/server_request";
+import { Onglet } from "./../Util/Onglet";
 
 declare var Blockly: any;
 
@@ -147,7 +148,23 @@ export class Workspace {
         this.workspace.updateToolbox(toolboxTree);
     }
 
-    AddCustomContextMenu(callback: any) {
+    AddCustomContextMenu(caller: any) {
+
+
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: () => {
+                var newWorkspace = new Blockly.Workspace();
+                newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                var dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                var xml = Blockly.Xml.domToText(dom);
+                window.localStorage.setItem(Onglet.GetBaseUrl(), xml);
+                //newWorkspace.dispose();
+            }
+        };
+
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options: any) {
             const option = { enabled: true} as any;
             option.enabled = true;
@@ -155,9 +172,11 @@ export class Workspace {
 
             var blockName = this.getFieldValue("NAME");
             option.callback = () => {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };
+
+        
     }
 }

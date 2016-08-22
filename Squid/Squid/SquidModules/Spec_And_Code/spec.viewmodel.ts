@@ -22,7 +22,7 @@ export class SpecComponent {
     constructor() {
         this.decoder = null;
         this.decoderList = new Array<Decoder>();
-        this.decoder_test();
+        //this.decoder_test();
         
     }
 

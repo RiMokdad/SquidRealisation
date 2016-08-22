@@ -1,4 +1,5 @@
 "use strict";
+var Onglet_1 = require("./../Util/Onglet");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -113,14 +114,27 @@ var Workspace = (function () {
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
     };
-    Workspace.prototype.AddCustomContextMenu = function (callback) {
+    Workspace.prototype.AddCustomContextMenu = function (caller) {
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: function () {
+                var newWorkspace = new Blockly.Workspace();
+                newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                var dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                var xml = Blockly.Xml.domToText(dom);
+                window.localStorage.setItem(Onglet_1.Onglet.GetBaseUrl(), xml);
+                //newWorkspace.dispose();
+            }
+        };
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {
             var option = { enabled: true };
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
             var blockName = this.getFieldValue("NAME");
             option.callback = function () {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };
