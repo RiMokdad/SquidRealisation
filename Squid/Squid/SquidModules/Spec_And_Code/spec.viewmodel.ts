@@ -2,10 +2,11 @@
 
 import { BlockInfos} from "./../Util/BlockInfos";
 import { Decoder } from "./../Util/Decoder";
+import { ToolboxManager } from "../Toolbox/ToolboxManager";
 
 import { Onglet } from "./../Util/Onglet";
 import { Messages } from "./../Util/Messages";
-import { EventHandler } from "./../Util/EventHandler";
+import { EventHandler, SingleAccess } from "./../Util/EventHandler";
 
 import { Requests } from "../Request/server_request";
 
@@ -18,16 +19,18 @@ declare var Ac: any;
 export class SpecComponent {
     decoder: Decoder;
     decoderList: Array<Decoder>;
+    toolboxMan: ToolboxManager;
 
     constructor() {
         this.decoder = null;
         this.decoderList = new Array<Decoder>();
-        this.decoder_test();
-        
+        this.toolboxMan = SingleAccess.GetToolboxManager();
+        this.decoder = new Decoder();
+        this.decoder_test();       
     }
 
     decoder_test() {
-        this.decoder = new Decoder();
+
         this.decoder.Id = 17;
 
         const func = () => {

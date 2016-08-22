@@ -6,7 +6,7 @@ import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { Requests } from "../Request/server_request"
 import { ServerNotifications } from "../SignalR/signalr_methods";
 import { Messages } from "./../Util/Messages";
-import { EventHandler } from "./../Util/EventHandler";
+import { EventHandler, SingleAccess } from "./../Util/EventHandler";
 import { Onglet } from "./../Util/Onglet";
 
 declare var Ac: any;
@@ -37,7 +37,7 @@ export class EditorComponent {
     constructor() {
         EventHandler.SetEditorComponent(this);
         this.serverNotifications = new ServerNotifications();
-        this.toolboxManager = new ToolboxManager();
+        this.toolboxManager = SingleAccess.GetToolboxManager();
         this.decoder = new Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";

@@ -112,6 +112,9 @@ var Workspace = (function () {
     /* ================== Toolbox ==================== */
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
+        var tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0];
+        var bDiv = document.getElementsByClassName("blocklyDiv")[0];
+        bDiv.appendChild(tbDiv);
     };
     Workspace.prototype.AddCustomContextMenu = function (callback) {
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {
