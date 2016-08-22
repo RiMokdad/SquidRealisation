@@ -22,6 +22,9 @@ var BlocksCat = (function () {
 }());
 exports.BlocksCat = BlocksCat;
 var ToolboxManager = (function () {
+    /**
+     * Not private but please, do not use it and prefer "SingleAccess.GetToolboxManager()"
+     */
     function ToolboxManager() {
         this.toolboxHTML = document.createElement("xml");
         this.BlocksInformations = new Array();
@@ -210,6 +213,7 @@ var ToolboxManager = (function () {
         }
         return null;
     };
+    ToolboxManager.initialized = false;
     return ToolboxManager;
 }());
 exports.ToolboxManager = ToolboxManager;

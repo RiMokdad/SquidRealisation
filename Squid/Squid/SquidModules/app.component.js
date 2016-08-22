@@ -14,6 +14,27 @@ var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
     }
+    DecoderComponent.prototype.ngOnInit = function () {
+        this.Select(0);
+    };
+    DecoderComponent.prototype.Select = function (num) {
+        num = num || 0;
+        var container = document.getElementsByClassName("main-content")[0];
+        if (container) {
+            var children = container.children;
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                if (num !== i) {
+                    child.style.visibility = "hidden";
+                    child.style.opacity = "0";
+                }
+                else {
+                    child.style.visibility = "visible";
+                    child.style.opacity = "1";
+                }
+            }
+        }
+    };
     DecoderComponent = __decorate([
         core_1.Component({
             selector: "decoder",

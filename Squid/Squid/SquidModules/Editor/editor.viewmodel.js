@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Decoder_1 = require("./../Util/Decoder");
-var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
 var signalr_methods_1 = require("../SignalR/signalr_methods");
@@ -27,7 +26,7 @@ var EditorComponent = (function () {
     function EditorComponent() {
         EventHandler_1.EventHandler.SetEditorComponent(this);
         this.serverNotifications = new signalr_methods_1.ServerNotifications();
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
+        this.toolboxManager = EventHandler_1.SingleAccess.GetToolboxManager();
         this.decoder = new Decoder_1.Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";

@@ -1,6 +1,6 @@
 ﻿body {
     font-family: 'Segoe UI', sans-serif;
-
+    background-color: #200000;
 }
 
 span {
@@ -15,6 +15,24 @@ span {
 .not-shown {
     display: none;   
 }
+
+/* ------------- Sections ---------------------- */
+
+editor,
+spec {
+    padding-left: 20px;
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: visibility 0.5s, opacity 0.5s;
+    background-color: #200000; 
+}
+
+spec {
+    overflow: scroll;
+}
+
 /* ----------------- Blockly Div --------------------- */
 .blocklyDiv {
     height: 800px;
@@ -62,7 +80,7 @@ span {
 }
 
 .blocklyToolboxDiv {
-    margin: 0px;
+    margin: 0;
     background-color: #200000 !important;
 }
 
@@ -159,7 +177,6 @@ span {
     background-color: antiquewhite;
     color: #604040;
     box-shadow: 0 0 3px 1px #200000 inset;
-    z-index: 910;
     transition: 0.4s;
 }
 
@@ -254,6 +271,7 @@ span {
 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 }
+
 /* ------------------- Sidebar ----------------------- */
 .side-bar {
     padding-left: 5px;
@@ -354,7 +372,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     color: white;
     background-color: #200000;
     height: 100%;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 0;
 }
 
 #Values .list-group {
@@ -387,7 +405,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     color: white;
     background-color: #200000;
     height: auto;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 0;
 }
 
 .title-toolbar-workspace {
@@ -401,7 +419,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     padding-top: 2px;
     display: inline-block;
     height: 30px;
-    border-radius: 0px;
+    border-radius: 0;
     border-top: 1px solid antiquewhite;  
 }
 

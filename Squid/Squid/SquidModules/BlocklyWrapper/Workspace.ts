@@ -145,6 +145,9 @@ export class Workspace {
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
+            const tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0] as HTMLElement;
+            const bDiv = document.getElementsByClassName("blocklyDiv")[0] as HTMLElement;
+            bDiv.appendChild(tbDiv);    
     }
 
     AddCustomContextMenu(callback: any) {
@@ -159,5 +162,7 @@ export class Workspace {
             };
             options.push(option);
         };
+
+
     }
 }
