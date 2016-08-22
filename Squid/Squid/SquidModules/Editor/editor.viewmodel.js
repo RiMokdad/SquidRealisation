@@ -148,14 +148,14 @@ var EditorComponent = (function () {
     // not in the right file
     EditorComponent.prototype.ToggleTest = function () {
         if (this.hiddenVariables) {
-            $('#variables').show();
+            $('#variables').fadeIn().show();
             $('#editor').removeClass('col-lg-12');
             $('#editor').addClass('col-lg-9');
             document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
             this.hiddenVariables = false;
         }
         else {
-            $('#variables').hide();
+            $('#variables').fadeOut().hide();
             $('#editor').removeClass('col-lg-9');
             $('#editor').addClass('col-lg-12');
             document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
