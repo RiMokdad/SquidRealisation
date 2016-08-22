@@ -26,7 +26,7 @@ export class SpecComponent {
         this.decoderList = new Array<Decoder>();
         this.toolboxMan = SingleAccess.GetToolboxManager();
         this.decoder = new Decoder();
-        this.decoder_test();       
+        this.decoder_test();  
     }
 
     decoder_test() {
