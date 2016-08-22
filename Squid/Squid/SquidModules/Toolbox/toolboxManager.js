@@ -7,7 +7,7 @@ var BLOCKS = [
     ],
     [
         { name: "Blocks de décodage", colour: 270 },
-        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger"]
+        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger", "decodeHexa"]
     ],
     [
         { name: "sep", gap: 8 }, []

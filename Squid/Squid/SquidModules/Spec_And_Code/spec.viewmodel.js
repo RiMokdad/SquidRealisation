@@ -17,7 +17,7 @@ var SpecComponent = (function () {
     function SpecComponent() {
         this.decoder = null;
         this.decoderList = new Array();
-        this.decoder_test();
+        //this.decoder_test();
     }
     SpecComponent.prototype.decoder_test = function () {
         var _this = this;
