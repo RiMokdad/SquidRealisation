@@ -1,5 +1,6 @@
 "use strict";
 var editor_viewmodel_1 = require("./../Editor/editor.viewmodel");
+var toolboxManager_1 = require("../Toolbox/toolboxManager");
 var EventHandler = (function () {
     function EventHandler() {
     }
@@ -18,4 +19,16 @@ var EventHandler = (function () {
     return EventHandler;
 }());
 exports.EventHandler = EventHandler;
+var SingleAccess = (function () {
+    function SingleAccess() {
+    }
+    SingleAccess.GetToolboxManager = function () {
+        if (!this.toolboxMan) {
+            this.toolboxMan = new toolboxManager_1.ToolboxManager();
+        }
+        return this.toolboxMan;
+    };
+    return SingleAccess;
+}());
+exports.SingleAccess = SingleAccess;
 //# sourceMappingURL=EventHandler.js.map

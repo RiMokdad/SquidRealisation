@@ -12,16 +12,18 @@ var core_1 = require("@angular/core");
 var Decoder_1 = require("./../Util/Decoder");
 var Onglet_1 = require("./../Util/Onglet");
 var Messages_1 = require("./../Util/Messages");
+var EventHandler_1 = require("./../Util/EventHandler");
 var server_request_1 = require("../Request/server_request");
 var SpecComponent = (function () {
     function SpecComponent() {
         this.decoder = null;
         this.decoderList = new Array();
-        //this.decoder_test();
+        this.toolboxMan = EventHandler_1.SingleAccess.GetToolboxManager();
+        this.decoder = new Decoder_1.Decoder();
+        this.decoder_test();
     }
     SpecComponent.prototype.decoder_test = function () {
         var _this = this;
-        this.decoder = new Decoder_1.Decoder();
         this.decoder.Id = 17;
         var func = function () {
             _this.DisplaySpec();

@@ -1,5 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { EditorComponent, RefreshState } from "./../Editor/editor.viewmodel";
+import { ToolboxManager } from "../Toolbox/toolboxManager";
 
 export class EventHandler {
 
@@ -18,5 +19,16 @@ export class EventHandler {
 
     static NotifyRefresh() {
         EventHandler.editor.refreshState = RefreshState.OUT_DATED;
+    }
+}
+
+export class SingleAccess {
+    private static toolboxMan: ToolboxManager;
+
+    static GetToolboxManager() : ToolboxManager {
+        if (!this.toolboxMan) {
+            this.toolboxMan = new ToolboxManager();   
+        }
+        return this.toolboxMan;
     }
 }
