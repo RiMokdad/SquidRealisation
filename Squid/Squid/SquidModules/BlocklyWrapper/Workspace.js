@@ -73,7 +73,6 @@ var Workspace = (function () {
             decoder.Code = this.GenerateCSharp();
             decoder.FrenchSpec = this.GenerateFrench();
             decoder.BlocklyDef = this.GetStringXML();
-            decoder.Editable = true;
         }
     };
     Workspace.prototype.GetName = function () {
@@ -92,6 +91,13 @@ var Workspace = (function () {
     };
     Workspace.prototype.Clear = function () {
         this.workspace.clear();
+    };
+    Workspace.prototype.SetVisible = function (visible) {
+        if (visible !== undefined)
+            this.workspace.setVisible(visible);
+        else {
+            this.workspace.setVisible(!this.workspace.rendered);
+        }
     };
     /* =================== About XML ================= */
     Workspace.prototype.GetXML = function () {

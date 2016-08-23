@@ -90,9 +90,7 @@ export class Workspace {
                 decoder.Code = this.GenerateCSharp();
                 decoder.FrenchSpec = this.GenerateFrench();
                 decoder.BlocklyDef = this.GetStringXML();
-                decoder.Editable = true;
         }
-
     }
 
     GetName(): string {
@@ -116,6 +114,13 @@ export class Workspace {
         this.workspace.clear();
     }
 
+    SetVisible(visible?: boolean) {
+        if (visible !== undefined)
+            this.workspace.setVisible(visible);
+        else {
+            this.workspace.setVisible(!this.workspace.rendered);
+        }
+    }
     /* =================== About XML ================= */
 
     GetXML(): Element {

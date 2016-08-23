@@ -45,8 +45,7 @@ export class Requests {
             //datatype: 'json',
             data: JSON.stringify(id),
             success(newDecoder) {
-                decoder.update(newDecoder); 
-                callback(decoder);
+                callback(newDecoder);
             },
             error(resp) {
                 console.log(resp.responseText);

@@ -117,7 +117,7 @@ export class EditorComponent {
             Requests.DeleteDecoder(this.decoder, deleteConfirmed);
         };
 
-        Requests.FindUsages(this.decoder.Id, deletion);       
+        Requests.FindUsages(this.decoder.Id, deletion);
     }
 
     /**
@@ -141,7 +141,7 @@ export class EditorComponent {
             this.refreshState = RefreshState.OUT_DATED;
         };
         this.refreshState = RefreshState.PENDING;
-        Requests.GetBlocksInfos(success, fail);  
+        Requests.GetBlocksInfos(success, fail);
     }
 
     /**
@@ -153,7 +153,7 @@ export class EditorComponent {
 
         //test spec 
         //Requests.FindDescendants(this.decoder);
-        
+
     }
 
 
@@ -175,7 +175,7 @@ export class EditorComponent {
 
         if (param1) {
             let decoder: BlockInfos;
-            switch(typeof(param1)) {
+            switch (typeof(param1)) {
             case "string":
                 decoder = this.toolboxManager.GetDecoderByName(param1);
                 break;
@@ -200,7 +200,6 @@ export class EditorComponent {
     Save() {
         //TODO insert local save
         this.SaveDecoderToServer();
-
     }
 
     /**
@@ -219,6 +218,9 @@ export class EditorComponent {
                 Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
                     "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
                     "\nAfficher la console pour voir les détails de l'erreur.");
+            };
+            if (!this.decoder.Editable) {
+                this.decoder.Code = this.decoder.FrenchSpec = null;
             }
             Requests.SaveDecoder(this.decoder, updateurl, fail);
 
@@ -238,18 +240,25 @@ export class EditorComponent {
      */
     RestoreBlock(id: number) {
         const callback = (decoder) => {
-            decoder.Id = id;
+            this.decoder.update(Decoder.fromBlockInfos(decoder));
             this.workspace.RestoreBlocks(decoder);
-            Messages.Alert(`Le bloc ${decoder.Name} a été rechargé.`);
             this.workspace.CompleteDecoder(decoder);
-            Onglet.SetUrl(this.decoder);
-        };
-      
-        Requests.GetDecoderDef(id, this.decoder, callback);
 
+            if (!decoder.Editable) {
+                this.workspace.SetVisible(false);
+                Messages.Alert("Le décodeur n'est pas éditable, il reste consultable dans la section 'Spécifications'");
+                return;
+            } else {
+                this.workspace.SetVisible(true);
+
+                Messages.Alert(`Le décodeur ${decoder.Name} a été rechargé.`);
+                Onglet.SetUrl(this.decoder);
+            }
+        };
+
+        Requests.GetDecoderDef(id, this.decoder, callback);
         return null;
     }
-
 }
 
 /**

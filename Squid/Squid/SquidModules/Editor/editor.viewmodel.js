@@ -176,6 +176,9 @@ var EditorComponent = (function () {
                     "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
                     "\nAfficher la console pour voir les détails de l'erreur.");
             };
+            if (!this.decoder.Editable) {
+                this.decoder.Code = this.decoder.FrenchSpec = null;
+            }
             server_request_1.Requests.SaveDecoder(this.decoder, updateurl, fail_1);
         }
         else {
@@ -194,11 +197,19 @@ var EditorComponent = (function () {
     EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function (decoder) {
-            decoder.Id = id;
+            _this.decoder.update(Decoder_1.Decoder.fromBlockInfos(decoder));
             _this.workspace.RestoreBlocks(decoder);
-            Messages_1.Messages.Alert("Le bloc " + decoder.Name + " a \u00E9t\u00E9 recharg\u00E9.");
             _this.workspace.CompleteDecoder(decoder);
-            Onglet_1.Onglet.SetUrl(_this.decoder);
+            if (!decoder.Editable) {
+                _this.workspace.SetVisible(false);
+                Messages_1.Messages.Alert("Le décodeur n'est pas éditable, il reste consultable dans la section 'Spécifications'");
+                return;
+            }
+            else {
+                _this.workspace.SetVisible(true);
+                Messages_1.Messages.Alert("Le d\u00E9codeur " + decoder.Name + " a \u00E9t\u00E9 recharg\u00E9.");
+                Onglet_1.Onglet.SetUrl(_this.decoder);
+            }
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
         return null;

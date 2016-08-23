@@ -99,7 +99,7 @@ export class Decoder {
         this.BlocklyDef = decoder.BlocklyDef || this.BlocklyDef;
         this.Code = decoder.Code || this.Code;
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
-        this.Editable = decoder.Editable || this.Editable;
+        this.Editable = (decoder.Editable !== undefined ? decoder.Editable : this.Editable);
     }
 
 }

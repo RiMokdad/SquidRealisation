@@ -8,11 +8,6 @@
 
     public class Decoder
     {
-        public Decoder()
-        {
-            this.Editable = true;
-        }
-
         public Decoder(
             string name, 
             string version, 
@@ -20,7 +15,8 @@
             string tags, 
             string blocklyDef, 
             string code, 
-            string frenchSpec)
+            string frenchSpec, 
+            bool editable)
         {
             this.Name = name;
             this.Version = version;
@@ -29,7 +25,20 @@
             this.BlocklyDef = blocklyDef;
             this.Code = code;
             this.FrenchSpec = frenchSpec;
-            this.Editable = true;
+            this.Editable = editable;
+        }
+
+        public Decoder()
+            : this(
+                string.Empty, 
+                string.Empty, 
+                string.Empty, 
+                string.Empty, 
+                string.Empty, 
+                string.Empty, 
+                string.Empty, 
+                false)
+        {
         }
 
         public string BlocklyDef { get; set; }

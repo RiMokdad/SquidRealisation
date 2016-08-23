@@ -1,9 +1,9 @@
 "use strict";
 /**
-* Decoder is a structure that represents Blockly's decoder and contains all important informations
-* to use it in all contexts of the application without going back to Blockly.
-* This is the object that will be saved to the server.
-*/
+ * Decoder is a structure that represents Blockly's decoder and contains all important informations
+ * to use it in all contexts of the application without going back to Blockly.
+ * This is the object that will be saved to the server.
+ */
 var BlockInfos_1 = require("./BlockInfos");
 var Decoder = (function () {
     function Decoder(Name, Tags, Category, Version, Id, BlockyDef, Code, FrenchSpec, Editable) {
@@ -51,7 +51,7 @@ var Decoder = (function () {
         this.BlocklyDef = decoder.BlocklyDef || this.BlocklyDef;
         this.Code = decoder.Code || this.Code;
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
-        this.Editable = decoder.Editable || this.Editable;
+        this.Editable = (decoder.Editable !== undefined ? decoder.Editable : this.Editable);
     };
     return Decoder;
 }());

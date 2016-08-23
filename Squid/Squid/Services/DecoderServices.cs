@@ -231,6 +231,8 @@
                         mustRefreshToolbox = true;
                     }
 
+                    //TODO DO NOT OVERRIDE CODE AND SPEC
+
                     db.Entry(decoder).CurrentValues.SetValues(updatedDecoder);
                     db.SaveChanges();
                     return mustRefreshToolbox;

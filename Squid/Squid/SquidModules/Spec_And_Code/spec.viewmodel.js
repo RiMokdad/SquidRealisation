@@ -20,15 +20,18 @@ var SpecComponent = (function () {
         this.decoderList = new Array();
         this.toolboxMan = EventHandler_1.SingleAccess.GetToolboxManager();
         this.decoder = new Decoder_1.Decoder();
-        this.decoder_test();
+        this.Init();
     }
-    SpecComponent.prototype.decoder_test = function () {
-        var _this = this;
-        this.decoder.Id = 17;
-        var func = function () {
-            _this.DisplaySpec();
-        };
-        server_request_1.Requests.GetDecoderDef(17, this.decoder, func);
+    SpecComponent.prototype.Init = function () {
+        this.decoder.Id = -1;
+        this.decoder.FrenchSpec = " L'ensemble des données de la spec du décodeur est affiché ici" +
+            "\nCliquez à gauche sur un décodeur pour afficher ses specifications ainsi que la specification des modules dont il dépend. \n" +
+            "Un clic sur une specification ouvre la définition si possible.";
+        this.decoder.Name = "Nom de mon décodeur";
+        this.decoder.Tags = "Les tags pour effectuer des recherches";
+        this.decoder.Category = "Des catégories pour pouvoir ranger le bloc";
+        this.decoder.Editable = false;
+        this.DisplaySpec();
     };
     SpecComponent.prototype.Refresh = function () {
     };
@@ -58,14 +61,17 @@ var SpecComponent = (function () {
     };
     SpecComponent.prototype.DisplaySpec = function () {
         var _this = this;
-        var callback = function (res) {
-            // this.decoderList.push(this.decoder);          
-            for (var i = 0; i < res.length; i++) {
-                _this.decoderList.push(Decoder_1.Decoder.ObjectToDecoder(res[i]));
-            }
-            console.log(_this.decoder);
-        };
-        server_request_1.Requests.FindDescendants(this.decoder, callback);
+        if (this.decoder.Id !== -1) {
+            var callback = function (res) {
+                for (var i = 0; i < res.length; i++) {
+                    _this.decoderList.push(Decoder_1.Decoder.ObjectToDecoder(res[i]));
+                }
+            };
+            server_request_1.Requests.FindDescendants(this.decoder, callback);
+        }
+        else {
+            this.decoderList.push(this.decoder);
+        }
     };
     SpecComponent = __decorate([
         core_1.Component({

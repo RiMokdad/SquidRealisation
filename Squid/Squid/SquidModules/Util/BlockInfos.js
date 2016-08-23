@@ -1,9 +1,9 @@
 "use strict";
 /**
-* BlocksInfo holds all important information for a bloc to generate is call in
-* the toolbox. It's also a starting point is you want to know if you can ask the server
-* for the definition.
-*/
+ * BlocksInfo holds all important information for a bloc to generate is call in
+ * the toolbox. It's also a starting point is you want to know if you can ask the server
+ * for the definition.
+ */
 var BlockInfos = (function () {
     function BlockInfos(name, parameters, tags, category, version, id, editable) {
         this.id = id || null;

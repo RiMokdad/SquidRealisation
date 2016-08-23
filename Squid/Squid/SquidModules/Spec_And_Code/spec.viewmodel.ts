@@ -26,22 +26,23 @@ export class SpecComponent {
         this.decoderList = new Array<Decoder>();
         this.toolboxMan = SingleAccess.GetToolboxManager();
         this.decoder = new Decoder();
-        this.decoder_test();  
+        this.Init();
     }
 
-    decoder_test() {
-
-        this.decoder.Id = 17;
-
-        const func = () => {
-            this.DisplaySpec();    
-        };
-        Requests.GetDecoderDef(17, this.decoder, func);
-
+    private Init() {
+        this.decoder.Id = -1;
+        this.decoder.FrenchSpec = " L'ensemble des données de la spec du décodeur est affiché ici" +
+            "\nCliquez à gauche sur un décodeur pour afficher ses specifications ainsi que la specification des modules dont il dépend. \n" +
+            "Un clic sur une specification ouvre la définition si possible.";
+        this.decoder.Name = "Nom de mon décodeur";
+        this.decoder.Tags = "Les tags pour effectuer des recherches";
+        this.decoder.Category = "Des catégories pour pouvoir ranger le bloc";
+        this.decoder.Editable = false;
+        this.DisplaySpec();
     }
 
     Refresh() {
-        
+
     }
 
     OpenTab(decoder?: Decoder) {
@@ -71,14 +72,17 @@ export class SpecComponent {
     }
 
     DisplaySpec() {
-        const callback = (res) => {
-           // this.decoderList.push(this.decoder);          
-            for (let i = 0; i < res.length; i++) {
-                this.decoderList.push(Decoder.ObjectToDecoder(res[i]));
-            }
-            console.log(this.decoder);
-        };
-        Requests.FindDescendants(this.decoder, callback);
+
+        if (this.decoder.Id !== -1) {
+            const callback = (res) => {
+                for (let i = 0; i < res.length; i++) {
+                    this.decoderList.push(Decoder.ObjectToDecoder(res[i]));
+                }
+            };
+            Requests.FindDescendants(this.decoder, callback);
+        } else {
+            this.decoderList.push(this.decoder);
+        }
     }
 
 

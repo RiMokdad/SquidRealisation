@@ -43,8 +43,7 @@ var Requests = (function () {
             //datatype: 'json',
             data: JSON.stringify(id),
             success: function (newDecoder) {
-                decoder.update(newDecoder);
-                callback(decoder);
+                callback(newDecoder);
             },
             error: function (resp) {
                 console.log(resp.responseText);
