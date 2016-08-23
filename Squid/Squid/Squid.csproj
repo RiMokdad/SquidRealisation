@@ -3192,6 +3192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\DecodersController.cs" />
+    <Compile Include="Controllers\DocumentDBRepository.cs" />
     <Compile Include="Controllers\VariablesController.cs" />
     <Compile Include="DAL\DecoderContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -3202,6 +3203,9 @@
     <Compile Include="MyHub.cs" />
     <Compile Include="Services\DecoderServices.cs" />
     <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
