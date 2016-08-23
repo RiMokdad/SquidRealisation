@@ -41,7 +41,12 @@ var EditorComponent = (function () {
         this.workspace.BindDecoder(this.decoder);
         this.decoder.Id = Onglet_1.Onglet.GetBlockIdInUrl();
         if (this.decoder.Id) {
-            this.LoadModeBloc();
+            if (this.decoder.Id === -1) {
+                this.LoadModeEncapsulateBlock();
+            }
+            else {
+                this.LoadModeBloc();
+            }
         }
         else {
             this.LoadModeFromScratch();
@@ -58,6 +63,10 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.LoadModeFromScratch = function () {
         this.workspace.Initialize();
+    };
+    EditorComponent.prototype.LoadModeEncapsulateBlock = function () {
+        this.workspace.Initialize(window.localStorage[Onglet_1.Onglet.GetBaseUrl()]);
+        Onglet_1.Onglet.SetUrlDefault();
     };
     EditorComponent.prototype.pollRefresh = function () {
         var _this = this;
