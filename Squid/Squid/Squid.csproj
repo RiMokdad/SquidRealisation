@@ -3200,7 +3200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\DecodersController.cs" />
-    <Compile Include="Controllers\DocumentDBRepository.cs" />
+    <Compile Include="Services\DocumentDBRepository.cs" />
     <Compile Include="Controllers\VariablesController.cs" />
     <Compile Include="DAL\DecoderContext.cs" />
     <Compile Include="Global.asax.cs">

@@ -11,13 +11,14 @@ namespace Squid.Controllers
 
     using Squid.Models;
     using Squid.Services;
+    using System.Threading.Tasks;
 
     public class DecodersController : ApiController
     {
        
         [Route("api/Decoders")]
         [HttpPost]
-        public IHttpActionResult PostDecoder(Decoder decoder)
+        public async Task<IHttpActionResult> PostDecoder(Decoder decoder)
         {
 
             try
@@ -26,16 +27,15 @@ namespace Squid.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var services = new DecoderServices();
                 if (decoder.Id == null)
                 {
-                    var decoderId = services.AddDecoder(decoder);
+                    var decoderId = await DocumentDBRepository<Decoder>.AddDecoder(decoder);
                     MyHub.NotifyRefresh();
                     return Json(new { id = decoderId });
                 }
                 else
                 {
-                    var mustRefreshToolbox = services.UpdateDecoder(decoder);
+                    var mustRefreshToolbox = await DocumentDBRepository<Decoder>.UpdateDecoder(decoder);
                     if (mustRefreshToolbox)
                     {
                         MyHub.NotifyRefresh();
@@ -52,7 +52,7 @@ namespace Squid.Controllers
 
         [Route("api/Decoders/decoderdef")]
         [HttpPost]
-        public IHttpActionResult GetDecoderDef([FromBody]int? id)
+        public async Task<IHttpActionResult> GetDecoderDef([FromBody]int? id)
         {
             try
             {
@@ -60,8 +60,7 @@ namespace Squid.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var services = new DecoderServices();
-                var decoder = services.GetDecoder(id);
+                var decoder = await DocumentDBRepository<Decoder>.GetDecoder(id);
                 return Json(new { decoder.Name, decoder.Version, decoder.Category, decoder.Tags, decoder.BlocklyDef });
 
             }
@@ -83,10 +82,9 @@ namespace Squid.Controllers
                     return BadRequest(ModelState);
                     //return Json(new { error = "modèle non valide" });
                 }
-                var services = new DecoderServices();
                 //var map = services.GetCategoryInfos();
                 //return Json(new JavaScriptSerializer().Serialize(map));
-                var list = services.GetAllBlockInfos();
+                var list = DocumentDBRepository<Decoder>.GetAllBlockInfos();
                 return Json(list.ToArray());
 
             }
@@ -99,7 +97,7 @@ namespace Squid.Controllers
 
         [Route("api/Decoders/findusages")]
         [HttpPost]
-        public IHttpActionResult FindUsages([FromBody]int? id)
+        public async Task<IHttpActionResult> FindUsages([FromBody]int? id)
         {
             try
             {
@@ -107,8 +105,7 @@ namespace Squid.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var services = new DecoderServices();
-                var list = services.FindProcedureUsages(id);
+                var list = await DocumentDBRepository<Decoder>.FindProcedureUsages(id);
                 return Json(list.ToArray());
 
             }
@@ -121,8 +118,9 @@ namespace Squid.Controllers
 
         [Route("api/Decoders/delete")]
         [HttpPost]
-        public IHttpActionResult DeleteDecoder([FromBody]int? id)
+        public async Task<IHttpActionResult> DeleteDecoder([FromBody]int? id)
         {
+            //maybe async is needed
             try
             {
                 if (!ModelState.IsValid)
@@ -130,8 +128,7 @@ namespace Squid.Controllers
                     return BadRequest(ModelState);
                     //return Json(new { error = "modèle non valide" });
                 }
-                var services = new DecoderServices();
-                services.DeleteDecoder(id);
+                await DocumentDBRepository<Decoder>.DeleteDecoder(id);
                 return Ok();
             }
             catch (Exception e)
@@ -143,7 +140,7 @@ namespace Squid.Controllers
 
         [Route("api/Decoders/descendants")]
         [HttpPost]
-        public IHttpActionResult FindDescendants([FromBody]int? id)
+        public async Task<IHttpActionResult> FindDescendants([FromBody]int? id)
         {
             try
             {
@@ -151,8 +148,8 @@ namespace Squid.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var services = new DecoderServices();
-                var list = services.FindDescendants(id);
+
+                var list = await DocumentDBRepository<Decoder>.FindDescendants(id);
                 return Json(list.ToArray());
 
             }

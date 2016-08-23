@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 namespace Squid.Models
 {
     public class Decoder
     {
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -18,7 +21,7 @@ namespace Squid.Models
         public string FrenshSpec { get; set; }
 
         [JsonProperty(PropertyName = "isEditable")]
-        public string Editable { get; set; }
+        public bool Editable { get; set; }
 
         [JsonProperty(PropertyName = "category")]
         public string Category { get; set; }
@@ -34,5 +37,59 @@ namespace Squid.Models
 
         [JsonProperty(PropertyName = "blocklyDef")]
         public string BlocklyDef { get; set; }
+
+
+        public void UpdateFieldsFromXml()
+        {
+            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
+            {
+                reader.ReadToFollowing("block");
+                reader.ReadStartElement();
+                //this.Parameters = reader.NodeType.ToString();
+                //this.Parameters = reader.Name;
+
+                //if there is parameters
+                if (reader.Name == "mutation")
+                {
+                    var args = new List<String> { };
+                    reader.ReadToDescendant("arg");
+                    do
+                    {
+                        args.Add(reader.GetAttribute("name"));
+                    }
+                    while (reader.ReadToNextSibling("arg"));
+
+                    this.Parameters = String.Join(",", args.ToArray());
+                    //reader.ReadToFollowing("field");
+                }
+                /*this.Name = reader.ReadElementContentAsString();
+                //skip Version field
+                reader.ReadToFollowing("field");
+                this.Category = reader.ReadElementContentAsString();
+                this.Tags = reader.ReadElementContentAsString();*/
+            }
+        }
+
+        public List<string> FindDescendants()
+        {
+            var descendants = new List<string>();
+            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
+            {
+                reader.ReadToFollowing("statement");
+                if (reader.EOF)
+                {
+                    return descendants;
+                }
+                while (reader.ReadToFollowing("block"))
+                {
+                    if (reader.GetAttribute("type") == "procedures_callnoreturn")
+                    {
+                        reader.ReadToFollowing("mutation");
+                        descendants.Add(reader.GetAttribute("name"));
+                    }
+                }
+            }
+            return descendants;
+        }
     }
 }
