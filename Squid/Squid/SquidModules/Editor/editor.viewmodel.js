@@ -170,7 +170,13 @@ var EditorComponent = (function () {
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            server_request_1.Requests.SaveDecoder(this.decoder, updateurl);
+            var fail_1 = function (txt) {
+                console.log(txt);
+                Messages_1.Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
+                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
+                    "\nAfficher la console pour voir les détails de l'erreur.");
+            };
+            server_request_1.Requests.SaveDecoder(this.decoder, updateurl, fail_1);
         }
         else {
             alert("Un des problèmes suivants se pose:" +

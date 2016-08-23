@@ -108,6 +108,10 @@ export class Workspace {
         return (blocks.length == 1 && blocks[0].getProcedureDef);
     }
 
+    Resize() {
+        this.workspace.resize();
+    }
+
     Clear() {
         this.workspace.clear();
     }

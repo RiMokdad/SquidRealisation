@@ -9,7 +9,7 @@ export class Requests {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    static SaveDecoder(decoder: Decoder, callback:any) {
+    static SaveDecoder(decoder: Decoder, success:any, fail: any) {
         //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
@@ -21,18 +21,14 @@ export class Requests {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages.Alert(`Décodeur sauvegardé avec l'Id : ${res.id}`);
-                    callback();
+                    success();
                 } else {
                     Messages.Notify("Décodeur sauvegardé");
                 }
                 //alert(res.id);
             },
             error(resp) {
-                //TODO  move to the view. not the responsibility of the model.
-                console.log(resp.responseText);
-                Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
-                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
-                    "\nAfficher la console pour voir les détails de l'erreur.");
+                fail(resp.responseText);
             }
         });
     }

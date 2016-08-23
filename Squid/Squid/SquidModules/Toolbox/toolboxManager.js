@@ -41,6 +41,9 @@ var ToolboxManager = (function () {
         }
         return this.toolboxHTML;
     };
+    ToolboxManager.prototype.GetDecoders = function () {
+        return this.decoders;
+    };
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
             var name_1 = blocks[i][0].name;
@@ -212,6 +215,9 @@ var ToolboxManager = (function () {
             }
         }
         return null;
+    };
+    ToolboxManager.prototype.GetAllDecodersOrdererByCategory = function () {
+        return this.BlocksInCat;
     };
     ToolboxManager.initialized = false;
     return ToolboxManager;

@@ -1,5 +1,6 @@
 "use strict";
 var editor_viewmodel_1 = require("./../Editor/editor.viewmodel");
+var Decoder_1 = require("./Decoder");
 var toolboxManager_1 = require("../Toolbox/toolboxManager");
 var EventHandler = (function () {
     function EventHandler() {
@@ -26,6 +27,12 @@ var SingleAccess = (function () {
             this.toolboxMan = new toolboxManager_1.ToolboxManager();
         }
         return this.toolboxMan;
+    };
+    SingleAccess.GetDecoder = function () {
+        if (!this.decoder) {
+            this.decoder = new Decoder_1.Decoder();
+        }
+        return this.decoder;
     };
     return SingleAccess;
 }());

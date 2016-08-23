@@ -57,6 +57,10 @@ export class ToolboxManager {
         return this.toolboxHTML;
     }
 
+    GetDecoders(): HTMLElement {
+        return this.decoders;
+    }
+
     private CreateCategories(blocks: any) {
         for (let i = 0; i < blocks.length; i++) {
             const name = blocks[i][0].name;
@@ -255,5 +259,9 @@ export class ToolboxManager {
             }
         }
         return null;
+    }
+
+    GetAllDecodersOrdererByCategory() {
+        return this.BlocksInCat;
     }
 }

@@ -2,7 +2,7 @@
 
 import { BlockInfos} from "./../Util/BlockInfos";
 import { Decoder } from "./../Util/Decoder";
-import { ToolboxManager } from "../Toolbox/ToolboxManager";
+import { ToolboxManager, BlocksCat } from "../Toolbox/ToolboxManager";
 
 import { Onglet } from "./../Util/Onglet";
 import { Messages } from "./../Util/Messages";
@@ -40,6 +40,10 @@ export class SpecComponent {
 
     }
 
+    Refresh() {
+        
+    }
+
     OpenTab(decoder?: Decoder) {
         if (decoder && decoder.Editable) {
             console.log(decoder);
@@ -51,16 +55,31 @@ export class SpecComponent {
         }
     }
 
-    DisplaySpec() {
-        const callback = (res) => {
-            for (let i = 0; i < res.length; i++) {
-                this.decoderList.push(Decoder.ObjectToDecoder(res[i]));
-            }
-        };
-        Requests.FindDescendants(this.decoder, callback);
+    Select(bi: BlockInfos) {
+        const decoder = Decoder.fromBlockInfos(bi);
+        this.SetDecoder(decoder);
     }
 
     SetDecoder(decoder: Decoder) {
         this.decoder = decoder;
+
+        const func = () => {
+            this.decoderList.length = 0;
+            this.DisplaySpec();
+        };
+        Requests.GetDecoderDef(this.decoder.Id, this.decoder, func);
     }
+
+    DisplaySpec() {
+        const callback = (res) => {
+           // this.decoderList.push(this.decoder);          
+            for (let i = 0; i < res.length; i++) {
+                this.decoderList.push(Decoder.ObjectToDecoder(res[i]));
+            }
+            console.log(this.decoder);
+        };
+        Requests.FindDescendants(this.decoder, callback);
+    }
+
+
 }

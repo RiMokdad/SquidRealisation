@@ -1,5 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { EditorComponent, RefreshState } from "./../Editor/editor.viewmodel";
+import { Decoder } from "./Decoder";
 import { ToolboxManager } from "../Toolbox/toolboxManager";
 
 export class EventHandler {
@@ -23,6 +24,7 @@ export class EventHandler {
 
 export class SingleAccess {
     private static toolboxMan: ToolboxManager;
+    private static decoder: Decoder;
 
     static GetToolboxManager() : ToolboxManager {
         if (!this.toolboxMan) {
@@ -30,4 +32,12 @@ export class SingleAccess {
         }
         return this.toolboxMan;
     }
+
+    static GetDecoder(): Decoder {
+        if (!this.decoder) {
+            this.decoder = new Decoder();
+        }
+        return this.decoder;
+    }
+
 }

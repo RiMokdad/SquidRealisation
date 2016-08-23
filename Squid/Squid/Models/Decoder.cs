@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Squid.Models
+﻿namespace Squid.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.IO;
@@ -17,7 +13,14 @@ namespace Squid.Models
             this.Editable = true;
         }
 
-        public Decoder(string name, string version, string category, string tags, string blocklyDef, string code, string frenchSpec)
+        public Decoder(
+            string name, 
+            string version, 
+            string category, 
+            string tags, 
+            string blocklyDef, 
+            string code, 
+            string frenchSpec)
         {
             this.Name = name;
             this.Version = version;
@@ -29,6 +32,16 @@ namespace Squid.Models
             this.Editable = true;
         }
 
+        public string BlocklyDef { get; set; }
+
+        public string Category { get; set; }
+
+        public string Code { get; set; }
+
+        public bool Editable { get; set; }
+
+        public string FrenchSpec { get; set; }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
@@ -38,35 +51,49 @@ namespace Squid.Models
         [Index("NameIndex", IsUnique = true)]
         public string Name { get; set; }
 
-        public string BlocklyDef { get; set; }
-
-        public string Code { get; set; }
-
-        public string FrenchSpec { get; set; }
-
-        public bool Editable { get; set; }
-
-        public string Category { get; set; }
-
-        public string Version { get; set; }
+        public string Parameters { get; set; }
 
         public string Tags { get; set; }
 
-        public string Parameters { get; set; }
+        public string Version { get; set; }
+
+        public List<string> FindDescendants()
+        {
+            var descendants = new List<string>();
+            using (var reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
+            {
+                reader.ReadToFollowing("statement");
+                if (reader.EOF)
+                {
+                    return descendants;
+                }
+
+                while (reader.ReadToFollowing("block"))
+                {
+                    if (reader.GetAttribute("type") != "procedures_callnoreturn") continue;
+
+                    reader.ReadToFollowing("mutation");
+                    descendants.Add(reader.GetAttribute("name"));
+                }
+            }
+
+            return descendants;
+        }
 
         public void UpdateFieldsFromXml()
         {
-            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
+            using (var reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
             {
                 reader.ReadToFollowing("block");
                 reader.ReadStartElement();
-                //this.Parameters = reader.NodeType.ToString();
-                //this.Parameters = reader.Name;
 
-                //if there is parameters
+                // this.Parameters = reader.NodeType.ToString();
+                // this.Parameters = reader.Name;
+
+                // if there is parameters
                 if (reader.Name == "mutation")
                 {
-                    var args = new List<String> { };
+                    var args = new List<string>();
                     reader.ReadToDescendant("arg");
                     do
                     {
@@ -74,9 +101,11 @@ namespace Squid.Models
                     }
                     while (reader.ReadToNextSibling("arg"));
 
-                    this.Parameters = String.Join(",", args.ToArray());
-                    //reader.ReadToFollowing("field");
+                    this.Parameters = string.Join(",", args.ToArray());
+
+                    // reader.ReadToFollowing("field");
                 }
+
                 /*this.Name = reader.ReadElementContentAsString();
                 //skip Version field
                 reader.ReadToFollowing("field");
@@ -84,28 +113,6 @@ namespace Squid.Models
                 this.Category = reader.ReadElementContentAsString();
                 this.Tags = reader.ReadElementContentAsString();*/
             }
-        }
-
-        public List<string> FindDescendants()
-        {
-            var descendants = new List<string>();
-            using (XmlReader reader = XmlReader.Create(new StringReader(this.BlocklyDef)))
-            {
-                reader.ReadToFollowing("statement");
-                if (reader.EOF)
-                {
-                    return descendants;
-                }
-                while (reader.ReadToFollowing("block"))
-                {
-                    if (reader.GetAttribute("type") == "procedures_callnoreturn")
-                    {
-                        reader.ReadToFollowing("mutation");
-                        descendants.Add(reader.GetAttribute("name"));
-                    }
-                }
-            }
-            return descendants;
         }
     }
 }

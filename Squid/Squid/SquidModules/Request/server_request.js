@@ -7,7 +7,7 @@ var Requests = (function () {
      * Send a request to save in the server the decoder
      * @param decoder
      */
-    Requests.SaveDecoder = function (decoder, callback) {
+    Requests.SaveDecoder = function (decoder, success, fail) {
         //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
@@ -19,7 +19,7 @@ var Requests = (function () {
                 if (!decoder.Id) {
                     decoder.Id = res.id;
                     Messages_1.Messages.Alert("D\u00E9codeur sauvegard\u00E9 avec l'Id : " + res.id);
-                    callback();
+                    success();
                 }
                 else {
                     Messages_1.Messages.Notify("Décodeur sauvegardé");
@@ -27,11 +27,7 @@ var Requests = (function () {
                 //alert(res.id);
             },
             error: function (resp) {
-                //TODO  move to the view. not the responsibility of the model.
-                console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
-                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
-                    "\nAfficher la console pour voir les détails de l'erreur.");
+                fail(resp.responseText);
             }
         });
     };

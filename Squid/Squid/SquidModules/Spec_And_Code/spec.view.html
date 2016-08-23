@@ -2,7 +2,20 @@
     <div class="generated-code">
         <div class="full-width">
             <div class="decoders-info">
-                Decoder block
+                <div *ngFor="let c of toolboxMan.GetAllDecodersOrdererByCategory()" class="decoders-list">
+                    <div class="dropdown full-width">
+                        <button class="dropdown-toggle full-width"
+                                type="button"
+                                data-toggle="dropdown">
+                            {{c.category != "" ? c.category : "Non classé"}}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li *ngFor="let d of c.blocks" (click)="Select(d)">
+                                {{d.name}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="content-code">
                 <div *ngFor="let d of decoderList"

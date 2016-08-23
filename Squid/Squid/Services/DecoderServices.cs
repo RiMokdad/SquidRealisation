@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Squid.Services
+﻿namespace Squid.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Squid.DAL;
     using Squid.Models;
 
     public class DecoderServices
     {
-        //private DecoderContext db = new DecoderContext();
-
+        // private DecoderContext db = new DecoderContext();
         public int? AddDecoder(Decoder decoder)
         {
             DecoderContext db = null;
@@ -23,27 +21,193 @@ namespace Squid.Services
                 db.SaveChanges();
                 return decoder.Id;
             }
-            catch (Exception e)
+            finally
             {
-                throw;
+                db?.Dispose();
+            }
+        }
+
+        public void DeleteDecoder(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                if (decoder != null)
+                {
+                    db.Decoders.Remove(decoder);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw new KeyNotFoundException("L'ID envoyée ne correspond à aucun décodeur dans la base de donnée");
+                }
             }
             finally
             {
-                try
+                db?.Dispose();
+            }
+        }
+
+        public List<Decoder> FindDescendants(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                
+                if (decoder != null)
                 {
-                    db?.Dispose();
+                    var names = new List<string>();
+                    var decoders = new List<Decoder>();
+                    decoders.Add(decoder);
+
+                    // names.AddRange(decoder.FindDescendants());
+                    var firsts = decoder.FindDescendants();
+                    foreach (var name in firsts)
+                    {
+                        if (!names.Exists(x => x == name))
+                        {
+                            names.Add(name);
+                        }
+                    }
+
+                    for (var i = 0; i < names.Count; i++)
+                    {
+                        var curName = names[i];
+                        var descendant = db.Decoders.Single(d => d.Name == curName);
+                        var namesToAdd = descendant.FindDescendants();
+                        foreach (var name in namesToAdd)
+                        {
+                            if (!names.Exists(x => x == name))
+                            {
+                                names.Add(name);
+                            }
+                        }
+
+                        decoders.Add(descendant);
+                    }
+
+                    return decoders;
+
+                    /*var decoders = new List<Decoder>();
+                    foreach (var name in names)
+                    {
+                        decoders.Add(db.Decoders.Find(name));
+                    }
+                    return decoders;*/
                 }
-                catch (Exception e)
+                else
                 {
-                    throw;
+                    throw new KeyNotFoundException();
                 }
+            }
+            finally
+            {
+                db?.Dispose();
+            }
+        }
+
+        public List<string> FindProcedureUsages(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                if (decoder != null)
+                {
+                    var proceduresThatUseIt =
+                        db.Decoders.Where(d => d.BlocklyDef.Contains("<mutation name=\"" + decoder.Name + "\">"))
+                            .Select(d => d.Name)
+                            .ToList();
+                    return proceduresThatUseIt;
+                }
+                else
+                {
+                    throw new KeyNotFoundException();
+                }
+            }
+            finally
+            {
+                db?.Dispose();
+            }
+        }
+
+        public IEnumerable<BlockInfos> GetAllBlockInfos()
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var fromServer =
+                    db.Decoders.ToList()
+                        .Select(
+                            d =>
+                            new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable));
+                return fromServer;
+            }
+            finally
+            {
+                db?.Dispose();
+            }
+        }
+
+        public Dictionary<string, List<BlockInfos>> GetCategoryInfos()
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+
+                /* Dictionary<string, List<BlockInfos>> categoryInfos = db.Decoders
+                     //.Select(d => new { d.Category, callInfos = new CallInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable) })
+                     .GroupBy(d => d.Category, d => new BlockInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
+                 .ToDictionary(g => g.Key, g => g.ToList());*/
+                var fromServer =
+                    db.Decoders.Select(
+                        d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable }).ToList();
+                var categoryInfos =
+                    fromServer.GroupBy(
+                        d => d.Category, 
+                        d => new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable))
+                        .ToDictionary(d => d.Key, d => d.ToList());
+                return categoryInfos;
+            }
+            finally
+            {
+                db?.Dispose();
+            }
+        }
+
+        public Decoder GetDecoder(int? id)
+        {
+            DecoderContext db = null;
+            try
+            {
+                db = new DecoderContext();
+                var decoder = db.Decoders.Find(id);
+                if (decoder != null)
+                {
+                    return decoder;
+                }
+                else
+                {
+                    throw new KeyNotFoundException("L'ID envoyée ne correspond à aucun décodeur dans la base de donnée");
+                }
+            }
+            finally
+            {
+                db?.Dispose();
             }
         }
 
         public bool UpdateDecoder(Decoder updatedDecoder)
         {
             DecoderContext db = null;
-            bool mustRefreshToolbox = false;
+            var mustRefreshToolbox = false;
             try
             {
                 db = new DecoderContext();
@@ -66,6 +230,7 @@ namespace Squid.Services
                     {
                         mustRefreshToolbox = true;
                     }
+
                     db.Entry(decoder).CurrentValues.SetValues(updatedDecoder);
                     db.SaveChanges();
                     return mustRefreshToolbox;
@@ -75,268 +240,22 @@ namespace Squid.Services
                     throw new KeyNotFoundException();
                 }
             }
-            catch (Exception e)
-            {
-                throw;
-            }
             finally
             {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
+                db?.Dispose();
             }
         }
-
-        public Decoder GetDecoder(int? id)
-        {
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                var decoder = db.Decoders.Find(id);
-                if (decoder != null)
-                {
-                    if (decoder.Editable)
-                    {
-                        return decoder;
-                    }
-                    //return null;
-                    throw new InvalidOperationException("Le décodeur n'est pas disponible pour édition");
-                }
-                else
-                {
-                    throw new KeyNotFoundException("L'ID envoyée ne correspond à aucun décodeur dans la base de donnée");
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public Dictionary<string, List<BlockInfos>> GetCategoryInfos()
-        {
-
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                /* Dictionary<string, List<BlockInfos>> categoryInfos = db.Decoders
-                     //.Select(d => new { d.Category, callInfos = new CallInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable) })
-                     .GroupBy(d => d.Category, d => new BlockInfos(d.Id, d.Name, d.Parameters, d.Tags, d.Editable))
-                 .ToDictionary(g => g.Key, g => g.ToList());*/
-                var fromServer =
-                    db.Decoders.Select(d => new { d.Category, d.Id, d.Name, d.Parameters, d.Tags, d.Version, d.Editable }).ToList();
-                var categoryInfos =
-                    fromServer.GroupBy(d => d.Category, d => new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable))
-                        .ToDictionary(d => d.Key, d => d.ToList());
-                return categoryInfos;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public IEnumerable<BlockInfos> GetAllBlockInfos()
-        {
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                var fromServer =
-                    db.Decoders.ToList().Select(d => new BlockInfos((int)d.Id, d.Name, d.Category, d.Parameters, d.Tags, d.Version, d.Editable));
-                return fromServer;
-
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public List<string> FindProcedureUsages(int? id)
-        {
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                var decoder = db.Decoders.Find(id);
-                if (decoder != null)
-                {
-                    var proceduresThatUseIt =
-                                db.Decoders.Where(d => d.BlocklyDef.Contains("<mutation name=\"" + decoder.Name + "\">")).Select(d => d.Name).ToList();
-                    return proceduresThatUseIt;
-                }
-                else
-                {
-                    throw new KeyNotFoundException();
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public void DeleteDecoder(int? id)
-        {
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                var decoder = db.Decoders.Find(id);
-                if (decoder != null)
-                {
-                    db.Decoders.Remove(decoder);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    throw new KeyNotFoundException("L'ID envoyée ne correspond à aucun décodeur dans la base de donnée");
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public List<Decoder> FindDescendants(int? id)
-        {
-            DecoderContext db = null;
-            try
-            {
-                db = new DecoderContext();
-                var decoder = db.Decoders.Find(id);
-                if (decoder != null)
-                {
-                    var names = new List<string>();
-                    var decoders = new List<Decoder>();
-                    //names.AddRange(decoder.FindDescendants());
-                    var firsts = decoder.FindDescendants();
-                    foreach (var name in firsts)
-                    {
-                        if (!names.Exists(x => x == name))
-                        {
-                            names.Add(name);
-                        }
-                    }
-
-                    for (int i = 0; i < names.Count; i++)
-                    {
-                        var curName = names[i];
-                        var descendant = db.Decoders.Single(d => d.Name == curName);
-                        var namesToAdd = descendant.FindDescendants();
-                        foreach (var name in namesToAdd)
-                        {
-                            if (!names.Exists(x => x == name))
-                            {
-                                names.Add(name);
-                            }
-                        }
-                        decoders.Add(descendant);                                               
-                    }
-                    return decoders;
-
-                    /*var decoders = new List<Decoder>();
-                    foreach (var name in names)
-                    {
-                        decoders.Add(db.Decoders.Find(name));
-                    }
-                    return decoders;*/
-                }
-                else
-                {
-                    throw new KeyNotFoundException();
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            finally
-            {
-                try
-                {
-                    db?.Dispose();
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-            }
-        }
-
     }
 
     public class BlockInfos
     {
+        public string category;
+
+        public bool editable;
+
         public int id;
 
         public string name;
-
-        public string category;
 
         public string parameters;
 
@@ -344,9 +263,14 @@ namespace Squid.Services
 
         public string version;
 
-        public bool editable;
-
-        public BlockInfos(int id, string name, string category, string parameters, string tags, string version, bool editable)
+        public BlockInfos(
+            int id, 
+            string name, 
+            string category, 
+            string parameters, 
+            string tags, 
+            string version, 
+            bool editable)
         {
             this.id = id;
             this.name = name;

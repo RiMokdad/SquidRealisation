@@ -30,6 +30,8 @@ var SpecComponent = (function () {
         };
         server_request_1.Requests.GetDecoderDef(17, this.decoder, func);
     };
+    SpecComponent.prototype.Refresh = function () {
+    };
     SpecComponent.prototype.OpenTab = function (decoder) {
         if (decoder && decoder.Editable) {
             console.log(decoder);
@@ -41,17 +43,29 @@ var SpecComponent = (function () {
             Messages_1.Messages.Notify("Not editable");
         }
     };
+    SpecComponent.prototype.Select = function (bi) {
+        var decoder = Decoder_1.Decoder.fromBlockInfos(bi);
+        this.SetDecoder(decoder);
+    };
+    SpecComponent.prototype.SetDecoder = function (decoder) {
+        var _this = this;
+        this.decoder = decoder;
+        var func = function () {
+            _this.decoderList.length = 0;
+            _this.DisplaySpec();
+        };
+        server_request_1.Requests.GetDecoderDef(this.decoder.Id, this.decoder, func);
+    };
     SpecComponent.prototype.DisplaySpec = function () {
         var _this = this;
         var callback = function (res) {
+            // this.decoderList.push(this.decoder);          
             for (var i = 0; i < res.length; i++) {
                 _this.decoderList.push(Decoder_1.Decoder.ObjectToDecoder(res[i]));
             }
+            console.log(_this.decoder);
         };
         server_request_1.Requests.FindDescendants(this.decoder, callback);
-    };
-    SpecComponent.prototype.SetDecoder = function (decoder) {
-        this.decoder = decoder;
     };
     SpecComponent = __decorate([
         core_1.Component({

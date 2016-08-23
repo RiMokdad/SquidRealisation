@@ -214,7 +214,13 @@ export class EditorComponent {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
 
-            Requests.SaveDecoder(this.decoder, updateurl);
+            const fail = (txt) => {
+                console.log(txt);
+                Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
+                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
+                    "\nAfficher la console pour voir les détails de l'erreur.");
+            }
+            Requests.SaveDecoder(this.decoder, updateurl, fail);
 
         } else {
             alert("Un des problèmes suivants se pose:" +
