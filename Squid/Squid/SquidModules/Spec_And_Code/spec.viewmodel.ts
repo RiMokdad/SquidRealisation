@@ -31,12 +31,12 @@ export class SpecComponent {
 
     decoder_test() {
 
-        this.decoder.Id = 17;
+        this.decoder.Id = 51;
 
         const func = () => {
             this.DisplaySpec();    
         };
-        Requests.GetDecoderDef(17, this.decoder, func);
+        Requests.GetDecoderDef(51, this.decoder, func);
 
     }
 

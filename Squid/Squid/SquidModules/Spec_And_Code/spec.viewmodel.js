@@ -24,11 +24,11 @@ var SpecComponent = (function () {
     }
     SpecComponent.prototype.decoder_test = function () {
         var _this = this;
-        this.decoder.Id = 17;
+        this.decoder.Id = 51;
         var func = function () {
             _this.DisplaySpec();
         };
-        server_request_1.Requests.GetDecoderDef(17, this.decoder, func);
+        server_request_1.Requests.GetDecoderDef(51, this.decoder, func);
     };
     SpecComponent.prototype.OpenTab = function (decoder) {
         if (decoder && decoder.Editable) {
