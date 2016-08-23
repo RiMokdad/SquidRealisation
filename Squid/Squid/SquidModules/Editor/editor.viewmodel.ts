@@ -54,7 +54,11 @@ export class EditorComponent {
         this.decoder.Id = Onglet.GetBlockIdInUrl();
 
         if (this.decoder.Id) {
-            this.LoadModeBloc();
+            if (this.decoder.Id === -1) {
+                this.LoadModeEncapsulateBlock();
+            } else {
+                this.LoadModeBloc();
+            }          
         } else {
             this.LoadModeFromScratch();
         }
@@ -73,6 +77,11 @@ export class EditorComponent {
 
     private LoadModeFromScratch() {
         this.workspace.Initialize();
+    }
+
+    private LoadModeEncapsulateBlock() {
+        this.workspace.Initialize(window.localStorage[Onglet.GetBaseUrl()]);
+        Onglet.SetUrlDefault();
     }
 
     private pollRefresh() {

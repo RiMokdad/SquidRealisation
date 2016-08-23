@@ -105,6 +105,27 @@ Blockly.Blocks['decodebytes'] = {
     }
 };
 
+Blockly.Blocks['decodeHexa'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Decoder hexadecimal");
+        this.appendDummyInput()
+            .appendField("nom : ")
+            .appendField(new Blockly.FieldTextInput("default"), "HEXA_NAME");
+        this.appendDummyInput()
+            .appendField("octet de debut : ")
+            .appendField(new Blockly.FieldNumber(0), "BEGIN");
+        this.appendDummyInput()
+            .appendField("octet de fin :      ")
+            .appendField(new Blockly.FieldNumber(0), "END");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(255);
+        this.setTooltip('');
+        this.setHelpUrl('https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#qqci4r');
+    }
+};
+
 Blockly.Blocks['decodeunsignedinteger'] = {
     init: function () {
         this.appendDummyInput()

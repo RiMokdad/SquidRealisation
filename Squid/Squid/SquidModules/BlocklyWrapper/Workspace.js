@@ -1,4 +1,5 @@
 "use strict";
+var Onglet_1 = require("./../Util/Onglet");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -42,7 +43,7 @@ var Workspace = (function () {
     //    //block.setAttribute('gap', '16');
     //    //return block; 
     //}
-    Workspace.prototype.Initialize = function () {
+    Workspace.prototype.Initialize = function (blocksXml) {
         var proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
         //const metrics = this.workspace.getMetrics();
@@ -52,6 +53,14 @@ var Workspace = (function () {
         name.setAttribute("name", "NAME");
         name.innerHTML = this.decoder.Name || "Decoder";
         proc.appendChild(name);
+        if (blocksXml) {
+            var statement = document.createElement("statement");
+            statement.setAttribute("name", "STACK");
+            var block = Blockly.Xml.textToDom(blocksXml);
+            var legalBlock = block.getElementsByTagName("block")[0];
+            statement.appendChild(legalBlock);
+            proc.appendChild(statement);
+        }
         var bloc = Blockly.Xml.domToBlock(proc, this.workspace);
         bloc.setDeletable(false);
     };
@@ -125,14 +134,34 @@ var Workspace = (function () {
         var bDiv = document.getElementsByClassName("blocklyDiv")[0];
         bDiv.appendChild(tbDiv);
     };
-    Workspace.prototype.AddCustomContextMenu = function (callback) {
+    Workspace.prototype.AddCustomContextMenu = function (caller) {
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: function () {
+                if ('localStorage' in window) {
+                    var newWorkspace = new Blockly.Workspace();
+                    newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                    var dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                    var xml = Blockly.Xml.domToText(dom);
+                    window.localStorage.setItem(Onglet_1.Onglet.GetBaseUrl(), xml);
+                    var url = Onglet_1.Onglet.CreateIdUrl(-1);
+                    window.open(url);
+                }
+                else {
+                    console.warn("Opération impossible car sauvegarde locale désactivée");
+                }
+                //newWorkspace.dispose();
+            }
+        };
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {
             var option = { enabled: true };
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
             var blockName = this.getFieldValue("NAME");
             option.callback = function () {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };

@@ -13,8 +13,9 @@ export class EventHandler {
 
     static OnLoad() {
         EventHandler.editor.OnLoad();
-        const callback = (param: any) => { EventHandler.editor.OpenTab(param) };
-        EventHandler.editor.workspace.AddCustomContextMenu(callback);
+        var caller = {};
+        caller["opendef"] = (param: any) => { EventHandler.editor.OpenTab(param) };
+        EventHandler.editor.workspace.AddCustomContextMenu(caller);
     }
 
     static NotifyRefresh() {

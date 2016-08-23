@@ -1,8 +1,10 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Decoder } from "../Util/Decoder";
 import { Requests } from "../Request/server_request";
+import { Onglet } from "./../Util/Onglet";
 
 declare var Blockly: any;
+declare var $: any;
 
 export class Workspace {
 
@@ -58,7 +60,7 @@ export class Workspace {
     //    //return block; 
     //}
 
-    Initialize() {
+    Initialize(blocksXml?: string) {
         
         const proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
@@ -70,6 +72,22 @@ export class Workspace {
         name.innerHTML = this.decoder.Name || "Decoder";
         proc.appendChild(name);
 
+        
+        if (blocksXml) {
+            const statement = document.createElement("statement");
+            statement.setAttribute("name", "STACK");
+            const block = Blockly.Xml.textToDom(blocksXml);
+            const legalBlock = block.getElementsByTagName("block")[0];
+            statement.appendChild(legalBlock);
+            proc.appendChild(statement);
+
+            /*var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(blocksXml, "text/xml");
+            var validXml = xmlDoc.childNodes.toString();
+            const childDom = Blockly.Xml.textToDom(validXml);
+            let childBlock = Blockly.Xml.domToBlock(childDom, this.workspace);*/
+            //childBlock.setParent(bloc);
+        }
         const bloc = Blockly.Xml.domToBlock(proc, this.workspace);
         bloc.setDeletable(false);
     }
@@ -159,7 +177,29 @@ export class Workspace {
             bDiv.appendChild(tbDiv);    
     }
 
-    AddCustomContextMenu(callback: any) {
+    AddCustomContextMenu(caller: any) {
+
+
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: () => {
+                if ('localStorage' in window) {
+                    let newWorkspace = new Blockly.Workspace();
+                    newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                    var dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                    var xml = Blockly.Xml.domToText(dom);
+                    window.localStorage.setItem(Onglet.GetBaseUrl(), xml);
+                    var url = Onglet.CreateIdUrl(-1);
+                    window.open(url);
+                } else {
+                    console.warn("Opération impossible car sauvegarde locale désactivée");
+                }
+                //newWorkspace.dispose();
+            }
+        };
+
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options: any) {
             const option = { enabled: true} as any;
             option.enabled = true;
@@ -167,7 +207,7 @@ export class Workspace {
 
             var blockName = this.getFieldValue("NAME");
             option.callback = () => {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };

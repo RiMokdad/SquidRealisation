@@ -35,6 +35,11 @@ var Onglet = (function () {
     Onglet.SetUrl = function (decoder) {
         window.location.hash = decoder.Id ? "" + decoder.Id : "";
     };
+    Onglet.SetUrlDefault = function () {
+        //window.location.hash = "";
+        history.pushState("", document.title, window.location.pathname
+            + window.location.search);
+    };
     return Onglet;
 }());
 exports.Onglet = Onglet;

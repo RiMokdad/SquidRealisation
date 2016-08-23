@@ -48,4 +48,10 @@ export class Onglet {
     static SetUrl(decoder: Decoder) {
         window.location.hash = decoder.Id ? `${decoder.Id}` : "";
     }
+
+    static SetUrlDefault() {
+        //window.location.hash = "";
+        history.pushState("", document.title, window.location.pathname
+            + window.location.search);
+    }
 }
