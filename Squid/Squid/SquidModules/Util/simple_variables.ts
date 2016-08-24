@@ -3,7 +3,9 @@ module SimpleVariables {
     var variables: { [key: string]: string } = {};
 
     export function AddVariable(key: string, value: string) {
-        variables[key] = value;
+        if (value.substring(0, 1) !== "$") {
+            variables[key] = value;
+        }       
     }
 
     export function RemoveVariable(key: string) {
