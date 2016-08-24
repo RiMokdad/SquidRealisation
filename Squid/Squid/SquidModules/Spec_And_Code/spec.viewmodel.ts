@@ -31,12 +31,12 @@ export class SpecComponent {
 
     private Init() {
         this.decoder.Id = -1;
-        this.decoder.FrenchSpec = " L'ensemble des données de la spec du décodeur est affiché ici" +
-            "\nCliquez à gauche sur un décodeur pour afficher ses specifications ainsi que la specification des modules dont il dépend. \n" +
-            "Un clic sur une specification ouvre la définition si possible.";
+        this.decoder.FrenchSpec = "L'ensemble des données de la spec du décodeur est affiché ici" +
+            "\nCliquez à gauche sur un décodeur pour afficher ses specifications ainsi que la specification des modules dont il dépend. " +
+            "\nUn clic sur une specification ouvre la définition si possible.";
         this.decoder.Code = "L'ensemble du code du décodeur est affiché ici." +
-            "\nCLiquez à gauche sur un décodeur pour afficher son code ainsi que le code des décodeurs dont il dépend" +
-            "\nUn clic sur du code ouvre la définition si disponible."
+            "\nCliquez à gauche sur un décodeur pour afficher son code ainsi que le code des décodeurs dont il dépend" +
+            "\nUn clic sur du code ouvre la définition si disponible.";
         this.decoder.Name = "Nom de mon décodeur";
         this.decoder.Tags = "Les tags pour effectuer des recherches";
         this.decoder.Category = "Des catégories pour pouvoir ranger le bloc";
@@ -57,10 +57,14 @@ export class SpecComponent {
         } else {
             return;
         }
+
+        downside.style.visibility = "visible";  
+
         upside.style.transform = "rotateY(180deg)";
         upside.style.visibility = "hidden";
+
         downside.style.transform = "rotateY(360deg)";  
-        downside.style.visibility = "visible";
+       
     }
 
     Refresh() {
