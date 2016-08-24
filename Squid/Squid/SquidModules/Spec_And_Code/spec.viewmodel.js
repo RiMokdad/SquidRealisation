@@ -27,11 +27,34 @@ var SpecComponent = (function () {
         this.decoder.FrenchSpec = " L'ensemble des données de la spec du décodeur est affiché ici" +
             "\nCliquez à gauche sur un décodeur pour afficher ses specifications ainsi que la specification des modules dont il dépend. \n" +
             "Un clic sur une specification ouvre la définition si possible.";
+        this.decoder.Code = "L'ensemble du code du décodeur est affiché ici." +
+            "\nCLiquez à gauche sur un décodeur pour afficher son code ainsi que le code des décodeurs dont il dépend" +
+            "\nUn clic sur du code ouvre la définition si disponible.";
         this.decoder.Name = "Nom de mon décodeur";
         this.decoder.Tags = "Les tags pour effectuer des recherches";
         this.decoder.Category = "Des catégories pour pouvoir ranger le bloc";
         this.decoder.Editable = false;
         this.DisplaySpec();
+    };
+    SpecComponent.prototype.Switch = function (step) {
+        var code = document.getElementsByClassName("content-code");
+        var upside;
+        var downside;
+        if (step == 0) {
+            upside = code[0];
+            downside = code[1];
+        }
+        else if (step == 1) {
+            upside = code[1];
+            downside = code[0];
+        }
+        else {
+            return;
+        }
+        upside.style.transform = "rotateY(180deg)";
+        upside.style.visibility = "hidden";
+        downside.style.transform = "rotateY(360deg)";
+        downside.style.visibility = "visible";
     };
     SpecComponent.prototype.Refresh = function () {
     };

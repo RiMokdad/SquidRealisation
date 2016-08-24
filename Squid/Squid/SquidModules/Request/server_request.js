@@ -8,7 +8,6 @@ var Requests = (function () {
      * @param decoder
      */
     Requests.SaveDecoder = function (decoder, success, fail) {
-        //console.warn(decoder);
         $.ajax({
             url: "/api/Decoders",
             type: "POST",
@@ -24,7 +23,6 @@ var Requests = (function () {
                 else {
                     Messages_1.Messages.Notify("Décodeur sauvegardé");
                 }
-                //alert(res.id);
             },
             error: function (resp) {
                 fail(resp.responseText);
@@ -47,7 +45,8 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
+                Messages_1.Messages
+                    .Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -73,7 +72,8 @@ var Requests = (function () {
             error: function (resp) {
                 fail();
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
+                Messages_1.Messages
+                    .Alert("Erreur lors de la récupération,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -89,7 +89,8 @@ var Requests = (function () {
             },
             error: function (resp) {
                 console.log(resp.responseText);
-                Messages_1.Messages.Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur.");
+                Messages_1.Messages
+                    .Alert("Erreur lors de la recherche de dépendances,\nAfficher la console pour voir les détails de l'erreur.");
             }
         });
     };
@@ -133,17 +134,16 @@ var Requests = (function () {
     // TEST SIMPLE VARIABLES
     Requests.SaveVariables = function (map) {
         $.ajax({
-            url: '/api/variables/save',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            datatype: 'json',
+            url: "/api/variables/save",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
             data: map,
             //traditional: true,
             success: function (res) {
-                //console.log(res);
             },
             error: function (error) {
-                alert("Wwoops something went wrong !" + error);
+                Messages_1.Messages.Alert("Failure in save : " + error);
             }
         });
     };
@@ -153,42 +153,21 @@ var Requests = (function () {
      */
     Requests.ReloadVariables = function (callback) {
         $.ajax({
-            url: '/api/variables/reload',
-            type: 'POST',
+            url: "/api/variables/reload",
+            type: "POST",
             //contentType: 'application/json; charset=utf-8',
-            datatype: 'json',
+            datatype: "json",
             //traditional: true,
             success: function (res) {
-                //alert("Success " + res);
                 var variables = JSON.parse(res);
-                //console.log(variables);
                 callback(variables);
             },
             error: function (error) {
-                alert("Wwoops something went wrong !" + error);
+                Messages_1.Messages.Alert("Failure while reloading variables" + error);
             }
         });
     };
     return Requests;
 }());
 exports.Requests = Requests;
-// Supposed to be usefull for variables :
-////function mapToJson(map) {
-////    return JSON.stringify([...map]);
-////}
-////function jsonToMap(jsonStr) {
-////    return new Map(JSON.parse(jsonStr));
-////}
-////function jsonToStrMap(jsonStr) {
-////    return objToStrMap(JSON.parse(jsonStr));
-////}
-////function objToStrMap(obj) {
-////    var strMap = new Map();
-////    for (var category in obj) {
-////        if (obj.hasOwnProperty(category)) {
-////            strMap.set(category, obj[category]);
-////        }
-////    }
-////    return strMap;
-////}
 //# sourceMappingURL=server_request.js.map

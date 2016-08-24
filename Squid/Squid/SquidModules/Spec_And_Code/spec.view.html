@@ -17,13 +17,42 @@
                     </div>
                 </div>
             </div>
-            <div class="content-code">
+            <div class="content-code upside">
+                <button class="switch" (click)="Switch(0)">Spécifications</button>
                 <div *ngFor="let d of decoderList"
                      class="bloc-spec"
                      (click)="OpenTab(d)">
                     <div class="container-fluid">
                         <pre class="col-lg-9">
                                     {{d.FrenchSpec}} 
+                        </pre>
+                        <div class="col-lg-3 text-left top">
+                            <div class="infos">
+                                <div>
+                                    <strong>Nom : </strong><span>{{d.Name}}</span>
+                                </div>
+                                <div>
+                                    <strong>Editable : </strong><span>{{(d.Editable?'Oui':'Non')}}</span>
+                                </div>
+                                <div>
+                                    <strong>Catégorie : </strong><span>{{d.Category}}</span>
+                                </div>
+                                <div>
+                                    <strong>Tags : </strong><span>{{d.Tags}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-code downside">
+                <button class="switch" (click)="Switch(1)">Code C#</button>
+                <div *ngFor="let d of decoderList"
+                     class="bloc-spec"
+                     (click)="OpenTab(d)">
+                    <div class="container-fluid">
+                        <pre class="col-lg-9">
+                                    {{d.Code}} 
                         </pre>
                         <div class="col-lg-3 text-left top">
                             <div class="infos">

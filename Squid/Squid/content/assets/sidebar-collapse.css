@@ -70,6 +70,7 @@
 	line-height: 2;
 	border-left-width: 2px;
 	border-left-style: solid;
+    cursor: pointer;
 }
 
 .sidebar-links div.selected > a{

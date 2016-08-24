@@ -30,7 +30,7 @@ spec {
 }
 
 spec {
-    overflow: scroll;
+    overflow: auto;
 }
 
 /* ----------------- Blockly Div --------------------- */
@@ -185,10 +185,47 @@ spec {
 }
 
 .content-code {
+    overflow: auto;
+    backface-visibility: hidden;
     padding-left: 200px;
-    position: static;
+    position: absolute;
+    width: 100%;
     height: 100%;
-    overflow: hidden;
+    transition: all 1s, visibility 0.5s;
+}
+
+.upside {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    visibility: visible;
+}
+
+.downside {
+        -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    visibility: hidden;
+}
+
+.switch {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border: 0;
+    box-shadow: 0 0 1px 1px #604040;
+    background-color: #200000;
+    font-weight: 700;
+    color: antiquewhite;
+    transition: 0.1s;
+}
+
+.switch:hover {
+    background-color: #604040;
 }
 
 .generated-code h1 {
