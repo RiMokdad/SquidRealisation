@@ -81,6 +81,9 @@ Blockly.FieldTextInput.prototype.hasAutoComplete = false;
  * Close the input widget if this input is being deleted.
  */
 Blockly.FieldTextInput.prototype.dispose = function () {
+    if (this.activated) {
+        SimpleVariables.RemoveVariable(this.sourceBlock_.id);
+    }   
     Blockly.WidgetDiv.hideIfOwner(this);
     Blockly.FieldTextInput.superClass_.dispose.call(this);
 };
@@ -105,7 +108,9 @@ Blockly.FieldTextInput.prototype.isVar = false;
 
 Blockly.FieldTextInput.prototype.oldText = "";
 
-Blockly.FieldTextInput.prototype.firstWriting = true;
+Blockly.FieldTextInput.prototype.activated = false;
+
+//Blockly.FieldTextInput.prototype.id = Utils.GenerateUUID();
 
 //END TEST 1
 
@@ -354,6 +359,13 @@ Blockly.FieldTextInput.prototype.widgetDispose_ = function () {
         var htmlInput = Blockly.FieldTextInput.htmlInput_;
         // Save the edit (if it validates).
         var text = htmlInput.value;
+        //TEST
+        if (thisField.isVar) {
+            if (!thisField.activated) {
+                thisField.activated = true;
+            }
+            SimpleVariables.AddVariable(thisField.sourceBlock_.id, text);
+        }
         if (thisField.sourceBlock_ && thisField.validator_) {
             var text1 = thisField.validator_(text);
             if (text1 === null) {

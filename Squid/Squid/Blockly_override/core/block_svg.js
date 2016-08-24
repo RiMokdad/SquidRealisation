@@ -77,7 +77,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
         }
         menuOptions.push(duplicateOption);
 
-        if (this.isEditable() && !this.collapsed_ &&
+        /*if (this.isEditable() && !this.collapsed_ &&
             this.workspace.options.comments) {
             // Option to add/remove a comment.
             var commentOption = { enabled: !goog.userAgent.IE };
@@ -93,7 +93,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
                 };
             }
             menuOptions.push(commentOption);
-        }
+        }*/
 
         // Option to make block inline.
         if (!this.collapsed_) {
@@ -134,7 +134,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
             }
         }
 
-        if (this.workspace.options.disable) {
+        /*if (this.workspace.options.disable) {
             // Option to disable/enable block.
             var disableOption = {
                 text: this.disabled ?
@@ -145,7 +145,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
                 }
             };
             menuOptions.push(disableOption);
-        }
+        }*/
 
         // Option to delete this block.
         // Count the number of blocks that are nested in this block.
@@ -166,6 +166,7 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
             }
         };
         menuOptions.push(deleteOption);
+
     }
 
     // Option to get help.
@@ -176,6 +177,10 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
         block.showHelp_();
     };
     menuOptions.push(helpOption);*/
+    if (Blockly.BlockSvg.customContextMenuOption && !this.customContextMenu) {
+        Blockly.BlockSvg.currentThis = this;
+        menuOptions.push(Blockly.BlockSvg.customContextMenuOption);
+    }
 
     // Allow the block to add or modify menuOptions.
     if (this.customContextMenu ){//&& !block.isInFlyout) {
@@ -185,3 +190,11 @@ Blockly.BlockSvg.prototype.showContextMenu_ = function (e) {
     Blockly.ContextMenu.show(e, menuOptions, this.RTL);
     Blockly.ContextMenu.currentBlock = this;
 };
+
+// to add the encapusulating option to base and decoding blocks
+Blockly.BlockSvg.customContextMenuOption = null;
+
+Blockly.BlockSvg.currentThis = null;
+
+
+

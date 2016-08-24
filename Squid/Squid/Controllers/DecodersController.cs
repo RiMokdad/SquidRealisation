@@ -140,5 +140,27 @@ namespace Squid.Controllers
                 return InternalServerError(e);
             }
         }
+
+        [Route("api/Decoders/descendants")]
+        [HttpPost]
+        public IHttpActionResult FindDescendants([FromBody]int? id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var services = new DecoderServices();
+                var list = services.FindDescendants(id);
+                return Json(list.ToArray());
+
+            }
+            catch (Exception e)
+            {
+                //return Json(new { error = e.ToString() });
+                return InternalServerError(e);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 "use strict";
+var Onglet_1 = require("./../Util/Onglet");
 var Workspace = (function () {
     /**
      * /!\ DO NOT USE IT
@@ -42,7 +43,7 @@ var Workspace = (function () {
     //    //block.setAttribute('gap', '16');
     //    //return block; 
     //}
-    Workspace.prototype.Initialize = function () {
+    Workspace.prototype.Initialize = function (blocksXml) {
         var proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
         //const metrics = this.workspace.getMetrics();
@@ -52,6 +53,14 @@ var Workspace = (function () {
         name.setAttribute("name", "NAME");
         name.innerHTML = this.decoder.Name || "Decoder";
         proc.appendChild(name);
+        if (blocksXml) {
+            var statement = document.createElement("statement");
+            statement.setAttribute("name", "STACK");
+            var block = Blockly.Xml.textToDom(blocksXml);
+            var legalBlock = block.getElementsByTagName("block")[0];
+            statement.appendChild(legalBlock);
+            proc.appendChild(statement);
+        }
         var bloc = Blockly.Xml.domToBlock(proc, this.workspace);
         bloc.setDeletable(false);
     };
@@ -68,12 +77,11 @@ var Workspace = (function () {
             throw "You should bind a decoder to this";
         }
         ;
-        if (this.IsADecoder()) {
+        if (this.IsADecoder() && decoder.Editable) {
             decoder.Name = this.GetName();
             decoder.Code = this.GenerateCSharp();
             decoder.FrenchSpec = this.GenerateFrench();
             decoder.BlocklyDef = this.GetStringXML();
-            decoder.Editable = true;
         }
     };
     Workspace.prototype.GetName = function () {
@@ -87,8 +95,18 @@ var Workspace = (function () {
         var blocks = this.workspace.getTopBlocks();
         return (blocks.length == 1 && blocks[0].getProcedureDef);
     };
+    Workspace.prototype.Resize = function () {
+        this.workspace.resize();
+    };
     Workspace.prototype.Clear = function () {
         this.workspace.clear();
+    };
+    Workspace.prototype.SetVisible = function (visible) {
+        if (visible !== undefined)
+            this.workspace.setVisible(visible);
+        else {
+            this.workspace.setVisible(!this.workspace.rendered);
+        }
     };
     /* =================== About XML ================= */
     Workspace.prototype.GetXML = function () {
@@ -112,15 +130,37 @@ var Workspace = (function () {
     /* ================== Toolbox ==================== */
     Workspace.prototype.UpdateToolbox = function (toolboxTree) {
         this.workspace.updateToolbox(toolboxTree);
+        var tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0];
+        var bDiv = document.getElementsByClassName("blocklyDiv")[0];
+        bDiv.appendChild(tbDiv);
     };
-    Workspace.prototype.AddCustomContextMenu = function (callback) {
+    Workspace.prototype.AddCustomContextMenu = function (caller) {
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: function () {
+                if ("localStorage" in window) {
+                    var newWorkspace = new Blockly.Workspace();
+                    newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                    var dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                    var xml = Blockly.Xml.domToText(dom);
+                    window.localStorage.setItem(Onglet_1.Onglet.GetBaseUrl(), xml);
+                    var url = Onglet_1.Onglet.CreateIdUrl(-1);
+                    window.open(url);
+                }
+                else {
+                    console.warn("Opération impossible car sauvegarde locale désactivée");
+                }
+            }
+        };
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {
             var option = { enabled: true };
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
             var blockName = this.getFieldValue("NAME");
             option.callback = function () {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };

@@ -89,7 +89,7 @@
  */
 
 
-goog.provide('goog.ui.ac.InputHandler');
+//goog.provide('goog.ui.ac.InputHandler');
 
 goog.require('goog.Disposable');
 goog.require('goog.Timer');

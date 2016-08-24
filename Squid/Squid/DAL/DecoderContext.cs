@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Squid.DAL
+﻿namespace Squid.DAL
 {
     using System.Data.Entity;
     using System.Data.Entity.ModelConfiguration.Conventions;
+
+    using Squid.Migrations;
     using Squid.Models;
 
     public class DecoderContext : DbContext
@@ -14,8 +11,9 @@ namespace Squid.DAL
         public DecoderContext()
             : base("DecoderContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DecoderContext, Migrations.Configuration>("DecoderContext"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DecoderContext, Configuration>("DecoderContext"));
         }
+
         public DbSet<Decoder> Decoders { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -8,7 +8,7 @@ const BLOCKS: any[] = [
     ],
     [
         { name: "Blocks de décodage", colour: 270 },
-        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger"]
+        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger", "decodeHexa"]
     ],
     [
         { name: "sep", gap: 8 }, []
@@ -25,6 +25,8 @@ export class BlocksCat {
 }
 
 export class ToolboxManager {
+    private static Instance: ToolboxManager;
+    private static initialized = false;
     private toolboxHTML: HTMLElement;
     private decoders: HTMLElement;
     private research: HTMLElement;
@@ -33,10 +35,15 @@ export class ToolboxManager {
     //autocompletion
     acTags;
 
+    /**
+     * Not private but please, do not use it and prefer "SingleAccess.GetToolboxManager()"
+     */
     constructor() {
+
         this.toolboxHTML = document.createElement("xml");
         this.BlocksInformations = new Array<BlockInfos>();
         this.CreateCategories(BLOCKS);
+
     }
 
     GetToolbox(loading?: boolean): HTMLElement {
@@ -48,6 +55,10 @@ export class ToolboxManager {
             this.decoders.setAttribute("name", "Mes décodeurs");
         }
         return this.toolboxHTML;
+    }
+
+    GetDecoders(): HTMLElement {
+        return this.decoders;
     }
 
     private CreateCategories(blocks: any) {
@@ -248,5 +259,9 @@ export class ToolboxManager {
             }
         }
         return null;
+    }
+
+    GetAllDecodersOrdererByCategory() {
+        return this.BlocksInCat;
     }
 }

@@ -1,5 +1,7 @@
 ﻿import { Component } from "@angular/core";
 import { EditorComponent, RefreshState } from "./../Editor/editor.viewmodel";
+import { Decoder } from "./Decoder";
+import { ToolboxManager } from "../Toolbox/toolboxManager";
 
 export class EventHandler {
 
@@ -11,11 +13,32 @@ export class EventHandler {
 
     static OnLoad() {
         EventHandler.editor.OnLoad();
-        const callback = (param: any) => { EventHandler.editor.OpenTab(param) };
-        EventHandler.editor.workspace.AddCustomContextMenu(callback);
+        var caller = {};
+        caller["opendef"] = (param: any) => { EventHandler.editor.OpenTab(param) };
+        EventHandler.editor.workspace.AddCustomContextMenu(caller);
     }
 
     static NotifyRefresh() {
         EventHandler.editor.refreshState = RefreshState.OUT_DATED;
     }
+}
+
+export class SingleAccess {
+    private static toolboxMan: ToolboxManager;
+    private static decoder: Decoder;
+
+    static GetToolboxManager() : ToolboxManager {
+        if (!this.toolboxMan) {
+            this.toolboxMan = new ToolboxManager();   
+        }
+        return this.toolboxMan;
+    }
+
+    static GetDecoder(): Decoder {
+        if (!this.decoder) {
+            this.decoder = new Decoder();
+        }
+        return this.decoder;
+    }
+
 }

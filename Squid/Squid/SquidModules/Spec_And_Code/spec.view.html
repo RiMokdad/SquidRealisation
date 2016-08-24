@@ -1,0 +1,80 @@
+﻿<div>
+    <div class="generated-code">
+        <div class="full-width">
+            <div class="decoders-info">
+                <div *ngFor="let c of toolboxMan.GetAllDecodersOrdererByCategory()" class="decoders-list">
+                    <div class="dropdown full-width">
+                        <button class="dropdown-toggle full-width"
+                                type="button"
+                                data-toggle="dropdown">
+                            {{c.category != "" ? c.category : "Non classé"}}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li *ngFor="let d of c.blocks" (click)="Select(d)">
+                                {{d.name}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="content-code">
+                <div class="switch-wrapper upside">
+                    <button class="switch" (click)="Switch()">Spécifications</button>
+                    <div *ngFor="let d of decoderList"
+                         class="bloc-spec"
+                         (click)="OpenTab(d)">
+                        <div class="container-fluid">
+                            <pre class="col-lg-9">
+                                    {{d.FrenchSpec}} 
+                        </pre>
+                            <div class="col-lg-3 text-left top">
+                                <div class="infos">
+                                    <div>
+                                        <strong>Nom : </strong><span>{{d.Name}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Editable : </strong><span>{{(d.Editable?'Oui':'Non')}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Catégorie : </strong><span>{{d.Category}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Tags : </strong><span>{{d.Tags}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="switch-wrapper downside">
+                    <button class="switch" (click)="Switch()">Code C#</button>
+                    <div *ngFor="let d of decoderList"
+                         class="bloc-spec"
+                         (click)="OpenTab(d)">
+                        <div class="container-fluid">
+                            <pre class="col-lg-9">
+                                    {{d.Code}} 
+                            </pre>
+                            <div class="col-lg-3 text-left top">
+                                <div class="infos">
+                                    <div>
+                                        <strong>Nom : </strong><span>{{d.Name}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Editable : </strong><span>{{(d.Editable?'Oui':'Non')}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Catégorie : </strong><span>{{d.Category}}</span>
+                                    </div>
+                                    <div>
+                                        <strong>Tags : </strong><span>{{d.Tags}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

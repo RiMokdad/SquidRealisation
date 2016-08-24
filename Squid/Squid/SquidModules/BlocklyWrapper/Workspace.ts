@@ -1,8 +1,10 @@
 ﻿import { BlockInfos } from "../Util/BlockInfos";
 import { Decoder } from "../Util/Decoder";
 import { Requests } from "../Request/server_request";
+import { Onglet } from "./../Util/Onglet";
 
 declare var Blockly: any;
+declare var $: any;
 
 export class Workspace {
 
@@ -12,7 +14,8 @@ export class Workspace {
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         document.getElementById(anchor).innerHTML = "";
-        const workspace = Blockly.inject(anchor, {
+        const workspace = Blockly.inject(anchor,
+        {
             toolbox: toolbox,
             zoom:
             {
@@ -58,8 +61,8 @@ export class Workspace {
     //    //return block; 
     //}
 
-    Initialize() {
-        
+    Initialize(blocksXml?: string) {
+
         const proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
         //const metrics = this.workspace.getMetrics();
@@ -70,6 +73,22 @@ export class Workspace {
         name.innerHTML = this.decoder.Name || "Decoder";
         proc.appendChild(name);
 
+
+        if (blocksXml) {
+            const statement = document.createElement("statement");
+            statement.setAttribute("name", "STACK");
+            const block = Blockly.Xml.textToDom(blocksXml);
+            const legalBlock = block.getElementsByTagName("block")[0];
+            statement.appendChild(legalBlock);
+            proc.appendChild(statement);
+
+            /*var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(blocksXml, "text/xml");
+            var validXml = xmlDoc.childNodes.toString();
+            const childDom = Blockly.Xml.textToDom(validXml);
+            let childBlock = Blockly.Xml.domToBlock(childDom, this.workspace);*/
+            //childBlock.setParent(bloc);
+        }
         const bloc = Blockly.Xml.domToBlock(proc, this.workspace);
         bloc.setDeletable(false);
     }
@@ -78,27 +97,27 @@ export class Workspace {
         this.decoder = decoder;
     }
 
-     /**
-     * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
-     * @param decoder
-     */
+    /**
+    * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
+    * @param decoder
+    */
     CompleteDecoder(paramDecoder?: Decoder) {
         const decoder = paramDecoder || this.decoder;
-        if(decoder == null){ throw "You should bind a decoder to this"};
-        if (this.IsADecoder()) {
-                decoder.Name = this.GetName();
-                decoder.Code = this.GenerateCSharp();
-                decoder.FrenchSpec = this.GenerateFrench();
-                decoder.BlocklyDef = this.GetStringXML();
-                decoder.Editable = true;
+        if (decoder == null) {
+            throw "You should bind a decoder to this"
+        };
+        if (this.IsADecoder() && decoder.Editable) {
+            decoder.Name = this.GetName();
+            decoder.Code = this.GenerateCSharp();
+            decoder.FrenchSpec = this.GenerateFrench();
+            decoder.BlocklyDef = this.GetStringXML();
         }
-
     }
 
     GetName(): string {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     }
-     
+
     /**
      * Checks if the workspace contains only one element and that element is a decoder.
      * @return true if the workspace is storable as a decoder.
@@ -108,8 +127,20 @@ export class Workspace {
         return (blocks.length == 1 && blocks[0].getProcedureDef);
     }
 
+    Resize() {
+        this.workspace.resize();
+    }
+
     Clear() {
         this.workspace.clear();
+    }
+
+    SetVisible(visible?: boolean) {
+        if (visible !== undefined)
+            this.workspace.setVisible(visible);
+        else {
+            this.workspace.setVisible(!this.workspace.rendered);
+        }
     }
 
     /* =================== About XML ================= */
@@ -133,7 +164,7 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    RestoreBlocks(xml: string); 
+    RestoreBlocks(xml: string);
     RestoreBlocks(decoder: Decoder);
     RestoreBlocks(blocks?: any) {
         const Xml = Blockly.Xml.textToDom(blocks.BlocklyDef || blocks);
@@ -145,19 +176,43 @@ export class Workspace {
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
+        const tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0] as HTMLElement;
+        const bDiv = document.getElementsByClassName("blocklyDiv")[0] as HTMLElement;
+        bDiv.appendChild(tbDiv);
     }
 
-    AddCustomContextMenu(callback: any) {
-        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options: any) {
-            const option = { enabled: true} as any;
+    AddCustomContextMenu(caller: any) {
+        Blockly.BlockSvg.customContextMenuOption = {
+            text: "Encapsuler dans un nouveau décodeur",
+            enabled: true,
+            block: null,
+            callback: () => {
+                if ("localStorage" in window) {
+                    const newWorkspace = new Blockly.Workspace();
+                    newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
+                    const dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                    const xml = Blockly.Xml.domToText(dom);
+                    window.localStorage.setItem(Onglet.GetBaseUrl(), xml);
+                    const url = Onglet.CreateIdUrl(-1);
+                    window.open(url);
+                } else {
+                    console.warn("Opération impossible car sauvegarde locale désactivée");
+                }
+            }
+        };
+
+        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function(options: any) {
+            const option = { enabled: true } as any;
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
 
             var blockName = this.getFieldValue("NAME");
             option.callback = () => {
-                callback(blockName);
+                caller["opendef"](blockName);
             };
             options.push(option);
         };
+
+
     }
 }

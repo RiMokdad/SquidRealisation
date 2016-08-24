@@ -10,12 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Decoder_1 = require("./../Util/Decoder");
-var toolboxManager_1 = require("./../Toolbox/toolboxManager");
 var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var server_request_1 = require("../Request/server_request");
 var signalr_methods_1 = require("../SignalR/signalr_methods");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
+var Onglet_1 = require("./../Util/Onglet");
 (function (RefreshState) {
     RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
     RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
@@ -26,7 +26,7 @@ var EditorComponent = (function () {
     function EditorComponent() {
         EventHandler_1.EventHandler.SetEditorComponent(this);
         this.serverNotifications = new signalr_methods_1.ServerNotifications();
-        this.toolboxManager = new toolboxManager_1.ToolboxManager();
+        this.toolboxManager = EventHandler_1.SingleAccess.GetToolboxManager();
         this.decoder = new Decoder_1.Decoder();
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
@@ -39,14 +39,23 @@ var EditorComponent = (function () {
     EditorComponent.prototype.OnLoad = function () {
         this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         this.workspace.BindDecoder(this.decoder);
-        this.decoder.Id = this.GetBlockIdInUrl();
+        this.decoder.Id = Onglet_1.Onglet.GetBlockIdInUrl();
         if (this.decoder.Id) {
-            this.LoadModeBloc();
+            if (this.decoder.Id === -1) {
+                this.LoadModeEncapsulateBlock();
+            }
+            else {
+                this.LoadModeBloc();
+            }
         }
         else {
             this.LoadModeFromScratch();
         }
         this.ac = new Ac();
+        var updatevar = function (variables) {
+            SimpleVariables.UpdateVariables(variables);
+        };
+        server_request_1.Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     };
     EditorComponent.prototype.LoadModeBloc = function () {
@@ -54,6 +63,10 @@ var EditorComponent = (function () {
     };
     EditorComponent.prototype.LoadModeFromScratch = function () {
         this.workspace.Initialize();
+    };
+    EditorComponent.prototype.LoadModeEncapsulateBlock = function () {
+        this.workspace.Initialize(window.localStorage[Onglet_1.Onglet.GetBaseUrl()]);
+        Onglet_1.Onglet.SetUrlDefault();
     };
     EditorComponent.prototype.pollRefresh = function () {
         var _this = this;
@@ -78,7 +91,7 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Clear = function () {
         this.workspace.Clear();
         this.workspace.Initialize();
-        this.SetUrl();
+        Onglet_1.Onglet.SetUrl(this.decoder);
     };
     /**
      * Supress on the server the decoder currently in the editor if it has already been saved once.
@@ -86,15 +99,16 @@ var EditorComponent = (function () {
     EditorComponent.prototype.Supress = function () {
         var _this = this;
         var deleteConfirmed = function () {
+            _this.Clear();
             _this.decoder = new Decoder_1.Decoder();
             _this.workspace.BindDecoder(_this.decoder);
+            Onglet_1.Onglet.SetUrl(_this.decoder);
             Messages_1.Messages.Notify("Décodeur supprimé");
         };
         var deletion = function () {
             server_request_1.Requests.DeleteDecoder(_this.decoder, deleteConfirmed);
         };
         server_request_1.Requests.FindUsages(this.decoder.Id, deletion);
-        this.Clear();
     };
     /**
      * Refresh the toolbox, called automatically but may be forced by the user
@@ -125,25 +139,28 @@ var EditorComponent = (function () {
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
+        //test spec 
+        //Requests.FindDescendants(this.decoder);
     };
     EditorComponent.prototype.OpenTab = function (param1) {
         if (param1) {
-            var decoder = null;
-            if (typeof (param1) == "string") {
-                decoder = this.toolboxManager.GetDecoderByName(param1);
+            var decoder = void 0;
+            switch (typeof (param1)) {
+                case "string":
+                    decoder = this.toolboxManager.GetDecoderByName(param1);
+                    break;
+                case "number":
+                    decoder = this.toolboxManager.GetDecoderById(param1);
+                    break;
+                default:
+                    Messages_1.Messages.Alert("Impossible de charger ce décodeur");
+                    return;
             }
-            else if (typeof (param1) == "number") {
-                decoder = this.toolboxManager.GetDecoderById(param1);
-            }
-            if (decoder) {
-                window.open(EditorComponent.CreateIdUrl(decoder.id));
-                return;
-            }
-            else {
-                Messages_1.Messages.Alert("Impossible de charger ce décodeur");
-            }
+            Onglet_1.Onglet.OpenTab(decoder);
         }
-        window.open(EditorComponent.GetBaseUrl());
+        else {
+            Onglet_1.Onglet.OpenTab();
+        }
     };
     // not in the right file
     EditorComponent.prototype.ToggleTest = function () {
@@ -173,11 +190,23 @@ var EditorComponent = (function () {
      * Saves the decoder to the server
      */
     EditorComponent.prototype.SaveDecoderToServer = function () {
+        var _this = this;
+        var updateurl = function () {
+            Onglet_1.Onglet.SetUrl(_this.decoder);
+        };
         if (this.workspace.IsADecoder()) {
             this.workspace.CompleteDecoder(this.decoder);
             this.decoder.Tags = this.decoder.Tags.replace(/\s/g, "");
-            server_request_1.Requests.SaveDecoder(this.decoder);
-            this.SetUrl();
+            var fail_1 = function (txt) {
+                console.log(txt);
+                Messages_1.Messages.Alert("Erreur lors de la sauvegarde\nCause possible :\n" +
+                    "Le nom de votre décodeur est déjà pris par un autre décodeur.\n" +
+                    "\nAfficher la console pour voir les détails de l'erreur.");
+            };
+            if (!this.decoder.Editable) {
+                this.decoder.Code = this.decoder.FrenchSpec = null;
+            }
+            server_request_1.Requests.SaveDecoder(this.decoder, updateurl, fail_1);
         }
         else {
             alert("Un des problèmes suivants se pose:" +
@@ -185,6 +214,8 @@ var EditorComponent = (function () {
                 "\n - Le bloc n'est pas un bloc décodeur de base" +
                 "\n - Vous n'avez rien à sauvegarder");
         }
+        //test
+        server_request_1.Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
     };
     /**
      * Restore the block with the given id
@@ -193,41 +224,22 @@ var EditorComponent = (function () {
     EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function (decoder) {
-            decoder.Id = id;
-            _this.workspace.RestoreBlocks(decoder);
-            Messages_1.Messages.Alert("Le bloc " + decoder.Name + " a \u00E9t\u00E9 recharg\u00E9.");
-            _this.workspace.CompleteDecoder(decoder);
+            _this.decoder.update(Decoder_1.Decoder.ObjectToDecoder(decoder));
+            _this.workspace.RestoreBlocks(_this.decoder);
+            _this.workspace.CompleteDecoder(_this.decoder);
+            if (!_this.decoder.Editable) {
+                _this.workspace.SetVisible(false);
+                Messages_1.Messages.Alert("Le décodeur n'est pas éditable, il reste consultable dans la section 'Spécifications'");
+                return;
+            }
+            else {
+                _this.workspace.SetVisible(true);
+                Messages_1.Messages.Alert("Le d\u00E9codeur " + decoder.Name + " a \u00E9t\u00E9 recharg\u00E9.");
+                Onglet_1.Onglet.SetUrl(_this.decoder);
+            }
         };
         server_request_1.Requests.GetDecoderDef(id, this.decoder, callback);
-        this.SetUrl();
         return null;
-    };
-    /* ============ URL OPERATIONS ============== */
-    /**
-     * Gives the base url of this page.
-     */
-    EditorComponent.GetBaseUrl = function () {
-        return "index.html";
-    };
-    /**
-     * Create the good url for loading a decoder with the given id
-     * @param id
-     */
-    EditorComponent.CreateIdUrl = function (id) {
-        return EditorComponent.GetBaseUrl() + "#" + id;
-    };
-    /**
-     * Get the id after the hash in the url
-     * @return return the id as a number, or null if there is no id
-     */
-    EditorComponent.prototype.GetBlockIdInUrl = function () {
-        return parseInt(window.location.hash.substring(1)) || null;
-    };
-    /**
-     * Set the hash of this page to the decoder id
-     */
-    EditorComponent.prototype.SetUrl = function () {
-        window.location.hash = this.decoder.Id ? "" + this.decoder.Id : "";
     };
     EditorComponent = __decorate([
         core_1.Component({

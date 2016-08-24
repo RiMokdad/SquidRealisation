@@ -34,7 +34,7 @@ export class BlockInfos {
         this.editable = (editable !== false);
     }
 
-    public CreateFlyout(): HTMLElement {
+    CreateFlyout(): HTMLElement {
         const elem = document.createElement("block");
         elem.setAttribute("type", "procedures_callnoreturn");
         elem.setAttribute("id", (this.id as any) as string);

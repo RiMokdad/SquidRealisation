@@ -3,7 +3,8 @@ var Messages = (function () {
     function Messages() {
     }
     Messages.Alert = function (message) {
-        bootbox.alert(message);
+        var formatedMessage = message.replace(/\n/g, "<br>");
+        bootbox.alert(formatedMessage);
     };
     Messages.ConfirmDelete = function (deleteMethod, listFuncs) {
         var confMsg;

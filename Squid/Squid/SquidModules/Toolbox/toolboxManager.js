@@ -7,7 +7,7 @@ var BLOCKS = [
     ],
     [
         { name: "Blocks de décodage", colour: 270 },
-        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger"]
+        ["decodebytes", "decodeboolean", "decodesignedinteger", "decodeunsignedinteger", "decodeHexa"]
     ],
     [
         { name: "sep", gap: 8 }, []
@@ -22,6 +22,9 @@ var BlocksCat = (function () {
 }());
 exports.BlocksCat = BlocksCat;
 var ToolboxManager = (function () {
+    /**
+     * Not private but please, do not use it and prefer "SingleAccess.GetToolboxManager()"
+     */
     function ToolboxManager() {
         this.toolboxHTML = document.createElement("xml");
         this.BlocksInformations = new Array();
@@ -37,6 +40,9 @@ var ToolboxManager = (function () {
             this.decoders.setAttribute("name", "Mes décodeurs");
         }
         return this.toolboxHTML;
+    };
+    ToolboxManager.prototype.GetDecoders = function () {
+        return this.decoders;
     };
     ToolboxManager.prototype.CreateCategories = function (blocks) {
         for (var i = 0; i < blocks.length; i++) {
@@ -210,6 +216,10 @@ var ToolboxManager = (function () {
         }
         return null;
     };
+    ToolboxManager.prototype.GetAllDecodersOrdererByCategory = function () {
+        return this.BlocksInCat;
+    };
+    ToolboxManager.initialized = false;
     return ToolboxManager;
 }());
 exports.ToolboxManager = ToolboxManager;
