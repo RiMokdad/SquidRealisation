@@ -2,7 +2,9 @@ var SimpleVariables;
 (function (SimpleVariables) {
     var variables = {};
     function AddVariable(key, value) {
-        variables[key] = value;
+        if (value.substring(0, 1) !== "$") {
+            variables[key] = value;
+        }
     }
     SimpleVariables.AddVariable = AddVariable;
     function RemoveVariable(key) {

@@ -42,13 +42,13 @@ namespace Squid.Controllers
             }
         }
 
-        //[Route("api/variables/reload")]
-        //[HttpPost]
-        //public string Reload()
-        //{
-        //    string path = hostPath + @"Controllers\variables_save.txt";
-        //    string text = File.ReadAllText(path);
-        //    return text;
-        //}
+        [Route("api/variables/reload")]
+        [HttpPost]
+        public string Reload()
+        {
+            string path = hostPath + @"Controllers\variables_save.txt";
+            string text = File.ReadAllText(path);
+            return text;
+        }
     }
 }
