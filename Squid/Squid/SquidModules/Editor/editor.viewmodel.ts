@@ -249,11 +249,11 @@ export class EditorComponent {
      */
     RestoreBlock(id: number) {
         const callback = (decoder) => {
-            this.decoder.update(Decoder.fromBlockInfos(decoder));
-            this.workspace.RestoreBlocks(decoder);
-            this.workspace.CompleteDecoder(decoder);
+            this.decoder.update(Decoder.ObjectToDecoder(decoder));
+            this.workspace.RestoreBlocks(this.decoder);
+            this.workspace.CompleteDecoder(this.decoder);
 
-            if (!decoder.Editable) {
+            if (!this.decoder.Editable) {
                 this.workspace.SetVisible(false);
                 Messages.Alert("Le décodeur n'est pas éditable, il reste consultable dans la section 'Spécifications'");
                 return;

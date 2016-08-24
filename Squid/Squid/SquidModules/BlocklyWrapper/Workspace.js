@@ -77,7 +77,7 @@ var Workspace = (function () {
             throw "You should bind a decoder to this";
         }
         ;
-        if (this.IsADecoder()) {
+        if (this.IsADecoder() && decoder.Editable) {
             decoder.Name = this.GetName();
             decoder.Code = this.GenerateCSharp();
             decoder.FrenchSpec = this.GenerateFrench();
@@ -140,7 +140,7 @@ var Workspace = (function () {
             enabled: true,
             block: null,
             callback: function () {
-                if ('localStorage' in window) {
+                if ("localStorage" in window) {
                     var newWorkspace = new Blockly.Workspace();
                     newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
                     var dom = Blockly.Xml.workspaceToDom(newWorkspace);

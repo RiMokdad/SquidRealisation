@@ -206,10 +206,10 @@ var EditorComponent = (function () {
     EditorComponent.prototype.RestoreBlock = function (id) {
         var _this = this;
         var callback = function (decoder) {
-            _this.decoder.update(Decoder_1.Decoder.fromBlockInfos(decoder));
-            _this.workspace.RestoreBlocks(decoder);
-            _this.workspace.CompleteDecoder(decoder);
-            if (!decoder.Editable) {
+            _this.decoder.update(Decoder_1.Decoder.ObjectToDecoder(decoder));
+            _this.workspace.RestoreBlocks(_this.decoder);
+            _this.workspace.CompleteDecoder(_this.decoder);
+            if (!_this.decoder.Editable) {
                 _this.workspace.SetVisible(false);
                 Messages_1.Messages.Alert("Le décodeur n'est pas éditable, il reste consultable dans la section 'Spécifications'");
                 return;

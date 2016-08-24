@@ -14,7 +14,8 @@ export class Workspace {
 
     static Inject(anchor: string, trashcan: boolean, toolbox: any): Workspace {
         document.getElementById(anchor).innerHTML = "";
-        const workspace = Blockly.inject(anchor, {
+        const workspace = Blockly.inject(anchor,
+        {
             toolbox: toolbox,
             zoom:
             {
@@ -61,7 +62,7 @@ export class Workspace {
     //}
 
     Initialize(blocksXml?: string) {
-        
+
         const proc = document.createElement("block");
         proc.setAttribute("type", "procedures_defnoreturn");
         //const metrics = this.workspace.getMetrics();
@@ -72,7 +73,7 @@ export class Workspace {
         name.innerHTML = this.decoder.Name || "Decoder";
         proc.appendChild(name);
 
-        
+
         if (blocksXml) {
             const statement = document.createElement("statement");
             statement.setAttribute("name", "STACK");
@@ -96,25 +97,27 @@ export class Workspace {
         this.decoder = decoder;
     }
 
-     /**
-     * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
-     * @param decoder
-     */
+    /**
+    * Complete the Name/Code/FrenchSpec/XML et editability for the decoder given in parameter
+    * @param decoder
+    */
     CompleteDecoder(paramDecoder?: Decoder) {
         const decoder = paramDecoder || this.decoder;
-        if(decoder == null){ throw "You should bind a decoder to this"};
-        if (this.IsADecoder()) {
-                decoder.Name = this.GetName();
-                decoder.Code = this.GenerateCSharp();
-                decoder.FrenchSpec = this.GenerateFrench();
-                decoder.BlocklyDef = this.GetStringXML();
+        if (decoder == null) {
+            throw "You should bind a decoder to this"
+        };
+        if (this.IsADecoder() && decoder.Editable) {
+            decoder.Name = this.GetName();
+            decoder.Code = this.GenerateCSharp();
+            decoder.FrenchSpec = this.GenerateFrench();
+            decoder.BlocklyDef = this.GetStringXML();
         }
     }
 
     GetName(): string {
         return (this.IsADecoder() ? this.workspace.getTopBlocks()[0].getProcedureDef()[0] : null);
     }
-     
+
     /**
      * Checks if the workspace contains only one element and that element is a decoder.
      * @return true if the workspace is storable as a decoder.
@@ -139,6 +142,7 @@ export class Workspace {
             this.workspace.setVisible(!this.workspace.rendered);
         }
     }
+
     /* =================== About XML ================= */
 
     GetXML(): Element {
@@ -160,7 +164,7 @@ export class Workspace {
         // TODO if we implement a local storage
     }
 
-    RestoreBlocks(xml: string); 
+    RestoreBlocks(xml: string);
     RestoreBlocks(decoder: Decoder);
     RestoreBlocks(blocks?: any) {
         const Xml = Blockly.Xml.textToDom(blocks.BlocklyDef || blocks);
@@ -172,9 +176,9 @@ export class Workspace {
 
     UpdateToolbox(toolboxTree: HTMLElement) {
         this.workspace.updateToolbox(toolboxTree);
-            const tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0] as HTMLElement;
-            const bDiv = document.getElementsByClassName("blocklyDiv")[0] as HTMLElement;
-            bDiv.appendChild(tbDiv);    
+        const tbDiv = document.getElementsByClassName("blocklyToolboxDiv")[0] as HTMLElement;
+        const bDiv = document.getElementsByClassName("blocklyDiv")[0] as HTMLElement;
+        bDiv.appendChild(tbDiv);
     }
 
     AddCustomContextMenu(caller: any) {
@@ -185,13 +189,13 @@ export class Workspace {
             enabled: true,
             block: null,
             callback: () => {
-                if ('localStorage' in window) {
-                    let newWorkspace = new Blockly.Workspace();
+                if ("localStorage" in window) {
+                    const newWorkspace = new Blockly.Workspace();
                     newWorkspace.addTopBlock(Blockly.BlockSvg.currentThis);
-                    var dom = Blockly.Xml.workspaceToDom(newWorkspace);
-                    var xml = Blockly.Xml.domToText(dom);
+                    const dom = Blockly.Xml.workspaceToDom(newWorkspace);
+                    const xml = Blockly.Xml.domToText(dom);
                     window.localStorage.setItem(Onglet.GetBaseUrl(), xml);
-                    var url = Onglet.CreateIdUrl(-1);
+                    const url = Onglet.CreateIdUrl(-1);
                     window.open(url);
                 } else {
                     console.warn("Opération impossible car sauvegarde locale désactivée");
@@ -200,8 +204,8 @@ export class Workspace {
             }
         };
 
-        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options: any) {
-            const option = { enabled: true} as any;
+        Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function(options: any) {
+            const option = { enabled: true } as any;
             option.enabled = true;
             option.text = "Ouvrir la définition du décodeur";
 
