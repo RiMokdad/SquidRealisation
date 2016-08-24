@@ -25,7 +25,7 @@
                 <div class="toolbar-group">
                     <!-- There's a fix for this input, but i don't get why anchor is not at he good spot -->
                     <input class="item-workspace"
-                           id="search-bar"                           
+                           id="search-bar"
                            style="top: -10px;"
                            type="text"
                            placeholder="{{placeholderTags}}"
@@ -44,7 +44,7 @@
             <div class="col-sm-4">
                 <div class="container-fluid">
                     <h1 class="title-toolbar-workspace col-lg-12">{{decoder.Name}}</h1>
-                    <div class="col-lg-12">                       
+                    <div class="col-lg-12">
                         <input class="soft-background version-item"
                                type="text"
                                placeholder="version"
@@ -63,7 +63,7 @@
                                    id="category"
                                    type="text"
                                    placeholder="Category"
-                                   [(ngModel)]="decoder.Category" />
+                                   [(ngModel)]="decoder.Category"/>
                         </div>
                     </div>
                     <div class="row decoder-info">
@@ -75,12 +75,16 @@
                                    id="tags"
                                    type="text"
                                    placeholder="tags1, tags2, ..."
-                                   [(ngModel)]="decoder.Tags" />
+                                   [(ngModel)]="decoder.Tags"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div id="variables" class="col-lg-3 center" hidden="hidden">
+        <config-set></config-set>
+        <inventory-set></inventory-set>
     </div>
     <div id="blocklyDiv" class="blocklyDiv">
         <div class="sk-circle">

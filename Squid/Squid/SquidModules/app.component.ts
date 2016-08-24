@@ -10,7 +10,8 @@ import { OnInit } from "@angular/core/index";
     directives: [
         EditorComponent,
         ConfigSetComponent,
-        InventorySetComponent
+        InventorySetComponent,
+        SpecComponent
         ]
 })
 export class DecoderComponent implements OnInit {
