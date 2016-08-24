@@ -61,8 +61,7 @@
                 if (decoder != null)
                 {
                     var names = new List<string>();
-                    var decoders = new List<Decoder>();
-                    decoders.Add(decoder);
+                    var decoders = new List<Decoder> { decoder };
 
                     // names.AddRange(decoder.FindDescendants());
                     var firsts = decoder.FindDescendants();

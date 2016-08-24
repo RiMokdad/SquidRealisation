@@ -192,10 +192,16 @@ spec {
 
 .content-code {
     overflow: auto;
-    backface-visibility: hidden;
-    padding-left: 200px;
     position: absolute;
     z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.switch-wrapper {
+    backface-visibility: hidden;
+    position: absolute;
+    padding-left: 190px;
     width: 100%;
     height: 100%;
     transition: all 1s, visibility 0.5s;
@@ -643,7 +649,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .decoders-info {
     height: 100%;
-    width: 200px;
+    width: 190px;
     font-family: open sans;
     font-weight: 500;
     background-color: #200000;
@@ -682,16 +688,17 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .decoders-info .decoders-list li {
     text-align: left;
-    width: 210px;
-    border-radius: 50%;
+    width: 100%;
     padding: 5px;
     background-color: antiquewhite;
     color: #200000 !important;
     transition: .2s;
+    cursor: context-menu;
 }
 
 .decoders-info .decoders-list li:hover {
-    box-shadow: 0 0 1px 1px #604040;
+    box-shadow: 0 0 1px 1px #604040 inset;
+    padding-left: 10px;
     border-radius: 5px;
 
 }

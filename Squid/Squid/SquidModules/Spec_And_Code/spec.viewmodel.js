@@ -16,6 +16,7 @@ var EventHandler_1 = require("./../Util/EventHandler");
 var server_request_1 = require("../Request/server_request");
 var SpecComponent = (function () {
     function SpecComponent() {
+        this.currentSwitch = 0;
         this.decoder = null;
         this.decoderList = new Array();
         this.toolboxMan = EventHandler_1.SingleAccess.GetToolboxManager();
@@ -36,25 +37,25 @@ var SpecComponent = (function () {
         this.decoder.Editable = false;
         this.DisplaySpec();
     };
-    SpecComponent.prototype.Switch = function (step) {
-        var code = document.getElementsByClassName("content-code");
-        var upside;
-        var downside;
-        if (step == 0) {
-            upside = code[0];
-            downside = code[1];
+    SpecComponent.prototype.Switch = function () {
+        var code = document.getElementsByClassName("switch-wrapper");
+        this.switch(this.currentSwitch, code);
+        this.currentSwitch++;
+        this.currentSwitch %= code.length;
+    };
+    SpecComponent.prototype.switch = function (currentSwitch, elements) {
+        var nbEntries = elements.length;
+        for (var i = 0; i < nbEntries; i++) {
+            var side = elements[i];
+            if ((i % nbEntries) === this.currentSwitch) {
+                side.style.visibility = "visible";
+                side.style.transform = "rotateY(360deg)";
+            }
+            else {
+                side.style.visibility = "hidden";
+                side.style.transform = "rotateY(180deg)";
+            }
         }
-        else if (step == 1) {
-            upside = code[1];
-            downside = code[0];
-        }
-        else {
-            return;
-        }
-        downside.style.visibility = "visible";
-        upside.style.transform = "rotateY(180deg)";
-        upside.style.visibility = "hidden";
-        downside.style.transform = "rotateY(360deg)";
     };
     SpecComponent.prototype.Refresh = function () {
     };

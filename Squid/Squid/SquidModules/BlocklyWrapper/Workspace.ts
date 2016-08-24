@@ -182,8 +182,6 @@ export class Workspace {
     }
 
     AddCustomContextMenu(caller: any) {
-
-
         Blockly.BlockSvg.customContextMenuOption = {
             text: "Encapsuler dans un nouveau décodeur",
             enabled: true,
@@ -200,7 +198,6 @@ export class Workspace {
                 } else {
                     console.warn("Opération impossible car sauvegarde locale désactivée");
                 }
-                //newWorkspace.dispose();
             }
         };
 

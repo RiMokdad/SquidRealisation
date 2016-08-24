@@ -152,7 +152,6 @@ var Workspace = (function () {
                 else {
                     console.warn("Opération impossible car sauvegarde locale désactivée");
                 }
-                //newWorkspace.dispose();
             }
         };
         Blockly.Blocks["procedures_callnoreturn"].customContextMenu = function (options) {

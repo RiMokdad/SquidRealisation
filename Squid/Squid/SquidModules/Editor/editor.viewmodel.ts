@@ -1,4 +1,6 @@
-﻿import { Component } from "@angular/core";
+﻿import { Component} from "@angular/core";
+//import {Observable} from "@reactivex/rxjs/es6/Observable.js"
+
 import { BlockInfos} from "./../Util/BlockInfos";
 import { Decoder } from "./../Util/Decoder";
 import { ToolboxManager } from "./../Toolbox/toolboxManager";

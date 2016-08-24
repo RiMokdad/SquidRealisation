@@ -20,6 +20,7 @@ export class SpecComponent {
     decoder: Decoder;
     decoderList: Array<Decoder>;
     toolboxMan: ToolboxManager;
+    private currentSwitch = 0;
 
     constructor() {
         this.decoder = null;
@@ -44,27 +45,29 @@ export class SpecComponent {
         this.DisplaySpec();
     }
 
-    Switch(step: number) {
-        const code = document.getElementsByClassName("content-code");
-        let upside :HTMLElement;
-        let downside: HTMLElement;
-        if (step == 0) {
-            upside = code[0] as HTMLElement;
-            downside = code[1] as HTMLElement;
-        } else if (step == 1) {
-            upside = code[1] as HTMLElement;
-            downside = code[0] as HTMLElement;
-        } else {
-            return;
+    Switch() {
+        const code = document.getElementsByClassName("switch-wrapper");
+
+        this.switch(this.currentSwitch, code);
+
+        this.currentSwitch++;
+        this.currentSwitch %= code.length;
+
+    }
+
+    private switch(currentSwitch: number, elements: NodeList) {
+        const nbEntries = elements.length;
+
+        for (let i = 0; i < nbEntries; i++) {
+            const side = elements[i] as HTMLElement;
+            if ((i % nbEntries) === this.currentSwitch) {
+                side.style.visibility = "visible";
+                side.style.transform = "rotateY(360deg)";
+            } else {
+                side.style.visibility = "hidden";
+                side.style.transform = "rotateY(180deg)";
+            }
         }
-
-        downside.style.visibility = "visible";  
-
-        upside.style.transform = "rotateY(180deg)";
-        upside.style.visibility = "hidden";
-
-        downside.style.transform = "rotateY(360deg)";  
-       
     }
 
     Refresh() {
