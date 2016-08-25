@@ -7,6 +7,7 @@ import { ToolboxManager, BlocksCat } from "../Toolbox/ToolboxManager";
 import { Onglet } from "./../Util/Onglet";
 import { Messages } from "./../Util/Messages";
 import { EventHandler, SingleAccess } from "./../Util/EventHandler";
+import { DisplayTools } from "./../Util/utils";
 
 import { Requests } from "../Request/server_request";
 
@@ -20,7 +21,7 @@ export class SpecComponent {
     decoder: Decoder;
     decoderList: Array<Decoder>;
     toolboxMan: ToolboxManager;
-    private currentSwitch = 0;
+    private currentSwitch = -1;
 
     constructor() {
         this.decoder = null;
@@ -47,37 +48,11 @@ export class SpecComponent {
 
     Switch() {
         const code = document.getElementsByClassName("switch-wrapper");
-
-        this.switch(this.currentSwitch, code);
-
-        this.currentSwitch++;
-        this.currentSwitch %= code.length;
-
-    }
-
-    private switch(currentSwitch: number, elements: NodeList) {
-        const nbEntries = elements.length;
-
-        for (let i = 0; i < nbEntries; i++) {
-            const side = elements[i] as HTMLElement;
-            if ((i % nbEntries) === this.currentSwitch) {
-                side.style.visibility = "visible";
-                side.style.transform = "rotateY(360deg)";
-            } else {
-                side.style.visibility = "hidden";
-                side.style.transform = "rotateY(180deg)";
-            }
-        }
-    }
-
-    Refresh() {
-
+        this.currentSwitch = DisplayTools.switch(this.currentSwitch, code);
     }
 
     OpenTab(decoder?: Decoder) {
         if (decoder && decoder.Editable) {
-            console.log(decoder);
-            console.log(decoder.Editable);
             const bi = Decoder.toBlockInfos(decoder);
             Onglet.OpenTab(bi);
         } else {

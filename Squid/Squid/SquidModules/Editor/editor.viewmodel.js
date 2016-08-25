@@ -168,7 +168,6 @@ var EditorComponent = (function () {
         if (show != null) {
             this.variablesShown = show;
         }
-        console.log(this.variablesShown);
         if (!this.variablesShown) {
             $("#variables").removeClass("variables-close");
             $("#editor").removeClass("edition-window-full");

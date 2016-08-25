@@ -217,7 +217,6 @@ export class EditorComponent {
         if (show != null) {
             this.variablesShown = show;
         }
-        console.log(this.variablesShown);
         if (!this.variablesShown) { //If not visible, show variables
             $("#variables").removeClass("variables-close");
             $("#editor").removeClass("edition-window-full");

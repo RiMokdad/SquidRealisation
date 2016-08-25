@@ -13,10 +13,11 @@ var Decoder_1 = require("./../Util/Decoder");
 var Onglet_1 = require("./../Util/Onglet");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
+var utils_1 = require("./../Util/utils");
 var server_request_1 = require("../Request/server_request");
 var SpecComponent = (function () {
     function SpecComponent() {
-        this.currentSwitch = 0;
+        this.currentSwitch = -1;
         this.decoder = null;
         this.decoderList = new Array();
         this.toolboxMan = EventHandler_1.SingleAccess.GetToolboxManager();
@@ -39,30 +40,10 @@ var SpecComponent = (function () {
     };
     SpecComponent.prototype.Switch = function () {
         var code = document.getElementsByClassName("switch-wrapper");
-        this.switch(this.currentSwitch, code);
-        this.currentSwitch++;
-        this.currentSwitch %= code.length;
-    };
-    SpecComponent.prototype.switch = function (currentSwitch, elements) {
-        var nbEntries = elements.length;
-        for (var i = 0; i < nbEntries; i++) {
-            var side = elements[i];
-            if ((i % nbEntries) === this.currentSwitch) {
-                side.style.visibility = "visible";
-                side.style.transform = "rotateY(360deg)";
-            }
-            else {
-                side.style.visibility = "hidden";
-                side.style.transform = "rotateY(180deg)";
-            }
-        }
-    };
-    SpecComponent.prototype.Refresh = function () {
+        this.currentSwitch = utils_1.DisplayTools.switch(this.currentSwitch, code);
     };
     SpecComponent.prototype.OpenTab = function (decoder) {
         if (decoder && decoder.Editable) {
-            console.log(decoder);
-            console.log(decoder.Editable);
             var bi = Decoder_1.Decoder.toBlockInfos(decoder);
             Onglet_1.Onglet.OpenTab(bi);
         }
