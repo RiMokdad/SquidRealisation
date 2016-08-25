@@ -3,13 +3,18 @@
 
 import { BlockInfos} from "./../Util/BlockInfos";
 import { Decoder } from "./../Util/Decoder";
-import { ToolboxManager } from "./../Toolbox/toolboxManager";
-import { Workspace } from "./../BlocklyWrapper/Workspace";
-import { Requests } from "../Request/server_request"
-import { ServerNotifications } from "../SignalR/signalr_methods";
+
 import { Messages } from "./../Util/Messages";
 import { EventHandler, SingleAccess } from "./../Util/EventHandler";
 import { Onglet } from "./../Util/Onglet";
+
+import { ToolboxManager } from "./../Toolbox/toolboxManager";
+import { Workspace } from "./../BlocklyWrapper/Workspace";
+import { ConfigSetComponent, InventorySetComponent } from "../Variables/variables_set.viewmodel";
+
+import { Requests } from "../Request/server_request"
+import { ServerNotifications } from "../SignalR/signalr_methods";
+
 
 declare var Ac: any;
 declare var $: any;
@@ -22,7 +27,8 @@ export enum RefreshState {
 
 @Component({
     selector: "editor",
-    templateUrl: "SquidModules/Editor/editor.view.html"
+    templateUrl: "SquidModules/Editor/editor.view.html",
+    directives: [ConfigSetComponent, InventorySetComponent]
 })
 export class EditorComponent {
 
@@ -33,7 +39,7 @@ export class EditorComponent {
     toolboxManager: ToolboxManager;
     refreshState: RefreshState;
     serverNotifications: ServerNotifications;
-    hiddenVariables: boolean;
+    variablesShown: boolean;
 
     //autocomplete object
     ac;
@@ -46,8 +52,7 @@ export class EditorComponent {
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
-        this.hiddenVariables = true;
-
+        this.ToggleVariables(true);
     }
 
     /**
@@ -63,7 +68,7 @@ export class EditorComponent {
                 this.LoadModeEncapsulateBlock();
             } else {
                 this.LoadModeBloc();
-            }          
+            }
         } else {
             this.LoadModeFromScratch();
         }
@@ -72,7 +77,7 @@ export class EditorComponent {
         const updatevar = (variables) => {
             SimpleVariables.UpdateVariables(variables);
         };
-        Requests.ReloadVariables(updatevar);
+        //Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     }
 
@@ -92,15 +97,15 @@ export class EditorComponent {
     private pollRefresh() {
         let time = 1000;
         switch (this.refreshState) {
-            case RefreshState.OUT_DATED:
-                this.Refresh();
-                break;
-            case RefreshState.PENDING:
-                time = 4000;
-                break;
-            case RefreshState.UP_TO_DATE:
-            default:
-                break;
+        case RefreshState.OUT_DATED:
+            this.Refresh();
+            break;
+        case RefreshState.PENDING:
+            time = 4000;
+            break;
+        case RefreshState.UP_TO_DATE:
+        default:
+            break;
         }
         const func = () => { this.pollRefresh(); };
         window.setTimeout(func, time);
@@ -208,21 +213,27 @@ export class EditorComponent {
     }
 
     // not in the right file
-    ToggleTest() {
-        if (this.hiddenVariables) {
-            $('#variables').fadeIn().show();
-            $('#editor').removeClass('col-lg-12');
-            $('#editor').addClass('col-lg-9');
-            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
-            this.hiddenVariables = false;
+    ToggleVariables(show?: boolean): boolean {
+        if (show != null) {
+            this.variablesShown = show;
         }
-        else {
-            $('#variables').fadeOut().hide();
-            $('#editor').removeClass('col-lg-9');
-            $('#editor').addClass('col-lg-12');
-            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
-            this.hiddenVariables = true;
+        console.log(this.variablesShown);
+        if (!this.variablesShown) { //If not visible, show variables
+            $("#variables").removeClass("variables-close");
+            $("#editor").removeClass("edition-window-full");
+
+            $("#variables").addClass("variables-open");
+            $("#editor").addClass("edition-window-reduce");
+        } else {
+            $("#variables").removeClass("variables-open");
+            $("#editor").removeClass("edition-window-reduce");
+
+            $("#variables").addClass("variables-close");
+            $("#editor").addClass("edition-window-full");
         }
+        if(this.workspace)
+            this.workspace.Resize();
+        return (this.variablesShown = !this.variablesShown);
     }
 
     /**

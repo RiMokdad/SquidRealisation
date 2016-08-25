@@ -1,5 +1,5 @@
 ﻿<div class="variables-set">
-    <h1>Sets</h1>
+    <h1>{{name}}</h1>
     <div class="toolbar-workspace">
         <div class="toolbar-group">
             <input id="config-title"
@@ -8,10 +8,10 @@
         </div>
         <div class="toolbar-items">
             <div class="toolbar-group">
-                <button class="item-workspace save"
+                <button class="item-workspace ico-save"
                         title="Sauvegarde les variables"></button>
                 <div class="dropdown inline-block">
-                    <button class="restore
+                    <button class="ico-restore
                                 item-workspace 
                                 dropdown-toggle"
                             type="button"
@@ -27,10 +27,10 @@
                         </li>
                     </ul>
                 </div>
-                <button class="item-workspace clear"
+                <button class="item-workspace ico-clear"
                         title="Efface les fonctions enregistrées"
                         (click)="set.Clear()"></button>
-                <button class="item-workspace add"
+                <button class="item-workspace ico-add"
                         title="Ajouter une variable"
                         (click)="set.Create()">
                 </button>
@@ -49,7 +49,7 @@
                            [(ngModel)]="variable[1]">
                 </td>
                 <td>
-                    <button class="delete-button delete"
+                    <button class="delete-button ico-delete"
                             (click)="set.Delete(variable[0])">
                     </button>
                 </td>

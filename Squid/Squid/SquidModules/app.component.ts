@@ -9,8 +9,6 @@ import { OnInit } from "@angular/core/index";
     templateUrl: "SquidModules/main.view.html",
     directives: [
         EditorComponent,
-        ConfigSetComponent,
-        InventorySetComponent,
         SpecComponent
         ]
 })
@@ -30,9 +28,11 @@ export class DecoderComponent implements OnInit {
                 const child = children[i] as HTMLElement;
                 
                 if (num !== i) {
+                    setTimeout(() => { child.style.display = "none"; }, 200);
                     child.style.visibility = "hidden";
                     child.style.opacity = "0";
                 } else {
+                    child.style.display = "block";
                     child.style.visibility = "visible";
                     child.style.opacity = "1";
                 }

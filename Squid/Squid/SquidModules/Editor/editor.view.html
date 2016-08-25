@@ -1,24 +1,24 @@
-﻿<div class="edition-window decode-window">
+﻿<div id="editor" class="edition-window edition-window-full">
     <div class="toolbar-workspace container-fluid">
         <div class="row">
             <div class="col-sm-4">
                 <div class="toolbar-group">
-                    <button class="item-workspace clear"
+                    <button class="item-workspace ico-clear"
                             title="Efface le contenu de l'espace de travail"
                             (click)="Clear()"></button>
-                    <button class="item-workspace saveServer"
+                    <button class="item-workspace ico-saveServer"
                             title="Sauvegarde serveur"
                             (click)="Save()"></button>
-                    <button class="item-workspace supressServer"
+                    <button class="item-workspace ico-supressServer"
                             title="Supprime définitivement le décodeur"
                             (click)="Supress()"></button>
 
-                    <button class="item-workspace add"
+                    <button class="item-workspace ico-add"
                             title="Créer une nouvelle fonction"
                             (click)="OpenTab()"></button>
-                    <button class="item-workspace variables"
+                    <button class="item-workspace ico-variables"
                             title="afficher/masquer les configurations"
-                            (click)="ToggleTest()"></button>
+                            (click)="ToggleVariables()"></button>
 
                 </div>
                 <!-- Adding the search bar for tags -->
@@ -31,12 +31,12 @@
                            placeholder="{{placeholderTags}}"
                            [(ngModel)]="tagsSearch"
                            (keyup)="SearchTag()"/>
-                    <button class="item-workspace research"
+                    <button class="item-workspace ico-research"
                             title="Rechercher les tags"
                             (click)="SearchTag()"></button>
                 </div>
                 <div class="toolbar-group">
-                    <button class="item-workspace refresh"
+                    <button class="item-workspace ico-refresh"
                             title="Rafraichit les fonctions"
                             (click)="Refresh();"></button>
                 </div>
@@ -82,10 +82,7 @@
             </div>
         </div>
     </div>
-    <div id="variables" class="col-lg-3 center" hidden="hidden">
-        <config-set></config-set>
-        <inventory-set></inventory-set>
-    </div>
+
     <div id="blocklyDiv" class="blocklyDiv">
         <div class="sk-circle">
             <div class="sk-circle1 sk-child"></div>
@@ -102,4 +99,8 @@
             <div class="sk-circle12 sk-child"></div>
         </div>
     </div>
+</div>
+<div id="variables" class="variables variables-close">
+    <config-set></config-set>
+    <inventory-set></inventory-set>
 </div>

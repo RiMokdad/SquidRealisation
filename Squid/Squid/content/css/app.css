@@ -18,8 +18,6 @@ span {
 
 /* ------------- Sections ---------------------- */
 
-
-
 editor,
 spec {
     padding-left: 20px;
@@ -27,7 +25,7 @@ spec {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: visibility 0.5s, opacity 0.5s;
+    transition: visibility 0.2s, opacity 0.2s;
     background-color: #200000; 
 }
 
@@ -422,12 +420,62 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .edition-window {
-    margin: 0px;
+    margin: 0;
     padding: 10px;
     color: white;
     background-color: #200000;
     height: 100%;
     border-radius: 0;
+    display: inline-block;
+    transition: width .5s;
+}
+
+.edition-window-full {
+    width: 100%;   
+}
+
+.edition-window-reduce {
+    width: 75%;
+}
+
+.variables {
+    text-align: center;
+    background-color: antiquewhite;
+    margin: 0;
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    top: 0;
+    padding: 0;
+    height: 100%;
+    transition: all .5s ease;
+    display: inline-block;
+    box-shadow: 0 0 1px 1px #604040 inset, 0 0 10px 0 black;
+    overflow: hidden;
+}
+
+.variables .toolbar-workspace {
+    border-radius: 2px;
+}
+
+.variables-open {
+    visibility: visible;
+    padding: 5px;
+    width: 24%;
+}
+
+.variables-close {
+    visibility: hidden;
+    width: 0%;
+}
+
+.variables-set,
+.variables-set input {
+    color: #604040;
+}
+
+.variables-set h1 {
+    font-weight: 600;
 }
 
 #Values .list-group {
@@ -509,43 +557,43 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     height: 100%;
 }
 
-.save {
+.ico-save {
     background-image: url("../icons/ico-save.png");
 }
 
-.restore {
+.ico-restore {
     background-image: url("../icons/ico-restore.png");    
 }
 
-.clear {
+.ico-clear {
     background-image: url("../icons/ico-clear.png");    
 }
 
-.refresh {
+.ico-refresh {
     background-image: url("../icons/ico-refresh.png");
 }
 
-.research {
+.ico-research {
     background-image: url("../icons/ico-research.png");
 }
 
-.add {
+.ico-add {
     background-image: url("../icons/ico-add.png");
 }
 
-.delete {
+.ico-delete {
     background-image: url("../icons/ico-delete.png");
 }
 
-.saveServer {
+.ico-saveServer {
     background-image: url("../icons/ico-serv-store1.png");
 }
 
-.supressServer {
+.ico-supressServer {
     background-image: url("../icons/ico-serv-supress.png");
 }
 
-.variables {
+.ico-variables {
     background-image: url("../icons/variables.png");
 }
 .toolbar-group button {

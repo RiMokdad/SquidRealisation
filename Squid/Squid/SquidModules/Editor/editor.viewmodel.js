@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Decoder_1 = require("./../Util/Decoder");
-var Workspace_1 = require("./../BlocklyWrapper/Workspace");
-var server_request_1 = require("../Request/server_request");
-var signalr_methods_1 = require("../SignalR/signalr_methods");
 var Messages_1 = require("./../Util/Messages");
 var EventHandler_1 = require("./../Util/EventHandler");
 var Onglet_1 = require("./../Util/Onglet");
+var Workspace_1 = require("./../BlocklyWrapper/Workspace");
+var variables_set_viewmodel_1 = require("../Variables/variables_set.viewmodel");
+var server_request_1 = require("../Request/server_request");
+var signalr_methods_1 = require("../SignalR/signalr_methods");
 (function (RefreshState) {
     RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
     RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
@@ -31,7 +32,7 @@ var EditorComponent = (function () {
         this.placeholderTags = "tags1, tags2,...";
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
-        this.hiddenVariables = true;
+        this.ToggleVariables(true);
     }
     /**
      * Loaded after the whole page has been loaded
@@ -55,7 +56,7 @@ var EditorComponent = (function () {
         var updatevar = function (variables) {
             SimpleVariables.UpdateVariables(variables);
         };
-        server_request_1.Requests.ReloadVariables(updatevar);
+        //Requests.ReloadVariables(updatevar);
         this.pollRefresh();
     };
     EditorComponent.prototype.LoadModeBloc = function () {
@@ -163,21 +164,26 @@ var EditorComponent = (function () {
         }
     };
     // not in the right file
-    EditorComponent.prototype.ToggleTest = function () {
-        if (this.hiddenVariables) {
-            $('#variables').fadeIn().show();
-            $('#editor').removeClass('col-lg-12');
-            $('#editor').addClass('col-lg-9');
-            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
-            this.hiddenVariables = false;
+    EditorComponent.prototype.ToggleVariables = function (show) {
+        if (show != null) {
+            this.variablesShown = show;
+        }
+        console.log(this.variablesShown);
+        if (!this.variablesShown) {
+            $("#variables").removeClass("variables-close");
+            $("#editor").removeClass("edition-window-full");
+            $("#variables").addClass("variables-open");
+            $("#editor").addClass("edition-window-reduce");
         }
         else {
-            $('#variables').fadeOut().hide();
-            $('#editor').removeClass('col-lg-9');
-            $('#editor').addClass('col-lg-12');
-            document.getElementsByTagName("svg")[0].setAttribute("width", "100%");
-            this.hiddenVariables = true;
+            $("#variables").removeClass("variables-open");
+            $("#editor").removeClass("edition-window-reduce");
+            $("#variables").addClass("variables-close");
+            $("#editor").addClass("edition-window-full");
         }
+        if (this.workspace)
+            this.workspace.Resize();
+        return (this.variablesShown = !this.variablesShown);
     };
     /**
      * Binding for save
@@ -244,7 +250,8 @@ var EditorComponent = (function () {
     EditorComponent = __decorate([
         core_1.Component({
             selector: "editor",
-            templateUrl: "SquidModules/Editor/editor.view.html"
+            templateUrl: "SquidModules/Editor/editor.view.html",
+            directives: [variables_set_viewmodel_1.ConfigSetComponent, variables_set_viewmodel_1.InventorySetComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], EditorComponent);

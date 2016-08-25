@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var editor_viewmodel_1 = require("./Editor/editor.viewmodel");
-var variables_set_viewmodel_1 = require("./Variables/variables_set.viewmodel");
 var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
@@ -23,16 +22,21 @@ var DecoderComponent = (function () {
         var container = document.getElementsByClassName("main-content")[0];
         if (container) {
             var children = container.children;
-            for (var i = 0; i < children.length; i++) {
+            var _loop_1 = function(i) {
                 var child = children[i];
                 if (num !== i) {
+                    setTimeout(function () { child.style.display = "none"; }, 200);
                     child.style.visibility = "hidden";
                     child.style.opacity = "0";
                 }
                 else {
+                    child.style.display = "block";
                     child.style.visibility = "visible";
                     child.style.opacity = "1";
                 }
+            };
+            for (var i = 0; i < children.length; i++) {
+                _loop_1(i);
             }
         }
     };
@@ -42,8 +46,6 @@ var DecoderComponent = (function () {
             templateUrl: "SquidModules/main.view.html",
             directives: [
                 editor_viewmodel_1.EditorComponent,
-                variables_set_viewmodel_1.ConfigSetComponent,
-                variables_set_viewmodel_1.InventorySetComponent,
                 spec_viewmodel_1.SpecComponent
             ]
         }), 
