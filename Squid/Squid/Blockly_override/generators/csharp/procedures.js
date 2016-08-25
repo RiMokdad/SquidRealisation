@@ -3,7 +3,7 @@
 Blockly.CSharp.procedures = {};
 
 Blockly.CSharp.procedures_defnoreturn = function() {
-    // Define a procedure with a return value.
+    // Define a procedure with no return value.
   var funcName = Blockly.CSharp.variableDB_.getName(
       this.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
   var branch = Blockly.CSharp.statementToCode(this, 'STACK');
@@ -13,10 +13,6 @@ Blockly.CSharp.procedures_defnoreturn = function() {
         '\'' + this.id + '\'') + branch;
   }
 
-  var returnValue = Blockly.CSharp.valueToCode(this, 'RETURN', Blockly.CSharp.ORDER_NONE) || '';
-  if (returnValue) {
-    returnValue = '  return ' + returnValue + ';\n';
-  }
 
   var args = [];
   for (var x = 0; x < this.arguments_.length; x++) {
@@ -25,21 +21,7 @@ Blockly.CSharp.procedures_defnoreturn = function() {
       //args[x] = this.getFieldValue('ARG' + x);
   }
 
-  var append_to_list = function (res, val) {
-      if (res.length == 0)
-          argTypes = val;
-      else
-          argTypes += ', ' + val;
-  };
 
-  var argTypes = '';
-  for (var x = 0; x < args.length; x++) {
-      append_to_list(argTypes, 'dynamic');
-  }
-
-  if (returnValue.length != 0) {
-      append_to_list(argTypes, 'dynamic');
-  }
 
   var argsWithType = [];
     for (var x = 0; x < args.length; x++) {
@@ -51,38 +33,34 @@ Blockly.CSharp.procedures_defnoreturn = function() {
     }
 
 
-  var delegateType = (returnValue.length == 0) ? 'Action' : ('Func<' + argTypes + '>');
-
-  var code = 'var ' + funcName + ' = new ' + delegateType + '((' + args.join(', ') + ') => {\n' + branch + returnValue + '});';
-    if (!returnValue) {
         //code = 'public static void ' + funcName + ' (' + argsWithType.join(', ') + ') \n{\n' + branch + '\n}';
-        code = 'public static TDecodableBlock ' + funcName + '<TDecodableBlock>(this IDecodableStep<TDecodableBlock> previousDecodableStep' + argsString + ')' +
-            '\n\twhere TDecodableBlock : IDecodableStep<TDecodableBlock>' +
-            '\n{' +
-            '\n\tContract.Requires<ArgumentNullException>(previousDecodableStep != null);' +
-            '\n' +
-            '\n\treturn' +
-            '\n\t\tpreviousDecodableStep' +
-            '\n' + Blockly.CSharp.prefixLines(branch, "\t") + '}';
+    var code = 'public static TDecodableBlock ' + funcName + '<TDecodableBlock>(this IDecodableStep<TDecodableBlock> previousDecodableStep' + argsString + ')' +
+        '\n\twhere TDecodableBlock : IDecodableStep<TDecodableBlock>' +
+        '\n{' +
+        '\n\tContract.Requires<ArgumentNullException>(previousDecodableStep != null);' +
+        '\n' +
+        '\n\treturn' +
+        '\n\t\tpreviousDecodableStep' +
+        '\n' + Blockly.CSharp.prefixLines(branch, "\t") + '}';
 
-        //add an semicolon at the end, if needed
-        if (code.lastIndexOf(';') !== code.length - 3) {
-            code = code.slice(0, -2) + ';' + code.slice(-2);
-        }
-        
+    //add an semicolon at the end, if needed
+    if (code.lastIndexOf(';') !== code.length - 3) {
+        code = code.slice(0, -2) + ';' + code.slice(-2);
+    }
 
-        //remove if needed the unecessary .End(), which means if the .End is at the end of the procedure definition
-        var endPos = code.lastIndexOf('.End()');
-        if (endPos !== -1) {
-            var parPos = code.substring(endPos + 6).indexOf('(');
-            //var computePos = code.substring(0, endPos).indexOf('.Compute(');
-            if (parPos === -1) {
-                code = code.slice(0, endPos) + code.slice(endPos + 6);
-            }
+
+    //remove if needed the unecessary .End(), which means if the .End is at the end of the procedure definition
+    var endPos = code.lastIndexOf('.End()');
+    if (endPos !== -1) {
+        var parPos = code.substring(endPos + 6).indexOf('(');
+        //var computePos = code.substring(0, endPos).indexOf('.Compute(');
+        if (parPos === -1) {
+            code = code.slice(0, endPos) + code.slice(endPos + 6);
         }
     }
-  code = Blockly.CSharp.scrub_(this, code);
-  Blockly.CSharp.definitions_[funcName] = code;
+
+    code = Blockly.CSharp.scrub_(this, code);
+    Blockly.CSharp.definitions_[funcName] = code;
     return null;
 };
 
