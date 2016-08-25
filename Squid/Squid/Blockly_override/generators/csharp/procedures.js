@@ -46,6 +46,9 @@ Blockly.CSharp.procedures_defnoreturn = function() {
         argsWithType[x] = 'dynamic ' + args[x];//éventuellement à remplacer par object
     }
     var argsString = argsWithType.join(', ');
+    if (args.length != 0) {
+        argsString = ", " + argsString;
+    }
 
 
   var delegateType = (returnValue.length == 0) ? 'Action' : ('Func<' + argTypes + '>');
@@ -53,7 +56,7 @@ Blockly.CSharp.procedures_defnoreturn = function() {
   var code = 'var ' + funcName + ' = new ' + delegateType + '((' + args.join(', ') + ') => {\n' + branch + returnValue + '});';
     if (!returnValue) {
         //code = 'public static void ' + funcName + ' (' + argsWithType.join(', ') + ') \n{\n' + branch + '\n}';
-        code = 'public static TDecodableBlock ' + funcName + '<TDecodableBlock>(this IDecodableStep<TDecodableBlock> previousDecodableStep, ' + argsString + ')' +
+        code = 'public static TDecodableBlock ' + funcName + '<TDecodableBlock>(this IDecodableStep<TDecodableBlock> previousDecodableStep' + argsString + ')' +
             '\n\twhere TDecodableBlock : IDecodableStep<TDecodableBlock>' +
             '\n{' +
             '\n\tContract.Requires<ArgumentNullException>(previousDecodableStep != null);' +
