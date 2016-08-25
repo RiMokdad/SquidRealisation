@@ -30,7 +30,6 @@ spec {
 }
 
 editor {
-    z-index: 1;
 }
 
 spec {
@@ -39,7 +38,7 @@ spec {
 
 /* ----------------- Blockly Div --------------------- */
 .blocklyDiv {
-    height: 800px;
+    height: 80%;
     width: 100%; /*1000*/
     z-index: 800;
 }
@@ -325,26 +324,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 }
 
-/* ------------------- Sidebar ----------------------- */
-.side-bar {
-    padding-left: 5px;
-    font-family: 'Segoe UI', sans-serif;
-    position: fixed;
-    right: 0px;
-    top: 0;
-    height: 100%;
-    width: 25%;
-    z-index: 999;
-    min-width: 200px;
-    background: #604040;
-    color: antiquewhite;
-    text-align: center;
 
-}
 
-/*.side-bar .variable-name {
-    
-}*/
 .version-item {
     display: block;
     width: auto;
@@ -375,16 +356,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     text-align: center;
 }
 
-/*.side-bar input[type=text] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid;
-    border-radius: 4px;
-    background-color: #FFFFF0;
-    color: black;
-}*/
 
 .textarea {
     width: 100%;
@@ -440,7 +411,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .variables {
     text-align: center;
-    background-color: antiquewhite;
+    background-color: #604040;
     margin: 0;
     position: absolute;
     z-index: 0;
@@ -469,13 +440,14 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     width: 0%;
 }
 
-.variables-set,
-.variables-set input {
-    color: #604040;
+.variables-set {
+    background-color: #604040;
+    color: antiquewhite;
 }
 
 .variables-set h1 {
     font-weight: 600;
+    font-size: 1.5em;
 }
 
 #Values .list-group {
