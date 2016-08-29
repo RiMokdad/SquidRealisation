@@ -39,6 +39,9 @@ var EditorComponent = (function () {
      */
     EditorComponent.prototype.OnLoad = function () {
         this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        var load = document.getElementById("square");
+        load.style.opacity = "0";
+        setTimeout(1000, function () { load.remove(); });
         this.workspace.BindDecoder(this.decoder);
         this.decoder.Id = Onglet_1.Onglet.GetBlockIdInUrl();
         if (this.decoder.Id) {
@@ -165,6 +168,7 @@ var EditorComponent = (function () {
     };
     // not in the right file
     EditorComponent.prototype.ToggleVariables = function (show) {
+        var _this = this;
         if (show != null) {
             this.variablesShown = show;
         }
@@ -180,8 +184,8 @@ var EditorComponent = (function () {
             $("#variables").addClass("variables-close");
             $("#editor").addClass("edition-window-full");
         }
-        if (this.workspace)
-            this.workspace.Resize();
+        //if (this.workspace)
+        setTimeout(1000, function () { _this.workspace.Resize(); });
         return (this.variablesShown = !this.variablesShown);
     };
     /**

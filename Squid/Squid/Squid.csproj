@@ -2908,6 +2908,11 @@
     <Content Include="closure-library\third_party\closure\goog\osapi\osapi.js" />
     <Content Include="closure-library\third_party\closure\goog\svgpan\svgpan.js" />
     <Content Include="closure_override\inputhandler_override.js" />
+    <Content Include="Content\backgrounds\droplets-leafs.jpg" />
+    <Content Include="Content\backgrounds\grunge.jpg" />
+    <Content Include="Content\backgrounds\metal-grunge.jpg" />
+    <Content Include="Content\backgrounds\paintings.jpg" />
+    <Content Include="Content\backgrounds\sun-reflections.jpg" />
     <Content Include="Content\bootbox\bootbox.min.js" />
     <Content Include="Content\bootbox\example.js" />
     <Content Include="Content\css\app.css" />

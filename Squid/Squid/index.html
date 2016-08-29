@@ -2,13 +2,13 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Editeur de décodeur</title>
     <link rel="icon" href="Content/icons/ico-restore.png"/>
-    <link rel="stylesheet" href="Content/css/loading.css" />
+    <link rel="stylesheet" href="Content/css/loading.css"/>
     <link rel="stylesheet" href="Content/css/app.css" type="text/css"/>
     <link rel="stylesheet" href="Content/assets/sidebar-collapse.css"/>
-    <link rel="stylesheet" href="closure-library/closure/goog/css/autocomplete.css" type="text/css" />
+    <link rel="stylesheet" href="closure-library/closure/goog/css/autocomplete.css" type="text/css"/>
 
     <!-- 0. Load bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -17,7 +17,7 @@
           crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
     <!-- 1. Load libraries -->
@@ -42,83 +42,81 @@
     <script src="signalr/hubs"></script>
 
     <!-- AutoCompletion -->
-    
+
     <script>goog.require('goog.ui.ac');</script>
-    
-    
+
+
     <script src="SquidModules/Util/autocomplete.js"></script>
     <script src="SquidModules/Util/autocompletion.js"></script>
     <script src="SquidModules/Util/simple_variables.js"></script>
-
-    <script src="SquidModules/Util/utils.js"></script>
 
 
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-        System.import('app').catch(function (err) { console.error(err); });
+        System.import('app').catch(function(err) { console.error(err); });
     </script>
 
 </head>
 <body>
-    <div class="bb-alert alert alert-info" style="display:none;">
-        <span>The examples populate this alert with dummy content</span>
+<div class="background">
+    <!--<div id="c">
+        <div class="s"></div>
+        <div class="s"></div>
+        <div class="s"></div>
+        <div class="s"></div>
+        <div class="s"></div>
+        <div class="s"></div>
+    </div>-->
+    <div class="cssload-thecube" id="square">
+        <div class="cssload-cube cssload-c1"></div>
+        <div class="cssload-cube cssload-c2"></div>
+        <div class="cssload-cube cssload-c4"></div>
+        <div class="cssload-cube cssload-c3"></div>
     </div>
+</div>
+<div class="bb-alert alert alert-info" style="display: none;">
+    <span>The examples populate this alert with dummy content</span>
+</div>
 
 <decoder >
-    <div class="loading">
-        <div class="sk-circle">
-            <div class="sk-circle1 sk-child"></div>
-            <div class="sk-circle2 sk-child"></div>
-            <div class="sk-circle3 sk-child"></div>
-            <div class="sk-circle4 sk-child"></div>
-            <div class="sk-circle5 sk-child"></div>
-            <div class="sk-circle6 sk-child"></div>
-            <div class="sk-circle7 sk-child"></div>
-            <div class="sk-circle8 sk-child"></div>
-            <div class="sk-circle9 sk-child"></div>
-            <div class="sk-circle10 sk-child"></div>
-            <div class="sk-circle11 sk-child"></div>
-            <div class="sk-circle12 sk-child"></div>
-        </div>
-    </div>
 </decoder>
 
-    <!-- 3. Load Blockly -->
-    <script src="Blockly/blockly_uncompressed.js"></script>
-    <script src="Blockly_override/core/field_textinput.js"></script>
-    <script src="Blockly_override/core/block_svg.js"></script>
-    <!-- Messages -->
-    <script src="Blockly/msg/js/fr.js"></script>
-    <!-- Blocks -->
-    <script src="Blockly/blocks/procedures.js"></script>
-    <script src="Blockly_override/blocks/procedures.js"></script>
-    <script src="Blockly_override/blocks/custom.js"></script>
-    <script src="Blockly_override/blocks/custom_if.js"></script>  
+<!-- 3. Load Blockly -->
+<script src="Blockly/blockly_uncompressed.js"></script>
+<script src="Blockly_override/core/field_textinput.js"></script>
+<script src="Blockly_override/core/block_svg.js"></script>
+<!-- Messages -->
+<script src="Blockly/msg/js/fr.js"></script>
+<!-- Blocks -->
+<script src="Blockly/blocks/procedures.js"></script>
+<script src="Blockly_override/blocks/procedures.js"></script>
+<script src="Blockly_override/blocks/custom.js"></script>
+<script src="Blockly_override/blocks/custom_if.js"></script>
 
-    <!--Csharp generator-->
-    <script src="Blockly_override/generators/csharp.js"></script>
-    <script src="Blockly_override/generators/csharp/procedures.js"></script>
-    <script src="Blockly_override/generators/csharp/base_blocks.js"></script>
-    <script src="Blockly_override/generators/csharp/decoding_blocks.js"></script>
-    <script src="Blockly_override/generators/csharp/utils.js"></script>
+<!--Csharp generator-->
+<script src="Blockly_override/generators/csharp.js"></script>
+<script src="Blockly_override/generators/csharp/procedures.js"></script>
+<script src="Blockly_override/generators/csharp/base_blocks.js"></script>
+<script src="Blockly_override/generators/csharp/decoding_blocks.js"></script>
+<script src="Blockly_override/generators/csharp/utils.js"></script>
 
-    <!-- French generator -->
-    <script src="Blockly_override/generators/french.js"></script>
-    <script src="Blockly_override/generators/french/decoding_blocks.js"></script>
-    <script src="Blockly_override/generators/french/base_blocks.js"></script>
-    <script src="Blockly_override/generators/french/procedures.js"></script>
+<!-- French generator -->
+<script src="Blockly_override/generators/french.js"></script>
+<script src="Blockly_override/generators/french/decoding_blocks.js"></script>
+<script src="Blockly_override/generators/french/base_blocks.js"></script>
+<script src="Blockly_override/generators/french/procedures.js"></script>
 
-    <script src="closure_override/inputhandler_override.js"></script>
+<script src="closure_override/inputhandler_override.js"></script>
 
 <script>
-        $(function () {
-            Example.init({
-                "selector": ".bb-alert"
-            });
+    $(function() {
+        Example.init({
+            "selector": ".bb-alert"
         });
-    </script>
+    });
+</script>
 
-
+<link rel="stylesheet" href="Content/css/blockly.css"/>
 </body>
 </html>

@@ -1,0 +1,44 @@
+﻿.blocklyDiv {
+    height: 90%;
+    width: 100%; /*1000*/
+    z-index: 800;
+}
+
+.blocklyToolboxDiv {
+    margin: 0;
+    background-color: rgb(43, 160, 199);
+}
+
+.blocklySvg {
+    background: none;
+}
+
+.blocklyMainBackground {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.blocklyFlyout,
+.blocklyFlyoutBackground {
+}
+
+.blocklyTreeIconClosedLtr {
+    background-image: url('../icons/ico-arrow-right-white.png') ;
+    background-repeat: no-repeat;
+    background-position: left top ;
+    background-size: 100% 100%;
+    transition: .1s;
+    transform: rotate(0deg);
+}
+
+.blocklyTreeIconOpen {
+    transition: .1s;
+    background-image: url('../icons/ico-arrow-right-white.png') ;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: left top ;
+    transform: rotate(45deg);
+}
+
+.blocklyTreeLabel {
+    font-style: normal ;
+}

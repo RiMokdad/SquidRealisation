@@ -60,6 +60,9 @@ export class EditorComponent {
      */
     OnLoad() {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
+        const load = document.getElementById("square");
+        load.style.opacity = "0";
+        setTimeout(1000, () => { load.remove() });
         this.workspace.BindDecoder(this.decoder);
         this.decoder.Id = Onglet.GetBlockIdInUrl();
 
@@ -230,8 +233,8 @@ export class EditorComponent {
             $("#variables").addClass("variables-close");
             $("#editor").addClass("edition-window-full");
         }
-        if(this.workspace)
-            this.workspace.Resize();
+        //if (this.workspace)
+            setTimeout(1000, () => { this.workspace.Resize() });
         return (this.variablesShown = !this.variablesShown);
     }
 

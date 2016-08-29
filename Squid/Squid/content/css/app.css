@@ -1,6 +1,16 @@
 ﻿body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #200000;
+}
+
+.background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    background-image: url("../backgrounds/paintings.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    opacity: 1;
 }
 
 span {
@@ -20,13 +30,13 @@ span {
 
 editor,
 spec {
-    padding-left: 20px;
+    padding-left: 10px;
     visibility: hidden;
     position: absolute;
     width: 100%;
     height: 100%;
     transition: visibility 0.2s, opacity 0.2s;
-    background-color: #200000; 
+    background: none;
 }
 
 editor {
@@ -37,11 +47,6 @@ spec {
 }
 
 /* ----------------- Blockly Div --------------------- */
-.blocklyDiv {
-    height: 80%;
-    width: 100%; /*1000*/
-    z-index: 800;
-}
 
 .dev-block {
     display: block;
@@ -75,48 +80,13 @@ spec {
 }
 
 #filesDiv button:active {
-    background-color: antiquewhite;
+    background-color: white;
 }
 
 #filesDiv button:selection {
     border-bottom-color: #454545;
 }
 
-.blocklyToolboxDiv {
-    margin: 0;
-    background-color: #200000 !important;
-}
-
-/*background*/
-.blocklySvg {
-  background-color: #FFFFFF !important;
-}
-
-.blocklyTreeLabel {
-    color: white !important;
-}
-
-.blocklyTreeIconClosedLtr {
-    background-image: url('../icons/ico-arrow-right-white.png') !important;
-    background-repeat: no-repeat;
-    background-position: left top !important;
-    background-size: 100% 100%;
-    transition: .1s;
-    transform: rotate(0deg);
-}
-
-.blocklyTreeIconOpen {
-    transition: .1s;
-    background-image: url('../icons/ico-arrow-right-white.png') !important;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: left top !important;
-    transform: rotate(45deg);
-}
-
-.blocklyTreeLabel {
-    font-style: normal !important;
-}
 /* ------------------- Util -------------------------- */
 .full-height {
     height: 100%;
@@ -139,30 +109,10 @@ spec {
 }
 
 /* ---------------- Generated code ------------------- */
-/*.code-generator {
-    position: absolute;
-    width: 75%;
-    left: 0;
-    padding-right: 0px;
-    z-index: 100;
-    transition: 0.4s;
-    overflow: hidden;
-}
-
-.code-hide {
-    position: relative;
-    top: 0;
-    width: 100%;
-    height: 70px;
-    background: none;
-    border: 0;
-}*/
-
 .code-hide button {
     width: 100%;
     height: 70px;
-    color: antiquewhite;
-    background-color: #200000;
+    color: white;
     border: 0;
     box-shadow: 0 0 30px 4px #604040 inset;
     transition: 0.4s;
@@ -181,9 +131,8 @@ spec {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: antiquewhite;
     color: #604040;
-    box-shadow: 0 0 3px 1px #200000 inset;
+    box-shadow: 0 0 3px 1px #10208A inset;
     transition: 0.4s;
 }
 
@@ -228,9 +177,8 @@ spec {
     text-align: center;
     border: 0;
     box-shadow: 0 0 1px 1px #604040;
-    background-color: #200000;
     font-weight: 700;
-    color: antiquewhite;
+    color: white;
     transition: 0.1s;
 }
 
@@ -277,34 +225,6 @@ spec {
     font-style: normal;
 }
 
-/*
-.code-hide {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    z-index: 999;
-    width: 100%;
-    height: 70px;
-}
-
-.code-hide button {
-    transition: 0.2s;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    border: 0px;
-    width: 100%;
-    font-size: 2em;
-    color: antiquewhite;
-    background-color: #200000;
-    box-shadow: 0px 0px 5px 0px antiquewhite inset;
-}
-
-.code-hide button:hover {
-    background-color: #300000;
-}
-*/
 .rotate {
 
 /* Safari */
@@ -347,7 +267,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     font-weight: bold;
     font-family: 'Segoe UI', sans-serif;
     color: #604040;
-    border: 1px #200000 solid;
+    border: 1px #10208A solid;
     border-radius: 2px;
     box-shadow: 0 0;      
 }
@@ -376,8 +296,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     border-radius: 50%;
     height: 20px;
     width: 20px;
-    box-shadow: 0px 0px 0px 0px antiquewhite inset;
-    background-color: antiquewhite;
+    box-shadow: 0px 0px 0px 0px white inset;
+    background-color: white;
     background-size: 60% 60%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -394,7 +314,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     margin: 0;
     padding: 10px;
     color: white;
-    background-color: #200000;
     height: 100%;
     border-radius: 0;
     display: inline-block;
@@ -442,7 +361,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .variables-set {
     background-color: #604040;
-    color: antiquewhite;
+    color: white;
 }
 
 .variables-set h1 {
@@ -477,8 +396,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .toolbar-workspace {
     margin: 0px;
     padding: 10px;
-    color: white;
-    background-color: #200000;
+    background: none;
     height: auto;
     border-radius: 0;
 }
@@ -495,7 +413,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     display: inline-block;
     height: 30px;
     border-radius: 0;
-    border-top: 1px solid antiquewhite;  
+    border-top: 1px solid white;  
 }
 
 .decoder-info label {
@@ -514,7 +432,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .toolbar-group input {
     position: relative;
     padding: 0 2px;
-    color: #200000;
+    color: #10208A;
 }
 
 .toolbar-group p{
@@ -523,7 +441,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     font-size: 18px
 }
 .toolbar-group span {
-    color: antiquewhite;
+    color: white;
     font-size: 1.9em;
     margin: 0;
     height: 100%;
@@ -571,7 +489,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .toolbar-group button {
     margin: 0px;
     padding: 0px;
-    background-color: antiquewhite; 
+    background-color: white; 
     width: 30px;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -581,14 +499,14 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .item-workspace {
     position: relative;
-    box-shadow: 0 0 1px 0px #200000 inset;
+    box-shadow: 0 0 1px 0px #10208A inset;
     border-radius: 1px;
-    color: #200000;
+    color: #10208A;
     transition: 0.1s;
     font-family: 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: bold;
-    background-color: antiquewhite;
+    background-color: white;
     height: 30px;
     margin-top: 0;
     border: 0;
@@ -599,7 +517,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .toolbar-group button:active {
-    background-color: antiquewhite;
+    background-color: white;
 }
 
 .toolbar-group button:selection {
@@ -609,7 +527,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .set-title {
     background-color: #000000;
     background-color: rgba(0,0,0,0);
-    color: antiquewhite !important;
+    color: white !important;
     border: 0 !important;
     width: auto !important;
     top: 0;
@@ -626,7 +544,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .dropdown {
     font-family: 'Segoe UI', sans-serif;
     position: absolute;
-    background-color: antiquewhite;
+    background-color: white;
     top: 100%;
     left: 0;
     z-index: 2000;
@@ -635,7 +553,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     padding: 0;
     min-height: 30px;
     max-height: 300px;
-    box-shadow: 0 0 1px 0px #200000 inset,
+    box-shadow: 0 0 1px 0px #10208A inset,
         0 0 2px 0px black;
     width: 200px;
 }
@@ -643,8 +561,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 .dropdown li{
     position: relative;
     text-align: left;
-    background-color: antiquewhite;
-    color: #200000;
+    background-color: white;
+    color: #10208A;
     margin: 0;
     padding: 3px 5px;
     transition: 0.05s;
@@ -666,7 +584,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .dropdown li:hover {
     background-color: #f6d781;
-    color: #200000;
+    color: #10208A;
 }
 
 /* */
@@ -676,7 +594,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     width: 190px;
     font-family: open sans;
     font-weight: 500;
-    background-color: #200000;
     
     position: absolute;
     display: inline-block;
@@ -698,7 +615,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     text-align: left;
     padding: 5px;
     background-color: #604040;
-    color: antiquewhite;
+    color: white;
     box-shadow: none;
     border: none;
     margin: 1px;
@@ -706,7 +623,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
 .decoders-list .dropdown-menu {
-    background: antiquewhite;
+    background: white;
     position: static;
 }
 
@@ -714,8 +631,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     text-align: left;
     width: 100%;
     padding: 5px;
-    background-color: antiquewhite;
-    color: #200000 !important;
+    background-color: white;
+    color: #10208A !important;
     transition: .2s;
     cursor: context-menu;
 }
