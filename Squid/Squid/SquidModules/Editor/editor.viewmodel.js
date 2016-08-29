@@ -44,6 +44,7 @@ var EditorComponent = (function () {
         if (this.decoder.Id) {
             if (this.decoder.Id === -1) {
                 this.LoadModeEncapsulateBlock();
+                this.decoder.Id = null;
             }
             else {
                 this.LoadModeBloc();
