@@ -1,25 +1,4 @@
-﻿export module Utils {
-
-    export function GenerateUUID() : any {
-        var d = new Date().getTime();
-        if (window.performance && typeof window.performance.now === "function") {
-            d += performance.now(); //use high-precision timer if available
-        }
-        const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,
-            c => {
-                const r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
-            });
-        return uuid;
-    }
-
-    export function RemoveDuplicates(array: Array<any>): Array<any> {
-        var seen = {};
-        return array.filter(item => (seen.hasOwnProperty(item) ? false : (seen[item] = true)));
-    }
-}
-
+﻿
 export class DisplayTools {
 
     /**

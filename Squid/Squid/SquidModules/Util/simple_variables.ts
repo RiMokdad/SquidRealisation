@@ -1,6 +1,5 @@
-﻿import { Utils } from "./Utils";
-
-export module SimpleVariables {
+﻿
+module SimpleVariables {
     var variables: { [key: string]: string } = {};
 
     export function AddVariable(key: string, value: string) {
@@ -23,11 +22,16 @@ export module SimpleVariables {
         for (let i = 0; i < keys.length; i++) {
             names.push(variables[keys[i]]);
         }
-        return Utils.RemoveDuplicates(names);
+        return RemoveDuplicates(names);
     }
 
     //deep copy, not reference
     export function GetVariablesAsJson(): string{
         return JSON.stringify(variables);
+    }
+
+    function RemoveDuplicates(array: Array<any>): Array<any> {
+        var seen = {};
+        return array.filter(item => (seen.hasOwnProperty(item) ? false : (seen[item] = true)));
     }
 }

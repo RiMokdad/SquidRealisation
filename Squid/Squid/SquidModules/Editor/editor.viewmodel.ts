@@ -14,7 +14,6 @@ import { ConfigSetComponent, InventorySetComponent } from "../Variables/variable
 
 import { Requests } from "../Request/server_request";
 import { ServerNotifications } from "../SignalR/signalr_methods";
-import {SimpleVariables} from "./../Util/simple_variables";
 
 
 declare var Ac: any;
