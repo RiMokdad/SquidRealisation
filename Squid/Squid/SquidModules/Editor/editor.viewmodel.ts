@@ -12,8 +12,9 @@ import { ToolboxManager } from "./../Toolbox/toolboxManager";
 import { Workspace } from "./../BlocklyWrapper/Workspace";
 import { ConfigSetComponent, InventorySetComponent } from "../Variables/variables_set.viewmodel";
 
-import { Requests } from "../Request/server_request"
+import { Requests } from "../Request/server_request";
 import { ServerNotifications } from "../SignalR/signalr_methods";
+import {SimpleVariables} from "./../Util/simple_variables";
 
 
 declare var Ac: any;

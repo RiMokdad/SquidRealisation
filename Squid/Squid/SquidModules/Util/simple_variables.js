@@ -1,3 +1,5 @@
+"use strict";
+var Utils_1 = require("./Utils");
 var SimpleVariables;
 (function (SimpleVariables) {
     var variables = {};
@@ -21,7 +23,7 @@ var SimpleVariables;
         for (var i = 0; i < keys.length; i++) {
             names.push(variables[keys[i]]);
         }
-        return Utils.RemoveDuplicates(names);
+        return Utils_1.Utils.RemoveDuplicates(names);
     }
     SimpleVariables.GetNames = GetNames;
     //deep copy, not reference
@@ -29,5 +31,5 @@ var SimpleVariables;
         return JSON.stringify(variables);
     }
     SimpleVariables.GetVariablesAsJson = GetVariablesAsJson;
-})(SimpleVariables || (SimpleVariables = {}));
+})(SimpleVariables = exports.SimpleVariables || (exports.SimpleVariables = {}));
 //# sourceMappingURL=simple_variables.js.map

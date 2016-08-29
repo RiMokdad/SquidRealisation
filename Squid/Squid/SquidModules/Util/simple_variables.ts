@@ -1,6 +1,6 @@
 ﻿import { Utils } from "./Utils";
 
-module SimpleVariables {
+export module SimpleVariables {
     var variables: { [key: string]: string } = {};
 
     export function AddVariable(key: string, value: string) {

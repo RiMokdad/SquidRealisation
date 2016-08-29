@@ -19,13 +19,13 @@ var Utils;
         return array.filter(function (item) { return (seen.hasOwnProperty(item) ? false : (seen[item] = true)); });
     }
     Utils.RemoveDuplicates = RemoveDuplicates;
-})(Utils || (Utils = {}));
+})(Utils = exports.Utils || (exports.Utils = {}));
 var DisplayTools = (function () {
     function DisplayTools() {
     }
     DisplayTools.switch = function (value, elements) {
         var n = elements.length;
-        value = Math.mod(value, n);
+        value = MyMath.mod(value, n);
         for (var i = 0; i < n; i++) {
             var side = elements[i];
             if ((i % n) === value) {
@@ -37,23 +37,23 @@ var DisplayTools = (function () {
                 side.style.transform = "rotateY(180deg)";
             }
         }
-        return Math.mod(value + 1, n);
+        return MyMath.mod(value + 1, n);
     };
     return DisplayTools;
 }());
 exports.DisplayTools = DisplayTools;
-var Math = (function () {
-    function Math() {
+var MyMath = (function () {
+    function MyMath() {
     }
     /**
      * The modulo of n ranging from 0 to m.
      * @param n
      * @param m
      */
-    Math.mod = function (n, m) {
+    MyMath.mod = function (n, m) {
         return ((n % m) + m) % m;
     };
-    return Math;
+    return MyMath;
 }());
-exports.Math = Math;
-//# sourceMappingURL=utils.js.map
+exports.MyMath = MyMath;
+//# sourceMappingURL=Utils.js.map

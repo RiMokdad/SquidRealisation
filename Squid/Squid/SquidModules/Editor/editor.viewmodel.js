@@ -17,6 +17,7 @@ var Workspace_1 = require("./../BlocklyWrapper/Workspace");
 var variables_set_viewmodel_1 = require("../Variables/variables_set.viewmodel");
 var server_request_1 = require("../Request/server_request");
 var signalr_methods_1 = require("../SignalR/signalr_methods");
+var simple_variables_1 = require("./../Util/simple_variables");
 (function (RefreshState) {
     RefreshState[RefreshState["UP_TO_DATE"] = 0] = "UP_TO_DATE";
     RefreshState[RefreshState["PENDING"] = 1] = "PENDING";
@@ -54,7 +55,7 @@ var EditorComponent = (function () {
         }
         this.ac = new Ac();
         var updatevar = function (variables) {
-            SimpleVariables.UpdateVariables(variables);
+            simple_variables_1.SimpleVariables.UpdateVariables(variables);
         };
         //Requests.ReloadVariables(updatevar);
         this.pollRefresh();
@@ -220,7 +221,7 @@ var EditorComponent = (function () {
                 "\n - Vous n'avez rien à sauvegarder");
         }
         //test
-        server_request_1.Requests.SaveVariables(SimpleVariables.GetVariablesAsJson());
+        server_request_1.Requests.SaveVariables(simple_variables_1.SimpleVariables.GetVariablesAsJson());
     };
     /**
      * Restore the block with the given id
