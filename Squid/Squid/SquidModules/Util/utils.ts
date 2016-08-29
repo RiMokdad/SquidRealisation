@@ -1,12 +1,12 @@
-﻿module Utils {
+﻿export module Utils {
 
-    export function GenerateUUID() {
+    export function GenerateUUID() : any {
         var d = new Date().getTime();
         if (window.performance && typeof window.performance.now === "function") {
             d += performance.now(); //use high-precision timer if available
         }
         const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,
-            function(c) {
+            c => {
                 const r = (d + Math.random() * 16) % 16 | 0;
                 d = Math.floor(d / 16);
                 return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
@@ -34,7 +34,7 @@ export class DisplayTools {
     static switch(value: number, elements: any): number {
 
         const n = elements.length;
-        value = Math.mod(value, n) ;
+        value = MyMath.mod(value, n) ;
         for (let i = 0; i < n; i++) {
             const side = elements[i] as HTMLElement;
             if ((i % n) === value) {
@@ -45,11 +45,11 @@ export class DisplayTools {
                 side.style.transform = "rotateY(180deg)";
             }
         }
-        return Math.mod(value + 1, n);
+        return MyMath.mod(value + 1, n);
     }
 }
 
-export class Math {
+export class MyMath {
     /**
      * The modulo of n ranging from 0 to m.
      * @param n

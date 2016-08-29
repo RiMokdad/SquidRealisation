@@ -1,4 +1,5 @@
-﻿
+﻿import { Utils } from "./Utils";
+
 module SimpleVariables {
     var variables: { [key: string]: string } = {};
 
