@@ -168,7 +168,6 @@ var EditorComponent = (function () {
     };
     // not in the right file
     EditorComponent.prototype.ToggleVariables = function (show) {
-        var _this = this;
         if (show != null) {
             this.variablesShown = show;
         }
@@ -184,8 +183,17 @@ var EditorComponent = (function () {
             $("#variables").addClass("variables-close");
             $("#editor").addClass("edition-window-full");
         }
-        //if (this.workspace)
-        setTimeout(1000, function () { _this.workspace.Resize(); });
+        var time = 0;
+        var inc = 10;
+        var res = function () {
+            time += inc;
+            window.dispatchEvent(new Event("resize"));
+            if (time < 200) {
+                setTimeout(res, inc);
+            }
+        };
+        if (this.workspace)
+            setTimeout(res, 200);
         return (this.variablesShown = !this.variablesShown);
     };
     /**

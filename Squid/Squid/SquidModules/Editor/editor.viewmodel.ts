@@ -233,8 +233,19 @@ export class EditorComponent {
             $("#variables").addClass("variables-close");
             $("#editor").addClass("edition-window-full");
         }
-        //if (this.workspace)
-            setTimeout(1000, () => { this.workspace.Resize() });
+
+        var time = 0;
+        var inc = 10;
+        const res = () => {
+            time += inc;
+            window.dispatchEvent(new Event("resize"));
+            if (time < 200) {
+                setTimeout(res, inc);
+            }
+        };
+
+        if (this.workspace)
+            setTimeout( res, 200);
         return (this.variablesShown = !this.variablesShown);
     }
 

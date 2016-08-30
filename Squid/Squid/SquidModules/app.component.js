@@ -13,9 +13,18 @@ var editor_viewmodel_1 = require("./Editor/editor.viewmodel");
 var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
+        this.backgrounds = [
+            "paintings.jpg", "grunge.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
+        ];
+        this.idx = 0;
     }
     DecoderComponent.prototype.ngOnInit = function () {
         this.Select(0);
+    };
+    DecoderComponent.prototype.ChangeBackground = function () {
+        var background = document.getElementsByClassName("background")[0];
+        this.idx = (this.idx + 1) % this.backgrounds.length;
+        background.style.backgroundImage = "url('../Content/backgrounds/" + this.backgrounds[this.idx] + "')";
     };
     DecoderComponent.prototype.Select = function (num) {
         num = num || 0;

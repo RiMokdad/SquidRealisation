@@ -96,7 +96,7 @@ var Workspace = (function () {
         return (blocks.length == 1 && blocks[0].getProcedureDef);
     };
     Workspace.prototype.Resize = function () {
-        this.workspace.resize();
+        Blockly.resizeSvgContents(this.workspace);
     };
     Workspace.prototype.Clear = function () {
         this.workspace.clear();

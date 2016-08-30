@@ -10,13 +10,23 @@ import { OnInit } from "@angular/core/index";
     directives: [
         EditorComponent,
         SpecComponent
-        ]
+    ]
 })
 export class DecoderComponent implements OnInit {
     activDiv: Node;
+    private backgrounds = [
+        "paintings.jpg", "grunge.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
+    ];
+    private idx = 0;
 
     ngOnInit(): void {
         this.Select(0);
+    }
+
+    ChangeBackground() {
+        const background = document.getElementsByClassName("background")[0] as HTMLElement;
+        this.idx = (this.idx + 1) % this.backgrounds.length;
+        background.style.backgroundImage = "url('../Content/backgrounds/" + this.backgrounds[this.idx] + "')";
     }
 
     Select(num: number) {
@@ -26,7 +36,7 @@ export class DecoderComponent implements OnInit {
             const children = container.children;
             for (let i = 0; i < children.length; i++) {
                 const child = children[i] as HTMLElement;
-                
+
                 if (num !== i) {
                     setTimeout(() => { child.style.display = "none"; }, 200);
                     child.style.visibility = "hidden";

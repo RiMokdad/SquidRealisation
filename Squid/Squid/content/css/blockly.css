@@ -6,11 +6,12 @@
 
 .blocklyToolboxDiv {
     margin: 0;
-    background-color: rgb(43, 160, 199);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .blocklySvg {
-    background: none;
+    box-shadow: 0 0 1px 1px black;
+    background: rgba(255,255,255, 0.7);
 }
 
 .blocklyMainBackground {

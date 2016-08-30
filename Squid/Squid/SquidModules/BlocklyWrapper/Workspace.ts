@@ -128,7 +128,7 @@ export class Workspace {
     }
 
     Resize() {
-        this.workspace.resize();
+        Blockly.resizeSvgContents(this.workspace);
     }
 
     Clear() {

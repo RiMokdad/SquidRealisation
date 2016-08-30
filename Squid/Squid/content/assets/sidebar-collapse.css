@@ -1,9 +1,7 @@
 /* The main content */
-
 .main-content {
 	font-family: Arial, Helvetica, sans-serif;
 	width: 100%;
-	margin: 0;
 }
 
 
@@ -11,24 +9,17 @@
 
 .sidebar-left-collapse {
 	/*rgba(176, 215, 255, 0.4)*/
-	border-right: solid black 20px;
 	font-family: Arial, Helvetica, sans-serif;
 	position: fixed;
 	top: 0;
-	left: 0;
-	background-color: #292c2f;
-	width: 1px;
+    box-shadow: 0 0 1px 1px black inset, 
+        0 0 10px 0 black;
+	width: 120px;
 	height: 100%;
 	padding: 20px 0;
-	
-	overflow: hidden;
+	overflow: visible;
 	z-index: 900;
-	box-shadow: 0 0 10px 2px black;
-	transition: width 0.7s ease, border 0.5s linear ;
-}
-.sidebar-left-collapse:hover {
-	width: 210px;
-	border: 0;
+	transition: left 0.7s ease, width 0.7s ease, border 0.5s linear ;
 }
 
 .sidebar-left-collapse > a {
@@ -40,15 +31,16 @@
 	margin: 0 auto;
 	text-align: center;
 	color:  #ffffff;
-	font-size: 44px;
+	font-size: 35px;
 	font-weight: normal;
 	line-height: 2.6;
 	border-radius: 50%;
-	background-color:  #181a1b;
 }
 
 .sidebar-left-collapse .company-logo {
-	background-image: url("../icons/M2Ocity_LOGO.png");
+    width: 70px;
+    height: 70px;
+	background-image: url("../icons/cuttlefish.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
@@ -60,29 +52,36 @@
 .sidebar-links div > a {
 	display: block;
 	text-decoration: none;
-	margin: 0 auto 5px auto;
+	margin: 0 auto 5px 0;
 	padding: 10px 0 10px 5px;
-	background-color: #35393e;
+	background-color: rgba(0,48,68,.3);
 	text-align: left;
-	color:  #b3bcc5;
+	color:  white;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 2;
-	border-left-width: 2px;
+	border-left-width: 10px;
 	border-left-style: solid;
+    overflow: hidden;
     cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.sidebar-links div > a:hover {
+    background-color: rgba(255,255,255,0.3);
 }
 
 .sidebar-links div.selected > a{
 	background-color: #ffffff;
-	color: #565d63;
+	color: white;
 	line-height: 2.3;
 	margin: 0;
 }
 
 .sidebar-links div > a i.fa {
 	position: relative;
-	font-size: 20px;
+	font-size: 16px;
 	top: 3px;
 	width: 40px;
 	text-align: center;
@@ -93,7 +92,7 @@
 	overflow: hidden;
 	list-style: none;
 	padding: 0 0 0 30px;
-	color:  #b3bcc5;
+	color:  white;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 24px;
@@ -108,7 +107,7 @@
 
 .sidebar-links div .sub-links a {
 	text-decoration: none;
-	color: #b3bcc5;
+	color: white;
 	display: block;
 	text-align: left;
 }
@@ -117,34 +116,21 @@
 
 .sidebar-links div.link-blue > a {
 	border-color: #487db2;
+    border-color: rgb(20,48,98);
 }
 
-.sidebar-links div.link-blue > a i.fa {
-	color: #487db2;
-}
 
 .sidebar-links div.link-red > a {
-	border-color: #da4545;
+	border-color: rgb(160,48,57);
 }
 
-.sidebar-links div.link-red > a i.fa {
-	color: #da4545;
-}
 
 .sidebar-links div.link-yellow > a {
 	border-color: #d0d237;
 }
 
-.sidebar-links div.link-yellow > a i.fa {
-	color: #d0d237;
-}
-
 .sidebar-links div.link-green > a {
 	border-color: #86be2e;
-}
-
-.sidebar-links div.link-green > a i.fa {
-	color: #86be2e;
 }
 
 /* Making the sidebar responsive */

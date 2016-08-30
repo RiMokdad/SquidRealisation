@@ -1,22 +1,22 @@
 ﻿<div class="full-height">
-        <aside class="sidebar-left-collapse">
-            <a href="#" class="company-logo"></a>
-            <div class="sidebar-links">
-                <div class="link-blue">
-                    <a (click)="Select(0)">
-                        <i class="fa">Editeur</i>
-                    </a>
-                </div>
-
-                <div class="link-green">
-                    <a (click)="Select(1)">
-                        <i class="fa">Spécifications et code</i>
-                    </a>
-                </div>
+    <aside class="sidebar-left-collapse">
+        <a class="company-logo" (click)="ChangeBackground()"></a>
+        <div class="sidebar-links">
+            <div class="link-blue">
+                <a (click)="Select(0)">
+                    <i class="fa">Editeur</i>
+                </a>
             </div>
-        </aside>
-        <div class="main-content">
-            <editor></editor>
-            <spec></spec>
+
+            <div class="link-red">
+                <a (click)="Select(1)">
+                    <i class="fa">Specs et code</i>
+                </a>
+            </div>
         </div>
+    </aside>
+    <div class="main-content">
+        <editor></editor>
+        <spec></spec>
+    </div>
 </div>
