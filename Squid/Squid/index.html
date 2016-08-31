@@ -5,11 +5,6 @@
     <meta charset="utf-8"/>
     <title>Editeur de décodeur</title>
     <link rel="icon" href="Content/icons/ico-restore.png"/>
-    <link rel="stylesheet" href="Content/css/loading.css"/>
-    <link rel="stylesheet" href="Content/css/app.css" type="text/css"/>
-    <link rel="stylesheet" href="Content/css/tools.css" type="text/css" />
-    <link rel="stylesheet" href="Content/assets/sidebar-collapse.css"/>
-    <link rel="stylesheet" href="closure-library/closure/goog/css/autocomplete.css" type="text/css"/>
 
     <!-- 0. Load bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
@@ -20,6 +15,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="Content/css/loading.css"/>
+    <link rel="stylesheet" href="Content/css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="Content/css/tools.css" type="text/css" />
+    <link rel="stylesheet" href="Content/assets/sidebar-collapse.css"/>
+    <link rel="stylesheet" href="closure-library/closure/goog/css/autocomplete.css" type="text/css"/>
 
     <!-- 1. Load libraries -->
 
@@ -51,6 +52,8 @@
     <script src="SquidModules/Util/autocompletion.js"></script>
     <script src="SquidModules/Util/simple_variables.js"></script>
 
+    <script src="SquidModules/Util/shortcut.js"></script>
+
 
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
@@ -70,7 +73,11 @@
         <div class="s"></div>
     </div>-->
 </div>
-<div class="loading">
+<div class="loading" id="loading">
+    <h1>Cuttlefish</h1>
+    <div class="img">
+        <img src="Content/icons/cuttlefish.png" alt="Cuttlefish">
+    </div>
     <div class="cssload-thecube" id="square">
         <div class="cssload-cube cssload-c1"></div>
         <div class="cssload-cube cssload-c2"></div>

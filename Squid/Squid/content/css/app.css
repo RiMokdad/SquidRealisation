@@ -9,6 +9,7 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     filter: blur(15px);
+    
     height: 100%;
     opacity: 1;
     position: fixed;
@@ -33,46 +34,11 @@ editor { }
 
 spec { overflow: hidden; }
 
-/* ----------------- Blockly Div --------------------- */
-
-#filesDiv {
-    position: relative;
-    z-index: 999;
-}
-
-#filesDiv button {
-    background-color: #ececec;
-    border: 0;
-    border-left: solid grey 3px;
-    border-radius: 1px;
-    color: black;
-    display: inline-block;
-    font-family: 'Segoe UI', sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    height: 30px;
-    margin: 0px;
-    position: relative;
-    transition: 1s;
-}
-
-#filesDiv button:hover {
-    background-color: #d0d0d0;
-    border-left: solid red 3px;
-    transition: 0.1s;
-}
-
-#filesDiv button:active { background-color: white; }
-
-#filesDiv button:selection { border-bottom-color: #454545; }
-
 /* ---------------- Generated code ------------------- */
+
 .generated-code {
-    box-shadow: 0 0 3px 1px #10208A inset;
-    color: #604040;
     height: 100%;
     margin: 0;
-    padding: 0;
     position: absolute;
     transition: 0.4s;
     width: 100%;
@@ -89,10 +55,10 @@ spec { overflow: hidden; }
 .switch-wrapper {
     backface-visibility: hidden;
     height: 100%;
-    padding-left: 190px;
+    padding-left: 150px;
     position: absolute;
     transition: all 1s, visibility 0.5s;
-    width: 100%;
+    width: 95%;
 }
 
 .upside {
@@ -114,8 +80,8 @@ spec { overflow: hidden; }
 }
 
 .switch {
+    background-color: rgba(0, 0, 0, .3);
     border: 0;
-    box-shadow: 0 0 1px 1px #604040;
     color: white;
     font-weight: 700;
     padding: 10px;
@@ -124,13 +90,14 @@ spec { overflow: hidden; }
     width: 100%;
 }
 
-.switch:hover { background-color: #604040; }
+.switch:hover { background-color: rgba(0, 0, 0, .8); }
 
 .generated-code h1 { padding: 20px; }
 
 .bloc-spec {
-    background: none;
-    border-left: solid 4px #604040;
+    background-color: rgba(128, 128, 150, 0.2);
+    color: white;
+    cursor: crosshair;
     font-family: open sans;
     font-weight: 500;
     margin: 0;
@@ -138,21 +105,18 @@ spec { overflow: hidden; }
     transition: 0.1s;
 }
 
-.bloc-spec:hover {
-    background-color: rgb(246, 219, 183);
-    border-left: solid 4px #806060;
-    cursor: crosshair;
-}
+.bloc-spec:hover { background-color: rgba(0, 0, 0, 0.2); }
 
 .bloc-spec pre {
+    background-color: rgba(255, 255, 255, 0.8);
     border: 0;
     border-radius: 0;
-    box-shadow: 0 0 1px 1px #604040;
+    color: black;
     font-family: open sans;
     font-weight: 500;
     padding: 10px;
     position: relative;
-    text-align: left;    
+    text-align: left;
 }
 
 .bloc-spec .infos span {
@@ -162,33 +126,44 @@ spec { overflow: hidden; }
 }
 
 .version-item {
+    background: none;
+    border: 0;
+    color: white;
     display: block;
     margin: 10px auto;
+    text-align: center;
     width: auto;
 }
 
-.soft-background {
-    background: none;
-    border: none;
-    box-shadow: none;
-    text-align: center;
-}
-
 .variables input {
-    border: 1px #10208A solid;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 0;
     border-radius: 2px;
     box-shadow: 0 0;
-    color: #604040;
-    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    font-family: inherit;
     font-style: normal;
     font-weight: bold;
-    margin: 2px;
+    margin: 1px;
     padding: 2px;
     width: 100%;
 }
 
-.variables h1 { text-align: center; }
+.variables .delete-button {
+    background-color: rgba(140, 0, 0, .8);
+    color: white;
+    border: 0;
+    height: 100%;
+    width: 200%;
+    transition: 0.1s;
+    text-align: center;
+}
 
+.variables .delete-button:hover {
+    background-color: rgba(140, 0, 0, 1);
+}
+
+.variables h1 { text-align: center; }
 
 .textarea {
     border: 2px solid #ccc;
@@ -200,9 +175,6 @@ spec { overflow: hidden; }
     width: 100%;
 }
 
-.delete-button { }
-
-.delete-button:hover { }
 
 .edition-window {
     border-radius: 0;
@@ -219,18 +191,18 @@ spec { overflow: hidden; }
 .edition-window-reduce { width: 75%; }
 
 .variables {
-    background: radial-gradient(ellipse, rgba(0,0,128,0.1) 10%, rgba(0, 0, 255, 0) 50%, rgba(0,48,208,0.1) 90%);
-    box-shadow: 0 0 1px 1px black inset, 
-        0 0 10px 0 black;
+    background: radial-gradient(ellipse, rgba(0, 0, 128, 0.1) 10%, rgba(0, 0, 255, 0) 50%, rgba(0, 48, 208, 0.1) 90%);
+    box-shadow: 0 0 1px 1px black inset,
+                0 0 10px 0 black;
     display: inline-block;
     height: 100%;
     margin: 0;
     overflow: hidden;
     padding: 0;
     position: absolute;
+    right: 0;
     text-align: center;
     top: 0;
-    right: 0;
     transition: all .5s ease;
     z-index: 0;
 }
@@ -248,9 +220,7 @@ spec { overflow: hidden; }
     width: 0%;
 }
 
-.variables-set {
-    color: white;
-}
+.variables-set { color: white; }
 
 .variables-set h1 {
     font-size: 1.5em;
@@ -279,7 +249,6 @@ spec { overflow: hidden; }
     height: 30px;
     margin: 0px;
     text-align: center;
-    width: auto;
 }
 
 .toolbar-group {
@@ -304,7 +273,6 @@ spec { overflow: hidden; }
 }
 
 .toolbar-group input {
-    color: #10208A;
     padding: 0 2px;
     position: relative;
 }
@@ -344,7 +312,7 @@ spec { overflow: hidden; }
 
 .toolbar-group button {
     -ms-background-size: 80% 80%;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 80% 80%;
@@ -354,11 +322,9 @@ spec { overflow: hidden; }
 }
 
 .item-workspace {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     border: 0;
     border-radius: 1px;
-    box-shadow: 0 0 1px 0px #10208A inset;
-    color: #10208A;
     font-family: 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -368,7 +334,7 @@ spec { overflow: hidden; }
     transition: 0.1s;
 }
 
-.toolbar-group button:hover { background-color: #f6d781; }
+.toolbar-group button:hover { opacity: 0.9; }
 
 .toolbar-group button:active { background-color: white; }
 
@@ -391,28 +357,9 @@ spec { overflow: hidden; }
 
 /* ---------------------- Dropwdown -----------------*/
 
-/*
-.dropdown {
-    font-family: 'Segoe UI', sans-serif;
-    position: absolute;
-    background-color: white;
-    top: 100%;
-    left: 0;
-    z-index: 2000;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    min-height: 30px;
-    max-height: 300px;
-    box-shadow: 0 0 1px 0px #10208A inset,
-        0 0 2px 0px black;
-    width: 200px;
-}
-*/
-
 .dropdown li {
     background-color: white;
-    color: #10208A;
+    color: black;
     height: 30px;
     margin: 0;
     padding: 3px 5px;
@@ -436,7 +383,7 @@ spec { overflow: hidden; }
 
 .dropdown li:hover {
     background-color: #f6d781;
-    color: #10208A;
+    color: black;
 }
 
 /* */
@@ -446,12 +393,9 @@ spec { overflow: hidden; }
     font-family: open sans;
     font-weight: 500;
     height: 100%;
-    
     position: absolute;
-    width: 190px;
+    width: 150px;
 }
-
-
 
 .decoders-info .decoders-list {
     margin-left: 0;
@@ -462,7 +406,7 @@ spec { overflow: hidden; }
 }
 
 .decoders-info .decoders-list button {
-    background-color: #604040;
+    background-color: rgba(0, 0, 0, 0.1);
     border: none;
     box-shadow: none;
     color: white;
@@ -470,39 +414,51 @@ spec { overflow: hidden; }
     padding: 5px;
     position: relative;
     text-align: left;
-    transition: .5s;
+    transition: .25s;
     z-index: 50;
 }
 
+.decoders-info .decoders-list button:hover { background-color: rgba(255, 255, 255, 0.1); }
+
 .decoders-list .dropdown-menu {
-    background: white;
+    background: rgba(255, 255, 255, 0.2);
     position: static;
 }
 
 .decoders-info .decoders-list li {
-    background-color: white;
-    color: #10208A !important;
+    background: none !important;
+    color: white !important;
     cursor: context-menu;
+    cursor: context-menu;
+    font-weight: 500;
+    margin: 0;
     padding: 5px;
+    padding-left: 8px;
     text-align: left;
     transition: .2s;
     width: 100%;
 }
 
-.decoders-info .decoders-list li:hover {
-    border-radius: 5px;
-    box-shadow: 0 0 1px 1px #604040 inset;
-    padding-left: 10px;
-}
+.decoders-info .decoders-list li:hover { padding-left: 13px; }
 
 /*---------------- Small notifications on the right side------------*/
 
 .bb-alert {
-    bottom: 25%;
+    bottom: 0;
     font-size: 1.2em;
-    margin-bottom: 0;
+    left: 35%;
     padding: 1em 1.3em;
     position: fixed;
-    right: 0;
+    text-align: center;
+    width: 30%;
     z-index: 2000;
+}
+
+.alert-info {
+    background-color: rgba(0, 0, 0, .9);
+    border: 0;
+    box-shadow: 0 0 1px 1px black;
+    color: white;
+    font-weight: 600;
+    margin: auto;
 }

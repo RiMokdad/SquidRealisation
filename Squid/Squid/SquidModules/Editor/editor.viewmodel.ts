@@ -18,6 +18,7 @@ import { ServerNotifications } from "../SignalR/signalr_methods";
 
 declare var Ac: any;
 declare var $: any;
+declare var shortcut: any;
 
 export enum RefreshState {
     UP_TO_DATE,
@@ -53,6 +54,7 @@ export class EditorComponent {
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
         this.ToggleVariables(true);
+        shortcut.add("Alt+O", () => { this.ToggleVariables() });
     }
 
     /**
@@ -60,7 +62,7 @@ export class EditorComponent {
      */
     OnLoad() {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        const load = document.getElementById("square");
+        const load = document.getElementById("loading");
         load.style.opacity = "0";
         setTimeout(1000, () => { load.remove() });
         this.workspace.BindDecoder(this.decoder);
@@ -95,6 +97,16 @@ export class EditorComponent {
     private LoadModeEncapsulateBlock() {
         this.workspace.Initialize(window.localStorage[Onglet.GetBaseUrl()]);
         Onglet.SetUrlDefault();
+    }
+
+    ShortCuts(e: KeyboardEvent) {
+        if (e.altKey) {
+            switch (String.fromCharCode(e.keyCode)) {
+            case "o":
+                this.ToggleVariables();
+                break;
+            }
+        }
     }
 
     private pollRefresh() {
@@ -175,7 +187,6 @@ export class EditorComponent {
 
         //test spec 
         //Requests.FindDescendants(this.decoder);
-
     }
 
 
@@ -239,13 +250,13 @@ export class EditorComponent {
         const res = () => {
             time += inc;
             window.dispatchEvent(new Event("resize"));
-            if (time < 200) {
+            if (time <= 200) {
                 setTimeout(res, inc);
             }
         };
 
         if (this.workspace)
-            setTimeout( res, 200);
+            setTimeout(res, 200);
         return (this.variablesShown = !this.variablesShown);
     }
 

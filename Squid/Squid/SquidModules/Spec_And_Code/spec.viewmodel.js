@@ -17,12 +17,14 @@ var utils_1 = require("./../Util/utils");
 var server_request_1 = require("../Request/server_request");
 var SpecComponent = (function () {
     function SpecComponent() {
+        var _this = this;
         this.currentSwitch = -1;
         this.decoder = null;
         this.decoderList = new Array();
         this.toolboxMan = EventHandler_1.SingleAccess.GetToolboxManager();
         this.decoder = new Decoder_1.Decoder();
         this.Init();
+        shortcut.add("Alt+S", function () { _this.Switch(); });
     }
     SpecComponent.prototype.Init = function () {
         this.decoder.Id = -1;

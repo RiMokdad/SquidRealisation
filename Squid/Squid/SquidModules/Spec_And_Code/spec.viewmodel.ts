@@ -12,6 +12,7 @@ import { DisplayTools } from "./../Util/utils";
 import { Requests } from "../Request/server_request";
 
 declare var Ac: any;
+declare var shortcut: any;
 
 @Component({
     selector: "spec",
@@ -29,6 +30,8 @@ export class SpecComponent {
         this.toolboxMan = SingleAccess.GetToolboxManager();
         this.decoder = new Decoder();
         this.Init();
+
+        shortcut.add("Alt+S", () => { this.Switch(); });
     }
 
     private Init() {

@@ -14,12 +14,16 @@ var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
         this.backgrounds = [
-            "paintings.jpg", "grunge.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
+            "grunge.jpg", "paintings.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
         ];
         this.idx = 0;
     }
     DecoderComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.Select(0);
+        shortcut.add("Alt+E", function () { _this.Select(0); });
+        shortcut.add("Alt+S", function () { _this.Select(1); });
+        shortcut.add("Alt+C", function () { _this.Select(1); });
     };
     DecoderComponent.prototype.ChangeBackground = function () {
         var background = document.getElementsByClassName("background")[0];

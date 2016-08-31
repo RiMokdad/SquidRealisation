@@ -2916,9 +2916,9 @@
     <Content Include="Content\bootbox\bootbox.min.js" />
     <Content Include="Content\bootbox\example.js" />
     <Content Include="Content\css\app.css" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\blockly.css" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Content\css\tools.css" />
     <Content Include="Content\icons\arrow-right-white.png" />
     <Content Include="Content\icons\arrow-right.png" />
     <Content Include="Content\icons\cloud.png" />
@@ -3225,7 +3225,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

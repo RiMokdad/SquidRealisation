@@ -4,6 +4,8 @@ import { ConfigSetComponent, InventorySetComponent } from "./Variables/variables
 import { SpecComponent } from "./Spec_And_Code/spec.viewmodel";
 import { OnInit } from "@angular/core/index";
 
+declare var shortcut: any;
+
 @Component({
     selector: "decoder",
     templateUrl: "SquidModules/main.view.html",
@@ -15,12 +17,16 @@ import { OnInit } from "@angular/core/index";
 export class DecoderComponent implements OnInit {
     activDiv: Node;
     private backgrounds = [
-        "paintings.jpg", "grunge.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
+        "grunge.jpg", "paintings.jpg", "brush-iron.jpg", "droplets-leafs.jpg", "metal-grunge.jpg", "sun-reflections.jpg"
     ];
     private idx = 0;
 
+
     ngOnInit(): void {
         this.Select(0);
+        shortcut.add("Alt+E", () => { this.Select(0); });
+        shortcut.add("Alt+S", () => { this.Select(1); });
+        shortcut.add("Alt+C", () => { this.Select(1); });
     }
 
     ChangeBackground() {

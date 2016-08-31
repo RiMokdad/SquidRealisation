@@ -25,6 +25,7 @@ var signalr_methods_1 = require("../SignalR/signalr_methods");
 var RefreshState = exports.RefreshState;
 var EditorComponent = (function () {
     function EditorComponent() {
+        var _this = this;
         EventHandler_1.EventHandler.SetEditorComponent(this);
         this.serverNotifications = new signalr_methods_1.ServerNotifications();
         this.toolboxManager = EventHandler_1.SingleAccess.GetToolboxManager();
@@ -33,13 +34,14 @@ var EditorComponent = (function () {
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
         this.ToggleVariables(true);
+        shortcut.add("Alt+O", function () { _this.ToggleVariables(); });
     }
     /**
      * Loaded after the whole page has been loaded
      */
     EditorComponent.prototype.OnLoad = function () {
         this.workspace = Workspace_1.Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
-        var load = document.getElementById("square");
+        var load = document.getElementById("loading");
         load.style.opacity = "0";
         setTimeout(1000, function () { load.remove(); });
         this.workspace.BindDecoder(this.decoder);
@@ -71,6 +73,15 @@ var EditorComponent = (function () {
     EditorComponent.prototype.LoadModeEncapsulateBlock = function () {
         this.workspace.Initialize(window.localStorage[Onglet_1.Onglet.GetBaseUrl()]);
         Onglet_1.Onglet.SetUrlDefault();
+    };
+    EditorComponent.prototype.ShortCuts = function (e) {
+        if (e.altKey) {
+            switch (String.fromCharCode(e.keyCode)) {
+                case "o":
+                    this.ToggleVariables();
+                    break;
+            }
+        }
     };
     EditorComponent.prototype.pollRefresh = function () {
         var _this = this;
@@ -188,7 +199,7 @@ var EditorComponent = (function () {
         var res = function () {
             time += inc;
             window.dispatchEvent(new Event("resize"));
-            if (time < 200) {
+            if (time <= 200) {
                 setTimeout(res, inc);
             }
         };
