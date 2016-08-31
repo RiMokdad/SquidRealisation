@@ -253,7 +253,7 @@ spec { overflow: hidden; }
 
 .toolbar-group {
     border-radius: 0;
-    border-top: 1px solid white;
+    border-top: 1px solid rgba(255,255,255, .5);
     display: inline-block;
     height: 30px;
     padding-top: 2px;
@@ -267,14 +267,16 @@ spec { overflow: hidden; }
 }
 
 .decoder-info input {
+    padding: 4px;
     margin: 2px;
-    padding: 0 2px;
     width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .toolbar-group input {
-    padding: 0 2px;
+    padding: 4px;
     position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .toolbar-group p {
@@ -312,17 +314,18 @@ spec { overflow: hidden; }
 
 .toolbar-group button {
     -ms-background-size: 80% 80%;
-    background-color: rgba(255, 255, 255, 0.95);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 80% 80%;
     margin: 0px;
     padding: 0px;
     width: 30px;
+    filter: invert();
 }
 
 .item-workspace {
-    background-color: rgba(255, 255, 255, 0.95);
+    filter: invert();
+    background-color: rgba(255,255,255,.45);
     border: 0;
     border-radius: 1px;
     font-family: 'Segoe UI', sans-serif;
@@ -334,7 +337,9 @@ spec { overflow: hidden; }
     transition: 0.1s;
 }
 
-.toolbar-group button:hover { opacity: 0.9; }
+.toolbar-group button:hover {
+     background-color: rgba(255,255,255,.25);
+}
 
 .toolbar-group button:active { background-color: white; }
 

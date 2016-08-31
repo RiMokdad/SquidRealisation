@@ -2924,6 +2924,7 @@
     <Content Include="Content\icons\cloud.png" />
     <Content Include="Content\icons\cloud0.png" />
     <Content Include="Content\icons\cloud2.png" />
+    <Content Include="Content\icons\cuttlefish.png" />
     <Content Include="Content\icons\ico-add.png" />
     <Content Include="Content\icons\ico-add1.png" />
     <Content Include="Content\icons\ico-add2.png" />
@@ -2937,6 +2938,10 @@
     <Content Include="Content\icons\ico-serv-restore1.png" />
     <Content Include="Content\icons\ico-serv-store1.png" />
     <Content Include="Content\icons\ico-serv-supress.png" />
+    <Content Include="Content\icons\M2Ocity_LOGO.png" />
+    <Content Include="Content\icons\M2Ocity_LOGO1.png" />
+    <Content Include="Content\icons\M2Ocity_LOGO2.png" />
+    <Content Include="Content\icons\M2Ocity_LOGO3.png" />
     <Content Include="Content\icons\server.png" />
     <Content Include="Content\icons\server1.png" />
     <Content Include="Content\icons\server2.png" />
@@ -2954,6 +2959,7 @@
     <Content Include="SquidModules\Spec_And_Code\spec.view.html" />
     <Content Include="SquidModules\Util\autocomplete.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />
+    <Content Include="SquidModules\Util\shortcut.js" />
     <Content Include="SquidModules\Variables\variables_set.view.html" />
     <Content Include="systemjs.config.js" />
     <Content Include="index.html" />

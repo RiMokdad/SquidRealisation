@@ -307,7 +307,9 @@ export class EditorComponent {
      */
     RestoreBlock(id: number) {
         const callback = (decoder) => {
+
             this.decoder.update(Decoder.ObjectToDecoder(decoder));
+            
             this.workspace.RestoreBlocks(this.decoder);
             this.workspace.CompleteDecoder(this.decoder);
 
