@@ -1,11 +1,14 @@
-﻿Blockly.Blocks['custom_controls_if'] = {
+﻿goog.provide('Blockly.Blocks.logic');
+Blockly.Blocks.logic.HUE = 20;
+
+Blockly.Blocks['custom_controls_if'] = {
     /**
      * Block for if/elseif/else condition.
      * @this Blockly.Block
      */
     init: function () {
         this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
-        this.setColour(20);
+        this.setColour(Blockly.Blocks.logic.HUE);
 
 
         this.appendDummyInput("IF0")
