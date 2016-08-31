@@ -64,7 +64,7 @@ export class EditorComponent {
         this.workspace = Workspace.Inject("blocklyDiv", false, this.toolboxManager.GetToolbox());
         const load = document.getElementById("loading");
         load.style.opacity = "0";
-        setTimeout(1000, () => { load.remove() });
+        setTimeout(3000, () => { load.remove() });
         this.workspace.BindDecoder(this.decoder);
         this.decoder.Id = Onglet.GetBlockIdInUrl();
 
@@ -265,7 +265,6 @@ export class EditorComponent {
      * Binding for save
      */
     Save() {
-        //TODO insert local save
         this.SaveDecoderToServer();
     }
 

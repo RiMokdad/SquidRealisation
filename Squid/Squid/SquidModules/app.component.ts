@@ -1,6 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { EditorComponent } from "./Editor/editor.viewmodel";
-import { ConfigSetComponent, InventorySetComponent } from "./Variables/variables_set.viewmodel";
+import { AboutComponent } from "./About/about.viewmodel";
 import { SpecComponent } from "./Spec_And_Code/spec.viewmodel";
 import { OnInit } from "@angular/core/index";
 
@@ -11,7 +11,8 @@ declare var shortcut: any;
     templateUrl: "SquidModules/main.view.html",
     directives: [
         EditorComponent,
-        SpecComponent
+        SpecComponent,
+        AboutComponent
     ]
 })
 export class DecoderComponent implements OnInit {
@@ -25,8 +26,10 @@ export class DecoderComponent implements OnInit {
     ngOnInit(): void {
         this.Select(0);
         shortcut.add("Alt+E", () => { this.Select(0); });
+        shortcut.add("Alt+O", () => { this.Select(0); });
         shortcut.add("Alt+S", () => { this.Select(1); });
         shortcut.add("Alt+C", () => { this.Select(1); });
+        shortcut.add("Alt+A", () => { this.Select(2); });
         shortcut.add("Alt+B", () => { this.ChangeBackground(); });
         
     }

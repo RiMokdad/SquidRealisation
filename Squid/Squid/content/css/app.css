@@ -20,7 +20,8 @@
 /* ------------- Sections ---------------------- */
 
 editor,
-spec {
+spec, 
+about {
     background: none;
     height: 100%;
     padding-left: 120px;
@@ -175,6 +176,22 @@ spec { overflow: hidden; }
     width: 100%;
 }
 
+/* About */
+.about {
+    text-align: center;
+    color: white;
+}
+
+.main-top-margin {
+    margin-top: 75px;
+}
+
+.about .p {
+    text-align: left;
+}
+
+
+/* Decodeur */
 
 .edition-window {
     border-radius: 0;

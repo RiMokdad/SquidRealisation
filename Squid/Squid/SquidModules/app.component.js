@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var editor_viewmodel_1 = require("./Editor/editor.viewmodel");
+var about_viewmodel_1 = require("./About/about.viewmodel");
 var spec_viewmodel_1 = require("./Spec_And_Code/spec.viewmodel");
 var DecoderComponent = (function () {
     function DecoderComponent() {
@@ -22,8 +23,10 @@ var DecoderComponent = (function () {
         var _this = this;
         this.Select(0);
         shortcut.add("Alt+E", function () { _this.Select(0); });
+        shortcut.add("Alt+O", function () { _this.Select(0); });
         shortcut.add("Alt+S", function () { _this.Select(1); });
         shortcut.add("Alt+C", function () { _this.Select(1); });
+        shortcut.add("Alt+A", function () { _this.Select(2); });
         shortcut.add("Alt+B", function () { _this.ChangeBackground(); });
     };
     DecoderComponent.prototype.ChangeBackground = function () {
@@ -60,7 +63,8 @@ var DecoderComponent = (function () {
             templateUrl: "SquidModules/main.view.html",
             directives: [
                 editor_viewmodel_1.EditorComponent,
-                spec_viewmodel_1.SpecComponent
+                spec_viewmodel_1.SpecComponent,
+                about_viewmodel_1.AboutComponent
             ]
         }), 
         __metadata('design:paramtypes', [])
