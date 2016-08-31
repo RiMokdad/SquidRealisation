@@ -24,6 +24,7 @@ var DecoderComponent = (function () {
         shortcut.add("Alt+E", function () { _this.Select(0); });
         shortcut.add("Alt+S", function () { _this.Select(1); });
         shortcut.add("Alt+C", function () { _this.Select(1); });
+        shortcut.add("Alt+B", function () { _this.ChangeBackground(); });
     };
     DecoderComponent.prototype.ChangeBackground = function () {
         var background = document.getElementsByClassName("background")[0];

@@ -27,6 +27,8 @@ export class DecoderComponent implements OnInit {
         shortcut.add("Alt+E", () => { this.Select(0); });
         shortcut.add("Alt+S", () => { this.Select(1); });
         shortcut.add("Alt+C", () => { this.Select(1); });
+        shortcut.add("Alt+B", () => { this.ChangeBackground(); });
+        
     }
 
     ChangeBackground() {
