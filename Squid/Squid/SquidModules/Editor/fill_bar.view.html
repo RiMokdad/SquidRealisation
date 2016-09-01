@@ -1,0 +1,7 @@
+﻿<div id="fill-bar-decode" class="fill-bar" title="Any percent">
+    <div class="bar">
+        <div *ngFor="let t of elements">
+            <div class="element-blue" [ngStyle]="{'width': GetWidth(t), 'left': GetLeft(t)}"></div>
+        </div>
+    </div>
+</div>

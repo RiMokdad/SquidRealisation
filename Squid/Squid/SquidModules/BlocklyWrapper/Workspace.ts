@@ -29,6 +29,7 @@ export class Workspace {
             trashcan: trashcan
         });
         return new Workspace(workspace);
+
     }
 
     /**
@@ -104,7 +105,7 @@ export class Workspace {
     CompleteDecoder(paramDecoder?: Decoder) {
         const decoder = paramDecoder || this.decoder;
         if (decoder == null) {
-            throw "You should bind a decoder to this"
+            throw "You should bind a decoder to this";
         };
         if (this.IsADecoder() && decoder.Editable) {
             decoder.Name = this.GetName();
@@ -156,6 +157,96 @@ export class Workspace {
 
     GetPrettyStringXML(): string {
         return Blockly.Xml.domToPrettyText(this.GetXML());
+    }
+
+    GetDecoded(): [Array<[number, number]>, Array<[string, string]>] {
+        const str = new Array<[string, string]>();
+        const num = new Array<[number, number]>();
+        const xml = this.GetXML();
+        const blocks = xml.getElementsByTagName("block");
+        for (let i = 0; i < blocks.length; i++) {
+            const type = blocks[i].getAttribute("type");
+            let children: any;
+            let start = "";
+            let end = "";
+            switch (type) {
+            case "decodebytes":
+            case "decodeHexa":
+                children = blocks[i].childNodes;
+                for (let j = 0; j < children.length; j++) {
+                    const child = children[j] as HTMLElement;
+                    switch (child.getAttribute("name")) {
+                    case "start":
+                    case "BEGIN":
+                        start = child.innerText;
+                        break;
+                    case "end":
+                    case "END":
+                        end = child.innerText;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                break;
+            case "decodeboolean":
+                children = blocks[i].childNodes;
+                for (let j = 0; j < children.length; j++) {
+                    const child = children[j] as HTMLElement;
+                    switch (child.getAttribute("name")) {
+                    case "BYTEPOS":
+                        start = child.innerText + start;
+                        break;
+                    case "BITPOS":
+                        start = start + "." + child.innerText;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                const z = parseInt(start);
+                if (!isNaN(z)) {
+                    end = (z + 0.1) as any as string;
+                } else {
+                    end = start + "+0.1";
+                }
+                break;
+            case "decodesignedinteger":
+            case "decodeunsignedinteger":
+                children = blocks[i].childNodes;
+                for (let j = 0; j < children.length; j++) {
+                    const child = children[j] as HTMLElement;
+                    switch (child.getAttribute("name")) {
+                    case "MSBYTE":
+                        start = child.innerText + start;
+                        break;
+                    case "MSBIT":
+                        start = start + "." + child.innerText;
+                        break;
+                    case "LSBYTE":
+                        end = child.innerText + end;
+                        break;
+                    case "LSBIT":
+                        end = end + "." + child.innerText;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            const a = parseFloat(start);
+            const b = parseFloat(end);
+            if (isNaN(a) || isNaN(b)) {
+                str.push([start, end]);
+            } else {
+                num.push([a, b]);
+            }
+        }
+
+        return [num, str];
     }
 
     /* ============= Workspace and storage ============== */

@@ -2956,6 +2956,7 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="SquidModules\Editor\editor.view.html" />
+    <Content Include="SquidModules\Editor\fill_bar.view.html" />
     <Content Include="SquidModules\Spec_And_Code\spec.view.html" />
     <Content Include="SquidModules\Util\autocomplete.js" />
     <Content Include="SquidModules\Util\autocompletion.js" />

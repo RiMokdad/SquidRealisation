@@ -380,7 +380,7 @@ spec { overflow: hidden; }
 /* ---------------------- Dropwdown -----------------*/
 
 .dropdown li {
-    background-color: white;
+    background-color: rgba(255,255,255,0.9);
     color: black;
     height: 30px;
     margin: 0;
@@ -404,8 +404,12 @@ spec { overflow: hidden; }
 }
 
 .dropdown li:hover {
-    background-color: #f6d781;
+    background-color: rgba(255,255,255,0.99);
     color: black;
+}
+
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* */
@@ -484,3 +488,40 @@ spec { overflow: hidden; }
     font-weight: 600;
     margin: auto;
 }
+
+/* ====== ================ */
+
+.fill-bar {
+    padding: 5px;
+}
+
+.fill-bar .bar {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.fill-bar .bar .element-blue,
+.fill-bar .bar .element-red {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    box-shadow: 0 0 1px 0px black;
+    opacity: 0.7;
+}
+
+.fill-bar .bar .element-blue:hover,
+.fill-bar .bar .element-red:hover {
+    opacity: 1;
+}
+
+.fill-bar .bar .element-blue {
+    background-color: rgb(120, 120, 200);
+}
+.fill-bar .bar .element-red {
+    background-color: rgb(200, 120, 120);
+}
+

@@ -118,6 +118,96 @@ var Workspace = (function () {
     Workspace.prototype.GetPrettyStringXML = function () {
         return Blockly.Xml.domToPrettyText(this.GetXML());
     };
+    Workspace.prototype.GetDecoded = function () {
+        var str = new Array();
+        var num = new Array();
+        var xml = this.GetXML();
+        var blocks = xml.getElementsByTagName("block");
+        for (var i = 0; i < blocks.length; i++) {
+            var type = blocks[i].getAttribute("type");
+            var children = void 0;
+            var start = "";
+            var end = "";
+            switch (type) {
+                case "decodebytes":
+                case "decodeHexa":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "start":
+                            case "BEGIN":
+                                start = child.innerText;
+                                break;
+                            case "end":
+                            case "END":
+                                end = child.innerText;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case "decodeboolean":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "BYTEPOS":
+                                start = child.innerText + start;
+                                break;
+                            case "BITPOS":
+                                start = start + "." + child.innerText;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    var z = parseInt(start);
+                    if (!isNaN(z)) {
+                        end = (z + 0.1);
+                    }
+                    else {
+                        end = start + "+0.1";
+                    }
+                    break;
+                case "decodesignedinteger":
+                case "decodeunsignedinteger":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "MSBYTE":
+                                start = child.innerText + start;
+                                break;
+                            case "MSBIT":
+                                start = start + "." + child.innerText;
+                                break;
+                            case "LSBYTE":
+                                end = child.innerText + end;
+                                break;
+                            case "LSBIT":
+                                end = end + "." + child.innerText;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            var a = parseFloat(start);
+            var b = parseFloat(end);
+            if (isNaN(a) || isNaN(b)) {
+                str.push([start, end]);
+            }
+            else {
+                num.push([a, b]);
+            }
+        }
+        return [num, str];
+    };
     /* ============= Workspace and storage ============== */
     Workspace.prototype.SaveLocal = function (location) {
         // TODO if we implement a local storage

@@ -26,6 +26,40 @@ export enum RefreshState {
     OUT_DATED
 }
 
+//@Component({
+//    selector: "fill-bar",
+//    templateUrl: "SquidModules/Editor/fill_bar.view.html"
+
+//})
+export class FillBar {
+    private elements: Array<[number, number]>;
+    Size: number;
+    show: boolean;
+
+    constructor() {
+        this.show = true;
+        this.elements = new Array<[number, number]>();
+    }
+
+    Create(elements: Array<[number, number]>) {
+        this.Clear();
+        for (let i = 0; i < elements.length; i++) {
+            this.Add(elements[i]);
+        }
+    }
+
+    Add(element: [number, number]) {
+        this.elements.push(element);
+    }
+
+    Clear() {
+        this.elements.length = 0;
+    }
+
+    GetLeft(tuple: [number, number]): string { return `${tuple[0] * 100 / this.Size}%`; }
+    GetWidth(tuple: [number, number]): string { return `${Math.abs((tuple[1] - tuple[0])) * 100 / this.Size}%`; }
+}
+
 @Component({
     selector: "editor",
     templateUrl: "SquidModules/Editor/editor.view.html",
@@ -42,10 +76,13 @@ export class EditorComponent {
     serverNotifications: ServerNotifications;
     variablesShown: boolean;
 
+    fillBar: FillBar;
+
     //autocomplete object
     ac;
 
     constructor() {
+        
         EventHandler.SetEditorComponent(this);
         this.serverNotifications = new ServerNotifications();
         this.toolboxManager = SingleAccess.GetToolboxManager();
@@ -54,6 +91,8 @@ export class EditorComponent {
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
         this.ToggleVariables(true);
+        this.fillBar = new FillBar();
+        this.fillBar.Size = 24;
         shortcut.add("Alt+O", () => { this.ToggleVariables() });
     }
 
@@ -112,6 +151,15 @@ export class EditorComponent {
 
     private pollRefresh() {
         let time = 1000;
+        const decoded = this.workspace.GetDecoded()[0];
+        let max = 0;
+        for (let i = 0; i < decoded.length; i++) {
+            if (decoded[i][0] > max) max = decoded[i][0];
+            if (decoded[i][1] > max) max = decoded[i][1];
+        }
+        console.log("update");
+        this.fillBar.Create(decoded);
+        this.fillBar.Size = max; 
         switch (this.refreshState) {
         case RefreshState.OUT_DATED:
             this.Refresh();
@@ -185,9 +233,6 @@ export class EditorComponent {
     SearchTag() {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-
-        //test spec 
-        //Requests.FindDescendants(this.decoder);
     }
 
 
@@ -308,7 +353,7 @@ export class EditorComponent {
         const callback = (decoder) => {
 
             this.decoder.update(Decoder.ObjectToDecoder(decoder));
-            
+
             this.workspace.RestoreBlocks(this.decoder);
             this.workspace.CompleteDecoder(this.decoder);
 

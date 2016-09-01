@@ -23,6 +23,32 @@ var signalr_methods_1 = require("../SignalR/signalr_methods");
     RefreshState[RefreshState["OUT_DATED"] = 2] = "OUT_DATED";
 })(exports.RefreshState || (exports.RefreshState = {}));
 var RefreshState = exports.RefreshState;
+//@Component({
+//    selector: "fill-bar",
+//    templateUrl: "SquidModules/Editor/fill_bar.view.html"
+//})
+var FillBar = (function () {
+    function FillBar() {
+        this.show = true;
+        this.elements = new Array();
+    }
+    FillBar.prototype.Create = function (elements) {
+        this.Clear();
+        for (var i = 0; i < elements.length; i++) {
+            this.Add(elements[i]);
+        }
+    };
+    FillBar.prototype.Add = function (element) {
+        this.elements.push(element);
+    };
+    FillBar.prototype.Clear = function () {
+        this.elements.length = 0;
+    };
+    FillBar.prototype.GetLeft = function (tuple) { return tuple[0] * 100 / this.Size + "%"; };
+    FillBar.prototype.GetWidth = function (tuple) { return Math.abs((tuple[1] - tuple[0])) * 100 / this.Size + "%"; };
+    return FillBar;
+}());
+exports.FillBar = FillBar;
 var EditorComponent = (function () {
     function EditorComponent() {
         var _this = this;
@@ -34,6 +60,8 @@ var EditorComponent = (function () {
         this.tagsSearch = "";
         this.refreshState = RefreshState.OUT_DATED;
         this.ToggleVariables(true);
+        this.fillBar = new FillBar();
+        this.fillBar.Size = 24;
         shortcut.add("Alt+O", function () { _this.ToggleVariables(); });
     }
     /**
@@ -87,6 +115,17 @@ var EditorComponent = (function () {
     EditorComponent.prototype.pollRefresh = function () {
         var _this = this;
         var time = 1000;
+        var decoded = this.workspace.GetDecoded()[0];
+        var max = 0;
+        for (var i = 0; i < decoded.length; i++) {
+            if (decoded[i][0] > max)
+                max = decoded[i][0];
+            if (decoded[i][1] > max)
+                max = decoded[i][1];
+        }
+        console.log("update");
+        this.fillBar.Create(decoded);
+        this.fillBar.Size = max;
         switch (this.refreshState) {
             case RefreshState.OUT_DATED:
                 this.Refresh();
@@ -155,8 +194,6 @@ var EditorComponent = (function () {
     EditorComponent.prototype.SearchTag = function () {
         this.toolboxManager.UpdateResearch(this.tagsSearch);
         this.workspace.UpdateToolbox(this.toolboxManager.GetToolbox());
-        //test spec 
-        //Requests.FindDescendants(this.decoder);
     };
     EditorComponent.prototype.OpenTab = function (param1) {
         if (param1) {

@@ -80,6 +80,17 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div *ngIf="fillBar.show" id="fill-bar-decode" class="fill-bar" title="Any percent">
+                <div class="bar">
+                    <div *ngFor="let t of fillBar.elements">
+                        <div class="element-blue" [ngStyle]="{'width': fillBar.GetWidth(t), 'left': fillBar.GetLeft(t)}" title="{{'Début: ' + t[0] + ' | Fin: ' + t[1]}}">
+                            {{'Début: ' + t[0] + ' | Fin: ' + t[1]}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="blocklyDiv" class="blocklyDiv">
