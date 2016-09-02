@@ -43,6 +43,12 @@
 	background-image: url("../icons/cuttlefish.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
+    transition: all 1.2s ease;
+}
+
+.sidebar-left-collapse .company-logo:hover{
+    transform: rotateY(360deg);
+    box-shadow: 0 0 10px 0px black;
 }
 
 .sidebar-left-collapse .sidebar-links {

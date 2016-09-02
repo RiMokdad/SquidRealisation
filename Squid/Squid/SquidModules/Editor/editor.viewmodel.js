@@ -128,7 +128,7 @@ var EditorComponent = (function () {
                 }
             }
         };
-        //Currently not working, i let that up to you 
+        //Currently not working, i let that up to you   
         if (this.decoder.Id != null)
             server_request_1.Requests.FindDescendants(this.decoder, callback);
         var max = 0;

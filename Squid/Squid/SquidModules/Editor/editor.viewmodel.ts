@@ -168,7 +168,7 @@ export class EditorComponent {
 
             }
         };
-        //Currently not working, i let that up to you 
+        //Currently not working, i let that up to you   
         if (this.decoder.Id != null)
             Requests.FindDescendants(this.decoder, callback);
         let max = 0;
