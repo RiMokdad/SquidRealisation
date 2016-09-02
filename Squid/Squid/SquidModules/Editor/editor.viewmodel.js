@@ -115,7 +115,22 @@ var EditorComponent = (function () {
     EditorComponent.prototype.pollRefresh = function () {
         var _this = this;
         var time = 1000;
-        var decoded = this.workspace.GetDecoded()[0];
+        var variables = new Array();
+        var decoded = Decoder_1.Decoder.RetrieveDecodedPart(this.workspace.GetXML(), variables);
+        var callback = function (decoders) {
+            for (var j = 0; j < decoders.length; j++) {
+                var parser = document.createElement("html");
+                parser.innerHTML = Decoder_1.Decoder.ObjectToDecoder(decoders[j]).BlocklyDef;
+                var d = Decoder_1.Decoder.RetrieveDecodedPart(parser, variables);
+                for (var i = 0; i < d.length; i++) {
+                    if (d[i][0] < d[i][1])
+                        decoded.push(d[i]);
+                }
+            }
+        };
+        //Currently not working, i let that up to you 
+        if (this.decoder.Id != null)
+            server_request_1.Requests.FindDescendants(this.decoder, callback);
         var max = 0;
         for (var i = 0; i < decoded.length; i++) {
             if (decoded[i][0] > max)
@@ -123,7 +138,6 @@ var EditorComponent = (function () {
             if (decoded[i][1] > max)
                 max = decoded[i][1];
         }
-        console.log("update");
         this.fillBar.Create(decoded);
         this.fillBar.Size = max;
         switch (this.refreshState) {

@@ -57,6 +57,7 @@ export class FillBar {
     }
 
     GetLeft(tuple: [number, number]): string { return `${tuple[0] * 100 / this.Size}%`; }
+
     GetWidth(tuple: [number, number]): string { return `${Math.abs((tuple[1] - tuple[0])) * 100 / this.Size}%`; }
 }
 
@@ -82,7 +83,7 @@ export class EditorComponent {
     ac;
 
     constructor() {
-        
+
         EventHandler.SetEditorComponent(this);
         this.serverNotifications = new ServerNotifications();
         this.toolboxManager = SingleAccess.GetToolboxManager();
@@ -151,15 +152,34 @@ export class EditorComponent {
 
     private pollRefresh() {
         let time = 1000;
-        const decoded = this.workspace.GetDecoded()[0];
+        const variables = new Array<number>();
+        const decoded = Decoder.RetrieveDecodedPart(this.workspace.GetXML(), variables);
+        const callback = (decoders) => {
+
+            for (let j = 0; j < decoders.length; j++) { // First, for each decoder parse it
+                const parser = document.createElement("html");
+                parser.innerHTML = Decoder.ObjectToDecoder(decoders[j]).BlocklyDef;
+                const d = Decoder.RetrieveDecodedPart(parser, variables);
+
+                for (let i = 0; i < d.length; i++) { // Then for each parse, add it to the array
+                    if (d[i][0] < d[i][1])
+                        decoded.push(d[i]);
+                }
+
+            }
+        };
+        //Currently not working, i let that up to you 
+        if (this.decoder.Id != null)
+            Requests.FindDescendants(this.decoder, callback);
         let max = 0;
         for (let i = 0; i < decoded.length; i++) {
             if (decoded[i][0] > max) max = decoded[i][0];
             if (decoded[i][1] > max) max = decoded[i][1];
         }
-        console.log("update");
+
         this.fillBar.Create(decoded);
-        this.fillBar.Size = max; 
+        this.fillBar.Size = max;
+
         switch (this.refreshState) {
         case RefreshState.OUT_DATED:
             this.Refresh();

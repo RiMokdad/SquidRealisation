@@ -53,6 +53,104 @@ var Decoder = (function () {
         this.FrenchSpec = decoder.FrenchSpec || this.FrenchSpec;
         this.Editable = (decoder.Editable !== undefined ? decoder.Editable : this.Editable);
     };
+    /**
+ * Parse a string as a value wether it is in variable or it is a value
+ * @param valOrVar
+ * @param variables
+ */
+    Decoder.ParseVarToVal = function (valOrVar, variables) {
+        var val = parseInt(valOrVar); //If parsable as a numeric value, parse it
+        if (isNaN(val)) {
+            val = variables[valOrVar]; //Or copy it from a variable content
+        }
+        return val;
+    };
+    Decoder.RetrieveDecodedPart = function (source, variables) {
+        var notThisTuple = false;
+        function Parse(valOrVar) {
+            var val = Decoder.ParseVarToVal(valOrVar, variables);
+            if (val == null) {
+                notThisTuple = true;
+            }
+            return val;
+        }
+        var num = new Array();
+        var blocks = source.getElementsByTagName("block");
+        for (var i = 0; i < blocks.length; i++) {
+            var type = blocks[i].getAttribute("type");
+            var children = void 0;
+            var start = 0;
+            var end = 0;
+            notThisTuple = false; //Flag it as a valuable block at the beginning of parsing
+            switch (type) {
+                case "decodebytes":
+                case "decodeHexa":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "start":
+                            case "BEGIN":
+                                start = Parse(child.innerText);
+                                break;
+                            case "end":
+                            case "END":
+                                end = Parse(child.innerText);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case "decodeboolean":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "BYTEPOS":
+                                start = Parse(child.innerText) + start;
+                                break;
+                            case "BITPOS":
+                                start = start + (Parse(child.innerText) % 8) / 10;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    end = start + 0.1;
+                    break;
+                case "decodesignedinteger":
+                case "decodeunsignedinteger":
+                    children = blocks[i].childNodes;
+                    for (var j = 0; j < children.length; j++) {
+                        var child = children[j];
+                        switch (child.getAttribute("name")) {
+                            case "MSBYTE":
+                                start = Parse(child.innerText) + start;
+                                break;
+                            case "MSBIT":
+                                start = start + (Parse(child.innerText) % 8) / 10;
+                                break;
+                            case "LSBYTE":
+                                end = Parse(child.innerText) + end;
+                                break;
+                            case "LSBIT":
+                                end = end + (Parse(child.innerText) % 8) / 10;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    notThisTuple = true;
+                    break;
+            }
+            if (!notThisTuple)
+                num.push([start, end]);
+        }
+        return num;
+    };
     return Decoder;
 }());
 exports.Decoder = Decoder;
